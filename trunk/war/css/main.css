@@ -1,0 +1,73 @@
+/*
+ * Layout 
+ */
+body {
+  margin: 0;
+}
+#header, #footer {
+  margin: 0;
+}
+#container{
+  background-color: white;
+  overflow: hidden;
+  margin: 0;
+  padding-left: 125px; /* The width of the rail */
+}
+* html #container{
+  height: 1%; /* So IE plays nice */
+}
+#content {
+  width: 100%;
+  border-left: 125px solid #336699; /* The width and color of the rail */
+  margin-left: -125px; /* Hat tip to Ryan Brill */
+  float: right;
+}
+#sidebar {
+  background-color: #336699;
+  width: 125px;
+  float: left;
+  margin-left: -125px;
+  display: inline; /* So IE plays nice */
+}
+
+/**
+ * style
+ */
+body { 
+  font-family: Arial, Helvetica, sans-serif; 
+  font-size: 10pt; 
+  background-color: white;
+}
+
+#header, #footer {
+  background-color: #134879;
+  color: white;
+  padding: 10px;
+}
+#header {
+  font-size : 20pt;
+}
+#footer {
+  font-size : 8pt;
+}
+#header a, #footer a, #sidebar a {
+  color: white;
+}
+#sidebar {
+  color: white;
+}
+#sidebar div.menu {
+  padding: 10px;	
+}
+#messages, #body {
+  padding: 3px 10px 3px 10px;
+}
+#messages {
+  border-bottom : 1px solid #134879;
+}
+h1 {
+  margin: 6px 0 6px 0;
+}
+.error {
+  background-color: rgb(183, 120, 120);
+}
