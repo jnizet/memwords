@@ -3,6 +3,7 @@ package com.googlecode.memwords.web;
 import com.googlecode.memwords.domain.UserInformation;
 
 import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.controller.StripesConstants;
 
 /**
  * The subclass of ActionBeranContext used in this application
@@ -26,5 +27,9 @@ public class MwActionBeanContext extends ActionBeanContext {
 	
 	public String getSessionId() {
 		return getRequest().getSession().getId();
+	}
+	
+	public boolean isHasMessages() {
+		return getRequest().getAttribute(StripesConstants.REQ_ATTR_MESSAGES) != null;
 	}
 }

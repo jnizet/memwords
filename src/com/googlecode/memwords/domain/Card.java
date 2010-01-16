@@ -23,7 +23,7 @@ public class Card implements Serializable {
 	 * The auto-generated ID
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Extension(vendorName = "datanucleus", 
 			   key="gae.encoded-pk", 
 			   value="true")

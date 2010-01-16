@@ -12,9 +12,10 @@ import net.sourceforge.stripes.validation.Validate;
 
 import com.google.inject.Inject;
 import com.googlecode.memwords.domain.UserInformation;
-import com.googlecode.memwords.facade.AccountService;
+import com.googlecode.memwords.facade.account.AccountService;
 import com.googlecode.memwords.web.IndexActionBean;
 import com.googlecode.memwords.web.MwActionBean;
+import com.googlecode.memwords.web.cards.CardsActionBean;
 
 
 public class LoginActionBean extends MwActionBean {
@@ -47,7 +48,12 @@ public class LoginActionBean extends MwActionBean {
 			return getContext().getSourcePageResolution();
 		}
 		getContext().setUserInformation(new UserInformation(userId, encryptionKey));
-		// TODO change resolution to cards index
+		return new RedirectResolution(CardsActionBean.class);
+	}
+	
+	@DontValidate
+	public Resolution logout() {
+		getContext().setUserInformation(null);
 		return new RedirectResolution(IndexActionBean.class);
 	}
 	

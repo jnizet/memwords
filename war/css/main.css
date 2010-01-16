@@ -34,7 +34,7 @@ body {
  * style
  */
 body { 
-  font-family: Arial, Helvetica, sans-serif; 
+  font-family: Verdana, Arial, Helvetica, sans-serif; 
   font-size: 10pt; 
   background-color: white;
 }
@@ -55,6 +55,7 @@ body {
 }
 #sidebar {
   color: white;
+  min-height: 600px;
 }
 #sidebar div.menu {
   padding: 10px;	
@@ -62,12 +63,108 @@ body {
 #messages, #body {
   padding: 3px 10px 3px 10px;
 }
-#messages {
+#messagesContainer {
   border-bottom : 1px solid #134879;
+}
+#messagesControl {
+  display: none;
+  float: right;	
 }
 h1 {
   margin: 6px 0 6px 0;
 }
+th {
+  text-align: right;
+}
 .error {
-  background-color: rgb(183, 120, 120);
+  background-color: rgb(255, 128, 128);
+}
+span.error {
+  color : red;
+  background-color: transparent;
+}
+span.message {
+  color : green;
+}
+ul.errors {
+  color : red;
+  font-weight: bold;
+}
+ul.errors li {
+  list-style-type: none;
+  background-image: url(../img/error.png);
+  background-repeat: no-repeat;
+  padding-left: 25px;
+}
+ul.messages {
+  color : green;
+  font-weight: bold;
+}
+ul.messages li {
+  list-style-type: none;
+  background-image: url(../img/success.png);
+  background-repeat: no-repeat;
+  padding-left: 25px;
+}
+#body div {
+  padding: 3px;
+}
+img {
+  border: none;
+}
+/*
+ * Cards styles
+ */
+div#cards {
+  padding: 0;
+  width: 430px;
+  float: left;
+}
+div.card, div#cardDetails {
+  background: #dddddd;
+  border: 1px solid #aaaaaa;
+  margin: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  -moz-border-radius-bottomright: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-topright: 3px;
+  box-shadow: 10px 10px 5px #888;
+}
+div.card {
+  width: 200px;
+  float: left;
+}
+div#cardDetails {
+  width: 400px;
+  min-height: 400px;
+  float: left;
+  position: relative;
+}
+div.spacer {
+  clear: both;
+  height: 0;
+  padding: 0 !important;
+}
+div.card a {
+  font-weight: bold;
+  display: block;
+  text-decoration: none;
+  color: black;
+}
+div.cardLinks {
+  text-align: right;
+}
+div.cardLinks a {
+  display: inline;
+}
+div.cardLinks a img{
+  border: 1px solid transparent;
+}
+div.cardLinks a img:hover {
+  border: 1px solid #aaaaaa;
+}
+div#createCardLink {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
 }

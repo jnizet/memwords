@@ -8,7 +8,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>No account</title>
+<title>Create an account</title>
+<stripes:url beanclass="com.googlecode.memwords.web.account.CreateAccountActionBean" 
+             event="ajaxGetUserIdDisponibility"
+             var="userIdDisponibilityUrl"/>
+<script type="text/javascript">
+  function loadUserIdDisponibility() {
+	var userId = jQuery.trim($("#userId").val());
+	if (userId.length == 0) {
+		$("#userIdDisponibility").html("");
+	}
+	else {
+      $("#userIdDisponibility").load('${userIdDisponibilityUrl}', { userId : userId });
+	}
+  }
+  $(document).ready(function () {
+    $("#userId").bind("blur", function () {
+        loadUserIdDisponibility();
+      }
+    );
+  });
+</script>
 </head>
 <body>
     <h1>Create an account</h1>
@@ -20,14 +40,14 @@
         <table>
             <tr>
                 <th>User ID :</th>
-                <td><stripes:text name="userId"/></td>
+                <td><stripes:text name="userId" id="userId"/><span id="userIdDisponibility"></span></td>
             </tr>
             <tr>
                 <th>Master password :</th>
                 <td><stripes:password name="masterPassword"/></td>
             </tr>
             <tr>
-                <th>Re-type the master password :</th>
+                <th>Master password confirmation :</th>
                 <td><stripes:password name="masterPassword2"/></td>
             </tr>
             <tr>

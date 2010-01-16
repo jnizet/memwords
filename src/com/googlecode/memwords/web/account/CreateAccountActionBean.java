@@ -7,14 +7,17 @@ import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.Validate;
+import net.sourceforge.stripes.validation.ValidationErrors;
+import net.sourceforge.stripes.validation.ValidationMethod;
+import net.sourceforge.stripes.validation.ValidationState;
 
 import com.google.inject.Inject;
 import com.googlecode.memwords.domain.UserInformation;
-import com.googlecode.memwords.facade.AccountService;
-import com.googlecode.memwords.web.IndexActionBean;
+import com.googlecode.memwords.facade.account.AccountService;
 import com.googlecode.memwords.web.MwActionBean;
-
+import com.googlecode.memwords.web.cards.CardsActionBean;
 
 public class CreateAccountActionBean extends MwActionBean {
 
@@ -29,6 +32,8 @@ public class CreateAccountActionBean extends MwActionBean {
 	@Validate(required = true, expression="this == masterPassword")
 	private String masterPassword2;
 	
+	private boolean userIdAvailable;
+	
 	@Inject
 	public CreateAccountActionBean(AccountService accountService) {
 		this.accountService = accountService;
@@ -41,13 +46,28 @@ public class CreateAccountActionBean extends MwActionBean {
 	}
 	
 	public Resolution createAccount() {
+		
 		SecretKey encryptionKey = 
 			accountService.createAccount(userId, 
 					                     masterPassword, 
 					                     getContext().getSessionId());
 		getContext().setUserInformation(new UserInformation(userId, encryptionKey));
-		// TODO change resolution to cards index
-		return new RedirectResolution(IndexActionBean.class);
+		return new RedirectResolution(CardsActionBean.class);
+	}
+	
+	@ValidationMethod(on = "createAccount", when = ValidationState.ALWAYS)
+	public void validateUserIdExists(ValidationErrors errors) {
+		if (!errors.containsKey("userId")) {
+			if (accountService.accountExists(userId)) {
+				errors.add("userId", new LocalizableError("userIdNotAvailable"));
+			}
+		}
+	}
+	
+	@DontValidate
+	public Resolution ajaxGetUserIdDisponibility() {
+		this.userIdAvailable = !accountService.accountExists(this.userId);
+		return new ForwardResolution("/account/userIdDisponibility.jspf");
 	}
 	
 	public String getUserId() {
@@ -72,5 +92,9 @@ public class CreateAccountActionBean extends MwActionBean {
 
 	public void setMasterPassword2(String masterPassword2) {
 		this.masterPassword2 = masterPassword2;
+	}
+
+	public boolean isUserIdAvailable() {
+		return userIdAvailable;
 	}
 }

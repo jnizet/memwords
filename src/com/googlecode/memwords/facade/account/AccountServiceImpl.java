@@ -1,13 +1,11 @@
-package com.googlecode.memwords.facade;
+package com.googlecode.memwords.facade.account;
 
 import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 
-import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -17,16 +15,18 @@ import javax.persistence.EntityTransaction;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlecode.memwords.domain.Account;
-
+import com.googlecode.memwords.facade.util.CryptoEngine;
 
 @Singleton
 public class AccountServiceImpl implements AccountService {
 
 	private EntityManager em;
+	private CryptoEngine cryptoEngine;
 	
 	@Inject
-	public AccountServiceImpl(EntityManager em) {
+	public AccountServiceImpl(EntityManager em, CryptoEngine cryptoEngine) {
 		this.em = em;
+		this.cryptoEngine = cryptoEngine;
 	}
 	
 	@Override
@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
 		SecretKey secretKey = generateEncryptionKey(userId, masterPassword, sessionId);
 		byte[] persistentPassword = buildPersistentPassword(userId, masterPassword);
 		SecretKey wrappingKey = buildWrappingKey(userId, masterPassword);
-		byte[] encryptedSecretKey = encrypt(secretKey.getEncoded(), wrappingKey);
+		byte[] encryptedSecretKey = cryptoEngine.encrypt(secretKey.getEncoded(), wrappingKey);
 		EntityTransaction tx = em.getTransaction();
 		try {
 			tx.begin();
@@ -68,46 +68,13 @@ public class AccountServiceImpl implements AccountService {
 			return null;
 		}
 		SecretKey wrappingKey = buildWrappingKey(userId, masterPassword);
-		byte[] encryptionKeyAsBytes = decrypt(account.getEncryptedSecretKey(), wrappingKey);
+		byte[] encryptionKeyAsBytes = cryptoEngine.decrypt(account.getEncryptedSecretKey(), wrappingKey);
 		return bytesToSecretKey(encryptionKeyAsBytes);
 	}
 	
-	/**
-	 * Encrypts the given data, using the given key. The algorithm used is AES, with a 
-	 * 256-bits key
-	 * @param data the data to encrypt
-	 * @param key the key which must contain 32 bytes
-	 * @return the encrypted data
-	 */
-	protected byte[] encrypt(byte[] data, SecretKey key) {
-		return crypt(data, key, Cipher.ENCRYPT_MODE);
-	}
-
-	/**
-	 * Decrypts the given data, using the given key. The algorithm used is AES, with a 
-	 * 256-bits key
-	 * @param data the data to decrypt
-	 * @param key the key which must contain 32 bytes
-	 * @return the decrypted data
-	 */
-	protected byte[] decrypt(byte[] data, SecretKey key) {
-		return crypt(data, key, Cipher.DECRYPT_MODE);
-	}
-	
-	protected byte[] crypt(byte[] data, SecretKey key, int cryptMode) {
-		try {
-			if (data == null || key == null) {
-				throw new IllegalArgumentException("data and key must not be null");
-			}
-			Cipher cipher = Cipher.getInstance("AES");
-			cipher.init(cryptMode, key);
-	
-		    byte[] encrypted = cipher.doFinal(data);
-		    return encrypted;
-		}
-		catch (GeneralSecurityException e) {
-			throw new RuntimeException(e);
-		}
+	@Override
+	public boolean accountExists(String userId) {
+		return getAccount(userId) != null;
 	}
 	
 	/**

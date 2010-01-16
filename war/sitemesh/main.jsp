@@ -7,23 +7,30 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Password Manager - <decorator:title default="" /></title>
+        <title>MemWords - <decorator:title default="" /></title>
         <link href="<c:url value="/css/main.css"/>" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="<c:url value="/js/jquery1.3.2.min.js" />"></script>
+        <script type="text/javascript" src="<c:url value="/js/jquery.blockUI.js" />"></script>
+        <script type="text/javascript" src="<c:url value="/js/main.js" />"></script>
         <decorator:head />
     </head>
 
     <body <decorator:getProperty property="body.onload" writeEntireProperty="true"/>>
         <div id="header">
-           Password Manager v0.1
+           MemWords v0.1
         </div>
 	    <div id="container">
 		    <div id="content">
-                <c:if test="${!empty actionBean.context.validationErrors || !empty actionBean.context.messages}">
-                    <div id="messages">
-                        <stripes:errors/>
-                        <stripes:messages/>
+		        <div id="messagesContainer">
+	                <div id="messagesControl">
+                        <a id="hideMessagesLink" href="#" onclick="hideMessagePanel();"><img src="<c:url value="/img/up.png"/>" width="16" height="16" alt="Hide message panel" title="Hide message panel"/></a>
+                        <a id="showMessagesLink" href="#" onclick="showMessagePanel();"><img src="<c:url value="/img/down.png"/>" width="16" height="16" alt="Show message panel" title="Show message panel"/></a>
                     </div>
-                </c:if>
+                    <div id="messages">
+	                    <stripes:errors/>
+	                    <stripes:messages/>
+	                </div>
+                </div>
                 <div id="body">
                     <decorator:body />
                 </div>
@@ -33,7 +40,7 @@
 	        </div>
 	    </div>
 	    <div id="footer">
-            Source code available at <a href="http://sourceforge.net">SourceForge</a>
+            Source code freely available at <a href="http://code.google.com/p/memwords/">Google Code</a>
         </div>
     </body>
 </html>

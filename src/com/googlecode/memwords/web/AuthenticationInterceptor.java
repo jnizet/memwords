@@ -15,6 +15,9 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 @Intercepts(LifecycleStage.HandlerResolution)
 public class AuthenticationInterceptor implements Interceptor {
     public Resolution intercept(ExecutionContext ctx) throws Exception {
+    	// to avoid a bug with flash scopes
+    	ctx.getActionBeanContext().getRequest().getSession(true);
+    	
         if (isPermittedWithoutLogin(ctx.getActionBean(), ctx.getActionBeanContext())) {
         	return ctx.proceed();
         }

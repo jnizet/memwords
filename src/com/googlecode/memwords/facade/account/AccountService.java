@@ -1,4 +1,4 @@
-package com.googlecode.memwords.facade;
+package com.googlecode.memwords.facade.account;
 
 import javax.crypto.SecretKey;
 
@@ -38,4 +38,9 @@ public interface AccountService {
 	 * @return the secret key associated to the account
 	 */
 	public SecretKey login(String userId, String masterPassword);
+	
+	/**
+	 * Tests if an account with the given userId exists or not
+	 */
+	public boolean accountExists(String userId);
 }
