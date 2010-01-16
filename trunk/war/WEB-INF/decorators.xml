@@ -4,6 +4,7 @@
 <!-- Any urls that are excluded will never be decorated by Sitemesh -->
     <excludes>
         <pattern>/exclude/*</pattern>
+        <pattern>*.jspf</pattern>
     </excludes>
 
     <decorator name="main" page="main.jsp">

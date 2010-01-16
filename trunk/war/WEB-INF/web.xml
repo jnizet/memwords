@@ -6,16 +6,6 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	
 	<filter>
-	    <filter-name>sitemesh</filter-name>
-	    <filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
-	</filter>
-	
-	<filter-mapping>
-	    <filter-name>sitemesh</filter-name>
-	    <url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
-	<filter>
         <display-name>Stripes Filter</display-name>
         <filter-name>StripesFilter</filter-name>
         <filter-class>net.sourceforge.stripes.controller.StripesFilter</filter-class>
@@ -30,15 +20,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
         <init-param>
 		    <param-name>Interceptor.Classes</param-name>
 		    <param-value>
+		        com.googlecode.stripesguicer.GuiceInterceptor,
 		        com.googlecode.memwords.web.AuthenticationInterceptor
 		    </param-value>
 		</init-param>
 		
         <!-- For Guice -->
-        <init-param>
-            <param-name>Interceptor.Classes</param-name>
-            <param-value>com.googlecode.stripesguicer.GuiceInterceptor</param-value> 
-        </init-param>
         <init-param>
             <param-name>ActionResolver.Class</param-name>
             <param-value>com.googlecode.stripesguicer.GuiceActionResolver</param-value> 
@@ -63,6 +50,16 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
         <filter-name>StripesFilter</filter-name>
         <servlet-name>StripesDispatcher</servlet-name>
         <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    
+    <filter>
+        <filter-name>sitemesh</filter-name>
+        <filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <servlet-name>StripesDispatcher</servlet-name>
     </filter-mapping>
     
     <servlet>

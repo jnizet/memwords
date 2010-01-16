@@ -4,8 +4,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
+import com.google.appengine.api.urlfetch.URLFetchService;
+import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Provides;
@@ -21,8 +21,8 @@ public class MainModule implements Module {
 	}
 
 	@Provides
-	UserService provideUserService() {
-	    return UserServiceFactory.getUserService();
+	URLFetchService provideURLFetchService() {
+	    return URLFetchServiceFactory.getURLFetchService();
 	}
 	
 	@Provides

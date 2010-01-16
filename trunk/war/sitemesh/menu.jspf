@@ -3,8 +3,9 @@
 
 <c:choose>
     <c:when test="${actionBean.context.loggedIn}">
-        <div class="menu">Log out</div>
-        <div class="menu">Cards</div>
+        <div class="menu"><stripes:link beanclass="com.googlecode.memwords.web.account.LoginActionBean"
+                                        event="logout">Log out</stripes:link></div>
+        <div class="menu"><stripes:link beanclass="com.googlecode.memwords.web.cards.CardsActionBean">Cards</stripes:link></div>
         <div class="menu">Preferences</div>
     </c:when>
     <c:otherwise>
