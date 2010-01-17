@@ -34,10 +34,25 @@ public class DeleteCardActionBean extends BaseCardsActionBean {
 		return new ForwardResolution("/cards/deleteCard.jsp");
 	}
 	
+	public Resolution ajaxView() {
+		this.card = cardService.getCardDetails(cardId, getContext().getUserInformation().getEncryptionKey());
+		return new ForwardResolution("/cards/ajaxDeleteCard.jsp");
+	}
+	
 	public Resolution deleteCard() {
+		doDeleteCard();
+		return new RedirectResolution(CardsActionBean.class);
+	}
+	
+	public Resolution ajaxDeleteCard() {
+		doDeleteCard();
+		loadCards();
+		return new ForwardResolution("/cards/ajaxCards.jsp");
+	}
+	
+	protected void doDeleteCard() {
 		cardService.deleteCard(cardId);
 		getContext().getMessages().add(new SimpleMessage("The card has been deleted"));
-		return new RedirectResolution(CardsActionBean.class);
 	}
 	
 	public String getCardId() {

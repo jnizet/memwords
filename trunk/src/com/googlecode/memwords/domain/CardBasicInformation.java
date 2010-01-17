@@ -6,10 +6,12 @@ import java.io.Serializable;
 public final class CardBasicInformation implements Serializable, Comparable<CardBasicInformation> {
 	private String id;
 	private String name;
+	private String iconUrl;
 	
-	public CardBasicInformation(String id, String name) {
+	public CardBasicInformation(String id, String name, String iconUrl) {
 		this.id = id;
 		this.name = name;
+		this.iconUrl = iconUrl;
 	}
 
 	public String getId() {
@@ -20,6 +22,10 @@ public final class CardBasicInformation implements Serializable, Comparable<Card
 		return name;
 	}
 
+	public String getIconUrl() {
+		return iconUrl;
+	}
+	
 	@Override
 	public int compareTo(CardBasicInformation o) {
 		return this.name.compareTo(o.name);

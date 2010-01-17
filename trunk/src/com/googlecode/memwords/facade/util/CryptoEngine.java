@@ -11,7 +11,7 @@ public interface CryptoEngine {
 	 * 256-bits key
 	 * @param data the data to encrypt
 	 * @param key the key which must contain 32 bytes
-	 * @return the encrypted data
+	 * @return the encrypted data or <code>null</code> if data is <code>null</code>
 	 */
 	byte[] encrypt(byte[] data, SecretKey key);
 	
@@ -20,7 +20,7 @@ public interface CryptoEngine {
 	 * 256-bits key
 	 * @param data the data to decrypt
 	 * @param key the key which must contain 32 bytes
-	 * @return the decrypted data
+	 * @return the decrypted data or <code>null</code> if data is <code>null</code>
 	 */
 	byte[] decrypt(byte[] data, SecretKey key);
 	
@@ -30,7 +30,7 @@ public interface CryptoEngine {
 	 * @param data the data to encrypt, as a String. It's transformed into a byte array 
 	 * using the UTF-8 encoding
 	 * @param key the key which must contain 32 bytes
-	 * @return the encrypted data
+	 * @return the encrypted data, or <code>null</code> if data is <code>null</code>
 	 */
 	byte[] encryptString(String data, SecretKey key);
 	
@@ -39,8 +39,27 @@ public interface CryptoEngine {
 	 * 256-bits key
 	 * @param data the data to decrypt
 	 * @param key the key which must contain 32 bytes
-	 * @return the decrypted data, as a String. It's transformed into a String
-	 * using the UTF-8 encoding
+	 * @return the decrypted data as a String, or <code>null</code> if the data is <code>null</code>. 
+	 * It's transformed into a String using the UTF-8 encoding
 	 */
 	String decryptString(byte[] data, SecretKey key);
+	
+	/**
+	 * Hashes the data using SHA-256, which results in a byte array containing 32 bytes
+	 * @param data the data to hash
+	 * @return the hashed data (32 bytes - 256 bits)
+	 */
+	byte[] hash(byte[] data);
+	
+	/**
+	 * Transforms the raw byte array into a secret key for the AES algorithm
+	 * @param keyAsBytes the key bytes
+	 * @return the key as a <code>SecretKey</code>
+	 */
+	SecretKey bytesToSecretKey(byte[] keyAsBytes);
+	
+	/**
+	 * Generates a random encryption key for the AES algorithm
+	 */
+	SecretKey generateEncryptionKey();
 }

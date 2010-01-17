@@ -19,9 +19,10 @@ public interface CardService {
 	 * Returns the list of cards of the given account, 
 	 * sorted by name.
 	 * @param userId the ID of the account
+	 * @param encryptionKey the key used to decrypt the encrypted information of the card
 	 * @return the list of cards
 	 */
-	List<CardBasicInformation> getCards(String userId);
+	List<CardBasicInformation> getCards(String userId, SecretKey encyptionKey);
 
 	/**
 	 * Tests if a card already exists for the given account
@@ -34,11 +35,11 @@ public interface CardService {
 	/**
 	 * Creates a card 
 	 * @param userId the account of the card
-	 * @param name the name of the card
-	 * @param url the URL of the card
+	 * @param cardDetails the details of the card (without ID)
+	 * @param encryptionKey the encryption key to use
 	 * @return the created card
 	 */
-	Card createCard(String userId, String name, String url);
+	Card createCard(String userId, CardDetails cardDetails, SecretKey encryptionKey);
 	
 	/**
 	 * Gets the details of a card, decrypted

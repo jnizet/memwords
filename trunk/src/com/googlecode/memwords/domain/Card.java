@@ -30,25 +30,34 @@ public class Card implements Serializable {
 	private String id;
 	
 	/**
-	 * The name of the web site or application
+	 * The name of the web site or application (encrypted)
 	 */
-	private String name;
+	private byte[] name;
 	
 	/**
-	 * The URL of the web site
+	 * The URL of the web site (encrypted)
 	 */
-	private String url;
+	private byte[] url;
 	
 	/**
-	 * The description of the web site or application
+	 * The URL of the icon of the card (encrypted)
 	 */
-	private String description;
+	private byte[] iconUrl;
 	
 	/**
-	 * The password of the web site or application, encrypted using the secret key stored in 
-	 * the account
+	 * The description of the web site or application (encrypted)
 	 */
-	private String encryptedPassword;
+	private byte[] description;
+	
+	/**
+	 * The login of the web site or application (encrypted)
+	 */
+	private byte[] login;
+	
+	/**
+	 * The password of the web site or application (encrypted)
+	 */
+	private byte[] password;
 	
 	/**
 	 * The account of the authentication info
@@ -64,36 +73,52 @@ public class Card implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
+	public byte[] getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(byte[] name) {
 		this.name = name;
 	}
 
-	public String getUrl() {
+	public byte[] getUrl() {
 		return url;
 	}
 
-	public void setUrl(String url) {
+	public void setUrl(byte[] url) {
 		this.url = url;
 	}
 
-	public String getDescription() {
+	public byte[] getIconUrl() {
+		return iconUrl;
+	}
+
+	public void setIconUrl(byte[] iconUrl) {
+		this.iconUrl = iconUrl;
+	}
+
+	public byte[] getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(byte[] description) {
 		this.description = description;
 	}
 
-	public String getEncryptedPassword() {
-		return encryptedPassword;
+	public byte[] getLogin() {
+		return login;
 	}
 
-	public void setEncryptedPassword(String encryptedPassword) {
-		this.encryptedPassword = encryptedPassword;
+	public void setLogin(byte[] login) {
+		this.login = login;
+	}
+
+	public byte[] getPassword() {
+		return password;
+	}
+
+	public void setPassword(byte[] password) {
+		this.password = password;
 	}
 
 	public Account getAccount() {

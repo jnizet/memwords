@@ -8,33 +8,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>Card Details</title>
+<title>Delete card</title>
 </head>
 <body>
     <h1>Delete card</h1>
-    <tags:cardsList cards="${actionBean.cards}" readOnly="${false}"/>
-    <div id="cardDetails">
-        <c:set var="card" value="${actionBean.card}"/>
-        <p>
-            Do you really want to delete the following card?
-        </p>
-        <h2><c:out value="${card.name}"/></h2>
-        <table>
-          <tr>
-            <th>Name :</th>
-            <td><c:out value="${card.name}"/></td>
-          </tr>
-          <tr>
-            <td colspan="2">
-                <stripes:form beanclass="com.googlecode.memwords.web.cards.DeleteCardActionBean">
-                    <stripes:hidden name="cardId"/>
-                    <stripes:submit name="deleteCard" value="Yes, Delete"/>
-                    <stripes:url var="cardsUrl" beanclass="com.googlecode.memwords.web.cards.CardsActionBean"/>
-                    <stripes:submit name="cancel" value="No, Cancel" onclick="window.location = '${cardsUrl}'; return false;"/>
-                </stripes:form>
-            </td>
-          </tr>
-        </table>
-    </div>
+    <tags:cardsList cards="${actionBean.cards}"/>
+    <%@ include file="deleteCard.jspf" %>
 </body>
 </html>

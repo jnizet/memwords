@@ -11,10 +11,6 @@
 <title>Cards</title>
 </head>
 <body>
-    <h1>Cards</h1>
-    <tags:cardsList cards="${actionBean.cards}" readOnly="${false}"/>
-    <div id="cardDetails">
-      <h2><stripes:link beanclass="com.googlecode.memwords.web.cards.CreateCardActionBean">Create a new card</stripes:link></h2>
-    </div>
+    <%@ include file="cards.jspf" %>
 </body>
 </html>

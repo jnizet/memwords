@@ -32,6 +32,11 @@ public class DisplayCardActionBean extends BaseCardsActionBean {
 		return new ForwardResolution("/cards/cardDetails.jsp");
 	}
 
+	public Resolution ajaxView() {
+		this.card = cardService.getCardDetails(cardId, getContext().getUserInformation().getEncryptionKey());
+		return new ForwardResolution("/cards/ajaxCardDetails.jsp");
+	}
+
 	public String getCardId() {
 		return cardId;
 	}

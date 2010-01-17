@@ -48,9 +48,7 @@ public class CreateAccountActionBean extends MwActionBean {
 	public Resolution createAccount() {
 		
 		SecretKey encryptionKey = 
-			accountService.createAccount(userId, 
-					                     masterPassword, 
-					                     getContext().getSessionId());
+			accountService.createAccount(userId, masterPassword);
 		getContext().setUserInformation(new UserInformation(userId, encryptionKey));
 		return new RedirectResolution(CardsActionBean.class);
 	}

@@ -6,5 +6,5 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
 <body>
     <tags:messages/>
-    <div id="body"><c:out value="${actionBean.iconUrl}"/></div>
+    <%@ include file="cardDetails.jspf" %>
 </body>
