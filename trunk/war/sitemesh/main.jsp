@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div id="sidebar">
-	          <%@ include file="/sitemesh/menu.jspf" %>
+	          <%@ include file="_menu.jsp" %>
 	        </div>
 	    </div>
 	    <div id="footer">

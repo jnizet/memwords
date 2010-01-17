@@ -13,6 +13,6 @@
 <body>
     <h1>Delete card</h1>
     <tags:cardsList cards="${actionBean.cards}"/>
-    <%@ include file="deleteCard.jspf" %>
+    <%@ include file="_deleteCard.jsp" %>
 </body>
 </html>

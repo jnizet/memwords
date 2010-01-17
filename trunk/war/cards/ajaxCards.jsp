@@ -8,6 +8,6 @@
 <body>
     <tags:messages/>
     <div id="body">
-        <%@include file="cards.jspf" %>
+        <%@include file="_cards.jsp" %>
     </div>
 </body>

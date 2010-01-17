@@ -109,7 +109,7 @@ public class CreateCardActionBean extends BaseCardsActionBean implements Validat
 	@DontValidate
 	public Resolution ajaxGetIcon() {
 		this.iconUrl = findIconUrl(this.url);
-		return new ForwardResolution("/cards/icon.jspf");
+		return new ForwardResolution("/cards/_icon.jsp");
 	}
 	
 	public String getName() {
