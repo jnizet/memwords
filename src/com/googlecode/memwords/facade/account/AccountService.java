@@ -24,11 +24,9 @@ public interface AccountService {
 	 * Creates an account for the given user ID, using the given master password.
 	 * @param userId the ID of the user for which an account must be created
 	 * @param masterPassword the master password of the account
-	 * @param sessionId the session ID, which is already random, and is used as part of the
-	 * seed to generate the random encryption key
 	 * @return the encryption key generated for the account
 	 */
-	public SecretKey createAccount(String userId, String masterPassword, String sessionId);
+	public SecretKey createAccount(String userId, String masterPassword);
 
 	/**
 	 * Verifies the master password for the given user ID, and returns the decrypted

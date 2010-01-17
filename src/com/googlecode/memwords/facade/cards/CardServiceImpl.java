@@ -33,11 +33,13 @@ public class CardServiceImpl implements CardService {
 	}
 	
 	@Override
-	public List<CardBasicInformation> getCards(String userId) {
+	public List<CardBasicInformation> getCards(String userId, SecretKey encryptionKey) {
 		List<Card> cards = ((Account) em.find(Account.class, userId)).getCards();
 		List<CardBasicInformation> result = new ArrayList<CardBasicInformation>(cards.size());
 		for (Card card : cards) {
-			result.add(new CardBasicInformation((String) card.getId(), (String) card.getName()));
+			result.add(new CardBasicInformation(card.getId(), 
+					                            cryptoEngine.decryptString(card.getName(), encryptionKey),
+					                            cryptoEngine.decryptString(card.getIconUrl(), encryptionKey)));
 		}
 		Collections.sort(result);
 		return result;
@@ -55,13 +57,16 @@ public class CardServiceImpl implements CardService {
 	}
 	
 	@Override
-	public Card createCard(String userId, String name, String url) {
+	public Card createCard(String userId, CardDetails cardDetails, SecretKey encryptionKey) {
 		EntityTransaction tx = em.getTransaction();
 		try {
 			tx.begin();
 			Card card = new Card();
-			card.setName(name);
-			card.setUrl(url);
+			card.setName(cryptoEngine.encryptString(cardDetails.getName(), encryptionKey));
+			card.setLogin(cryptoEngine.encryptString(cardDetails.getLogin(), encryptionKey));
+			card.setPassword(cryptoEngine.encryptString(cardDetails.getPassword(), encryptionKey));
+			card.setUrl(cryptoEngine.encryptString(cardDetails.getUrl(), encryptionKey));
+			card.setIconUrl(cryptoEngine.encryptString(cardDetails.getIconUrl(), encryptionKey));
 			Account account = ((Account) em.find(Account.class, userId));
 			account.addCard(card);
 			em.persist(card);
@@ -78,7 +83,13 @@ public class CardServiceImpl implements CardService {
 	@Override
 	public CardDetails getCardDetails(String cardId, SecretKey encryptionKey) {
 		Card card = (Card) em.find(Card.class, cardId);
-		return new CardDetails(card.getId(), card.getName());
+		return new CardDetails(
+				card.getId(), 
+				cryptoEngine.decryptString(card.getName(), encryptionKey),
+				cryptoEngine.decryptString(card.getLogin(), encryptionKey),
+				cryptoEngine.decryptString(card.getPassword(), encryptionKey),
+				cryptoEngine.decryptString(card.getUrl(), encryptionKey),
+                cryptoEngine.decryptString(card.getIconUrl(), encryptionKey));
 	}
 	
 	@Override

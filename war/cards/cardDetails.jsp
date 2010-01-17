@@ -12,27 +12,7 @@
 </head>
 <body>
     <h1>Card Details</h1>
-    <tags:cardsList cards="${actionBean.cards}" readOnly="${false}"/>
-    <div id="cardDetails">
-        <c:set var="card" value="${actionBean.card}"/>
-        <h2><c:out value="${card.name}"/></h2>
-        <table>
-          <tr>
-            <th>Name :</th>
-            <td><c:out value="${card.name}"/></td>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <stripes:form beanclass="com.googlecode.memwords.web.cards.DisplayCardActionBean">
-                <stripes:url var="cardsUrl" beanclass="com.googlecode.memwords.web.cards.CardsActionBean"/>
-                <stripes:submit name="cancel" value="Close" onclick="window.location = '${cardsUrl}'; return false;"/>
-              </stripes:form>
-            </td>
-          </tr>
-        </table>
-        <div id="createCardLink">
-            <stripes:link beanclass="com.googlecode.memwords.web.cards.CreateCardActionBean">Create a new card</stripes:link>
-        </div>
-    </div>
+    <tags:cardsList cards="${actionBean.cards}"/>
+    <%@ include file="cardDetails.jspf" %>
 </body>
 </html>

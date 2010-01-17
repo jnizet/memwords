@@ -23,4 +23,9 @@ public class CardsActionBean extends BaseCardsActionBean {
 		loadCards();
 		return new ForwardResolution("/cards/cards.jsp");
 	}
+	
+	public Resolution ajaxView() {
+		loadCards();
+		return new ForwardResolution("/cards/ajaxCards.jsp");
+	}
 }

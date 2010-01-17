@@ -28,6 +28,8 @@ public class LoginActionBean extends MwActionBean {
 	@Validate(required = true)
 	private String masterPassword;
 	
+	private String requestedUrl;
+	
 	@Inject
 	public LoginActionBean(AccountService accountService) {
 		this.accountService = accountService;
@@ -36,6 +38,7 @@ public class LoginActionBean extends MwActionBean {
 	@DefaultHandler
 	@DontValidate
 	public Resolution view() {
+		this.requestedUrl = getContext().getRequestedUrl();
 		return new ForwardResolution("/account/login.jsp");
 	}
 	
@@ -48,6 +51,11 @@ public class LoginActionBean extends MwActionBean {
 			return getContext().getSourcePageResolution();
 		}
 		getContext().setUserInformation(new UserInformation(userId, encryptionKey));
+		
+		if (requestedUrl != null) {
+			return new RedirectResolution(requestedUrl, false);
+		}
+		
 		return new RedirectResolution(CardsActionBean.class);
 	}
 	
@@ -71,5 +79,13 @@ public class LoginActionBean extends MwActionBean {
 
 	public void setMasterPassword(String masterPassword) {
 		this.masterPassword = masterPassword;
+	}
+
+	public String getRequestedUrl() {
+		return requestedUrl;
+	}
+
+	public void setRequestedUrl(String requestedUrl) {
+		this.requestedUrl = requestedUrl;
 	}
 }

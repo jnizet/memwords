@@ -5,6 +5,6 @@
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
 <body>
-    <tags:messages/>
-    <div id="body"><c:out value="${actionBean.iconUrl}"/></div>
+  <tags:messages />
+  <%@ include file="createCard.jspf" %>
 </body>

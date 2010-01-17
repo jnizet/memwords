@@ -7,13 +7,13 @@ body {
 #header, #footer {
   margin: 0;
 }
-#container{
+#container {
   background-color: white;
   overflow: hidden;
   margin: 0;
   padding-left: 125px; /* The width of the rail */
 }
-* html #container{
+* html #container {
   height: 1%; /* So IE plays nice */
 }
 #content {
@@ -53,6 +53,9 @@ body {
 #header a, #footer a, #sidebar a {
   color: white;
 }
+#header a {
+  text-decoration: none;
+}
 #sidebar {
   color: white;
   min-height: 600px;
@@ -63,8 +66,14 @@ body {
 #messages, #body {
   padding: 3px 10px 3px 10px;
 }
-#messagesContainer {
+#messages {
   border-bottom : 1px solid #134879;
+  border-left : 1px solid #134879;
+  border-right : 1px solid #134879;
+  margin-left: 20px;
+  margin-right: 20px;
+  -moz-border-radius-bottomleft: 3px;
+  -moz-border-radius-bottomright: 3px;
 }
 #messagesControl {
   display: none;
@@ -128,7 +137,6 @@ div.card, div#cardDetails {
   -moz-border-radius-bottomright: 3px;
   -moz-border-radius-topleft: 3px;
   -moz-border-radius-topright: 3px;
-  box-shadow: 10px 10px 5px #888;
 }
 div.card {
   width: 200px;
@@ -167,4 +175,35 @@ div#createCardLink {
   position: absolute;
   bottom: 0px;
   right: 0px;
+}
+img.cardIcon, img.loading {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+a.external {
+  background: transparent url(../img/external.png) no-repeat scroll right center;
+  padding-right: 13px;
+}
+div.masked {
+  color : transparent;
+  background: transparent url(../img/bullet.png) repeat-x scroll left center;
+  min-width: 154px;
+  min-height: 16px;
+}
+div.unmasked {
+  min-width: 154px;
+  min-height: 16px;
+}
+div.masked::-moz-selection {
+  background: #134879;
+  color: transparent;
+}
+div.masked::selection  {
+  background: 134879;
+  color: transparent;	
+}
+label.mandatory {
+  background: transparent url(../img/go.png) no-repeat scroll left center;
+  padding: 0 0 0 16px;
 }
