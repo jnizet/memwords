@@ -6,5 +6,5 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
 <body>
     <tags:messages/>
-    <%@ include file="cardDetails.jspf" %>
+    <%@ include file="_cardDetails.jsp" %>
 </body>

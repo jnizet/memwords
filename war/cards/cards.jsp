@@ -11,6 +11,6 @@
 <title>Cards</title>
 </head>
 <body>
-    <%@ include file="cards.jspf" %>
+    <%@ include file="_cards.jsp" %>
 </body>
 </html>
