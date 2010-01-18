@@ -51,8 +51,18 @@
         </td>
       </tr>
     </table>
-    <div id="createCardLink">
-        <stripes:link beanclass="com.googlecode.memwords.web.cards.CreateCardActionBean"
-                      onclick="return createCard();">Create a new card</stripes:link>
+    <div id="cardDetailsLinks">
+        <div style="float:left;">
+	        <stripes:link beanclass="com.googlecode.memwords.web.cards.CreateCardActionBean"
+	                      onclick="return createCard();"><img src="<c:url value="/img/add.png"/>" class="cardIcon" alt="Create a new card"/>Create a new card</stripes:link>
+        </div>
+        <div style="float: right">
+	        <stripes:link beanclass="com.googlecode.memwords.web.cards.ModifyCardActionBean"
+	                      onclick="return modifyCard('${card.id}');" title="Modify this card"><img src="<c:url value="/img/modify.png"/>" class="cardIcon" alt="Modify this card"/>
+	          <stripes:param name="cardId" value="${card.id}"/></stripes:link>
+	        <stripes:link beanclass="com.googlecode.memwords.web.cards.DeleteCardActionBean"
+	                      onclick="return deleteCard('${card.id}');" title="Delete this card"><img src="<c:url value="/img/delete.png"/>" class="cardIcon" alt="Delete this card"/>
+	          <stripes:param name="cardId" value="${card.id}"/></stripes:link>
+        </div>
     </div>
 </div>

@@ -72,6 +72,11 @@ function displayCard(cardId) {
     return false;
 }
 
+function modifyCard(cardId) {
+	loadMultiple(url("/cards/ModifyCard.action?ajaxView=&cardId="+ cardId));
+    return false;
+}
+
 function deleteCard(cardId) {
 	loadMultiple(url("/cards/DeleteCard.action?ajaxView=&cardId="+ cardId));
     return false;
@@ -135,5 +140,3 @@ $(document).ready(function () {
 	});
 });
 
-$.blockUI.defaults.overlayCSS.opacity = 0.3;
-$.blockUI.defaults.overlayCSS.cursor = 'default';

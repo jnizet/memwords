@@ -66,11 +66,20 @@ public class CardServiceImpl implements CardService {
 	}
 	
 	@Override
-	public boolean cardExists(String userId, String name) {
+	public boolean cardExists(String userId, 
+			                  String name, 
+			                  String cardId,
+			                  SecretKey encryptionKey) {
 		List<Card> cards = ((Account) em.find(Account.class, userId)).getCards();
 		for (Card card : cards) {
-			if (card.getName().equals(name)) {
-				return true;
+			if (!card.getId().equals(cardId)) {
+				String cardName = 
+					cryptoEngine.decryptString(card.getName(), 
+							                   encryptionKey, 
+							                   card.getInitializationVector());
+				if (cardName.equals(name)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -83,24 +92,46 @@ public class CardServiceImpl implements CardService {
 			tx.begin();
 			Card card = new Card();
 			card.setInitializationVector(cryptoEngine.generateInitializationVector());
-			card.setName(cryptoEngine.encryptString(cardDetails.getName(), 
-					                                encryptionKey,
-					                                card.getInitializationVector()));
-			card.setLogin(cryptoEngine.encryptString(cardDetails.getLogin(), 
-					                                 encryptionKey,
-					                                 card.getInitializationVector()));
-			card.setPassword(cryptoEngine.encryptString(cardDetails.getPassword(), 
-					                                    encryptionKey,
-					                                    card.getInitializationVector()));
-			card.setUrl(cryptoEngine.encryptString(cardDetails.getUrl(), 
-					                               encryptionKey,
-					                               card.getInitializationVector()));
-			card.setIconUrl(cryptoEngine.encryptString(cardDetails.getIconUrl(), 
-					                                   encryptionKey,
-					                                   card.getInitializationVector()));
+			updateCard(cardDetails, encryptionKey, card);
 			Account account = ((Account) em.find(Account.class, userId));
 			account.addCard(card);
 			em.persist(card);
+			tx.commit();
+			return card;
+		}
+		finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		}
+	}
+
+	private void updateCard(CardDetails cardDetails, SecretKey encryptionKey,
+			Card card) {
+		card.setName(cryptoEngine.encryptString(cardDetails.getName(), 
+				                                encryptionKey,
+				                                card.getInitializationVector()));
+		card.setLogin(cryptoEngine.encryptString(cardDetails.getLogin(), 
+				                                 encryptionKey,
+				                                 card.getInitializationVector()));
+		card.setPassword(cryptoEngine.encryptString(cardDetails.getPassword(), 
+				                                    encryptionKey,
+				                                    card.getInitializationVector()));
+		card.setUrl(cryptoEngine.encryptString(cardDetails.getUrl(), 
+				                               encryptionKey,
+				                               card.getInitializationVector()));
+		card.setIconUrl(cryptoEngine.encryptString(cardDetails.getIconUrl(), 
+				                                   encryptionKey,
+				                                   card.getInitializationVector()));
+	}
+	
+	@Override
+	public Card modifyCard(CardDetails cardDetails, SecretKey encryptionKey) {
+		EntityTransaction tx = em.getTransaction();
+		try {
+			tx.begin();
+			Card card = (Card) em.find(Card.class, cardDetails.getId());
+			updateCard(cardDetails, encryptionKey, card);
 			tx.commit();
 			return card;
 		}
