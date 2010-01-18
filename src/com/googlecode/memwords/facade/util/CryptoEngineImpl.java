@@ -17,6 +17,8 @@ import com.google.inject.Singleton;
 public class CryptoEngineImpl implements CryptoEngine {
 
 	private SecureRandom secureRandom;
+	private static final int KEY_SIZE = 16;
+	private static final int KEY_SIZE_IN_BITS = KEY_SIZE * 8;
 	
 	public CryptoEngineImpl() {
 		try {
@@ -61,7 +63,13 @@ public class CryptoEngineImpl implements CryptoEngine {
 	
 	@Override
 	public SecretKey bytesToSecretKey(byte[] keyAsBytes) {
-		SecretKeySpec keySpec = new SecretKeySpec(keyAsBytes, "AES");
+		System.out.println("KEY SIZE = " + KEY_SIZE);
+		byte[] bytes = keyAsBytes;
+		if (keyAsBytes.length > KEY_SIZE) {
+			bytes = new byte[KEY_SIZE];
+			System.arraycopy(keyAsBytes, 0, bytes, 0, KEY_SIZE);
+		}
+		SecretKeySpec keySpec = new SecretKeySpec(bytes, "AES");
 		return keySpec;
 	}
 	
@@ -69,7 +77,7 @@ public class CryptoEngineImpl implements CryptoEngine {
 	public SecretKey generateEncryptionKey() {
 		try {
 			KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-			keyGenerator.init(256, secureRandom);
+			keyGenerator.init(KEY_SIZE_IN_BITS, secureRandom);
 			return keyGenerator.generateKey();
 		}
 		catch (NoSuchAlgorithmException e) {
