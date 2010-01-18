@@ -18,10 +18,15 @@
               <c:out value="${card.name}"/>
 	        </a>
 	        <div class="cardLinks">
-	            <a href="<stripes:url beanclass="com.googlecode.memwords.web.cards.DeleteCardActionBean">
+	            <a href="<stripes:url beanclass="com.googlecode.memwords.web.cards.ModifyCardActionBean">
+                                                       <stripes:param name="cardId" value="${card.id}"/>
+                                                   </stripes:url>" onclick="return modifyCard('${card.id}');" title="Modify card">
+                  <img src="<c:url value="/img/modify.png"/>" width="16" height="16" alt="Modify card <c:out value='${card.name}'/>"/>
+                </a>
+                <a href="<stripes:url beanclass="com.googlecode.memwords.web.cards.DeleteCardActionBean">
 	                                                   <stripes:param name="cardId" value="${card.id}"/>
-	                                               </stripes:url>" onclick="return deleteCard('${card.id}');">
-	              <img src="<c:url value="/img/delete.png"/>" width="16" height="16" alt="Delete card <c:out value='${card.name}'/>" title="Delete card" />
+	                                               </stripes:url>" onclick="return deleteCard('${card.id}');" title="Delete card" >
+	              <img src="<c:url value="/img/delete.png"/>" width="16" height="16" alt="Delete card <c:out value='${card.name}'/>"/>
 	            </a>
 	        </div>
 	    </div>

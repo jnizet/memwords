@@ -28,9 +28,12 @@ public interface CardService {
 	 * Tests if a card already exists for the given account
 	 * @param userId the ID of the account
 	 * @param name the name of the card
+	 * @param cardId if not <code>null</code>, then only searches in cards
+	 * which don't have this ID
+	 * @param encryptionKey the key used to decrypt the encrypted information of the cards
 	 * @return <code>true</code> if a card exists, <code>false</code> otherwise
 	 */
-	boolean cardExists(String userId, String name);
+	boolean cardExists(String userId, String name, String cardId, SecretKey encryptionKey);
 
 	/**
 	 * Creates a card 
@@ -40,6 +43,15 @@ public interface CardService {
 	 * @return the created card
 	 */
 	Card createCard(String userId, CardDetails cardDetails, SecretKey encryptionKey);
+	
+	/**
+	 * Modifies a card 
+	 * @param cardDetails the details of the card (with ID)
+	 * @param encryptionKey the encryption key to use
+	 * @return the modified card
+	 */
+	Card modifyCard(CardDetails cardDetails, SecretKey encryptionKey);
+	
 	
 	/**
 	 * Gets the details of a card, decrypted
