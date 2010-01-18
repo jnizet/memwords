@@ -34,7 +34,10 @@ public class AccountServiceImpl implements AccountService {
 		SecretKey secretKey = cryptoEngine.generateEncryptionKey();
 		byte[] persistentPassword = buildPersistentPassword(userId, masterPassword);
 		SecretKey wrappingKey = buildWrappingKey(userId, masterPassword);
-		byte[] encryptedSecretKey = cryptoEngine.encrypt(secretKey.getEncoded(), wrappingKey);
+		byte[] iv = cryptoEngine.buildInitializationVector(wrappingKey.getEncoded());
+		byte[] encryptedSecretKey = cryptoEngine.encrypt(secretKey.getEncoded(), 
+				                                         wrappingKey,
+				                                         iv);
 		EntityTransaction tx = em.getTransaction();
 		try {
 			tx.begin();
@@ -63,7 +66,10 @@ public class AccountServiceImpl implements AccountService {
 			return null;
 		}
 		SecretKey wrappingKey = buildWrappingKey(userId, masterPassword);
-		byte[] encryptionKeyAsBytes = cryptoEngine.decrypt(account.getEncryptedSecretKey(), wrappingKey);
+		byte[] iv = cryptoEngine.buildInitializationVector(wrappingKey.getEncoded());
+		byte[] encryptionKeyAsBytes = cryptoEngine.decrypt(account.getEncryptedSecretKey(), 
+				                                           wrappingKey,
+				                                           iv);
 		return cryptoEngine.bytesToSecretKey(encryptionKeyAsBytes);
 	}
 	

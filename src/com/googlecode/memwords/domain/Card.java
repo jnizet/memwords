@@ -30,6 +30,13 @@ public class Card implements Serializable {
 	private String id;
 	
 	/**
+	 * The initialization vector (IV) used to encrypt/decrypt information stored in this card.
+	 * The use of a different IV for each card makes sure that if two cards have the same password,
+	 * the encrypted value stored in the database will be different.
+	 */
+	private byte[] initializationVector;
+	
+	/**
 	 * The name of the web site or application (encrypted)
 	 */
 	private byte[] name;
@@ -71,6 +78,14 @@ public class Card implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public byte[] getInitializationVector() {
+		return initializationVector;
+	}
+	
+	public void setInitializationVector(byte[] initializationVector) {
+		this.initializationVector = initializationVector;
 	}
 
 	public byte[] getName() {

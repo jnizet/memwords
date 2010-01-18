@@ -54,4 +54,13 @@ public interface CardService {
 	 * @param cardId the ID of the card to delete
 	 */
 	void deleteCard(String cardId);
+	
+	/**
+	 * Finds the URL of the favIcon associated to the given web site 
+	 * @param the URL (http or https) of a web site
+	 * @return the URL of the favIcon associated to the web site, or <code>null</code> if no
+	 * favIcon found
+	 * @throws FavIconException if there was an exception while fetching the favIcon URL
+	 */
+	String findFavIconUrl(String url) throws FavIconException;
 }
