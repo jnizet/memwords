@@ -174,7 +174,8 @@
         <findbugs home="${findbugs.dir}"
                   output="xml:withMessages"
                   outputFile="findbugs/report/xml/findbugs-report.xml"
-                  jvmargs="-Duser.language=en">
+                  jvmargs="-Duser.language=en"
+                  excludefilter="findbugs/findbugs-exclude.xml">
             <auxClasspath>
                 <path refid="build.classpath"/>
             </auxClasspath>
