@@ -19,67 +19,67 @@ import javax.persistence.OneToMany;
 @SuppressWarnings("serial")
 @Entity
 public class Account implements Serializable {
-	
-	/**
-	 * The user ID, which is also the primary key of the account.
-	 */
-	@Id
-	private String userId;
-	
-	/**
-	 * The persisted master password (which is in fact the concatenation of the user ID and
-	 * master password, hashed twice)
-	 */
-	private byte[] masterPassword;
-	
-	/**
-	 * The encrypted secret key
-	 */
-	private byte[] encryptedSecretKey;
+    
+    /**
+     * The user ID, which is also the primary key of the account.
+     */
+    @Id
+    private String userId;
+    
+    /**
+     * The persisted master password (which is in fact the concatenation of the user ID and
+     * master password, hashed twice)
+     */
+    private byte[] masterPassword;
+    
+    /**
+     * The encrypted secret key
+     */
+    private byte[] encryptedSecretKey;
 
-	/**
-	 * The authentication infos linked to this account
-	 */
-	@OneToMany(mappedBy = "account")
-	private List<Card> cards = new LinkedList<Card>();
-	
-	public Account() {
-	}
-	
-	public Account(String userId) {
-		this.userId = userId;
-	}
-	
-	public String getUserId() {
-		return userId;
-	}
+    /**
+     * The authentication infos linked to this account
+     */
+    @OneToMany(mappedBy = "account")
+    private List<Card> cards = new LinkedList<Card>();
+    
+    public Account() {
+    }
+    
+    public Account(String userId) {
+        this.userId = userId;
+    }
+    
+    public String getUserId() {
+        return userId;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public byte[] getMasterPassword() {
-		return masterPassword;
-	}
+    public byte[] getMasterPassword() {
+        return masterPassword;
+    }
 
-	public void setMasterPassword(byte[] masterPassword) {
-		this.masterPassword = masterPassword;
-	}
+    public void setMasterPassword(byte[] masterPassword) {
+        this.masterPassword = masterPassword;
+    }
 
-	public byte[] getEncryptedSecretKey() {
-		return encryptedSecretKey;
-	}
+    public byte[] getEncryptedSecretKey() {
+        return encryptedSecretKey;
+    }
 
-	public void setEncryptedSecretKey(byte[] encryptedSecretKey) {
-		this.encryptedSecretKey = encryptedSecretKey;
-	}
-	
-	public List<Card> getCards() {
-		return Collections.unmodifiableList(cards);
-	}
-	
-	public void addCard(Card card) {
-		card.setAccount(this);
-		this.cards.add(card);
-	}
+    public void setEncryptedSecretKey(byte[] encryptedSecretKey) {
+        this.encryptedSecretKey = encryptedSecretKey;
+    }
+    
+    public List<Card> getCards() {
+        return Collections.unmodifiableList(cards);
+    }
+    
+    public void addCard(Card card) {
+        card.setAccount(this);
+        this.cards.add(card);
+    }
 }

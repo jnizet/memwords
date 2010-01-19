@@ -17,75 +17,78 @@ import com.googlecode.memwords.web.IndexActionBean;
 import com.googlecode.memwords.web.MwActionBean;
 import com.googlecode.memwords.web.cards.CardsActionBean;
 
-
+/**
+ * Action bean used to handle the login
+ * @author JB
+ */
 public class LoginActionBean extends MwActionBean {
 
-	private AccountService accountService;
-	
-	@Validate(required = true)
-	private String userId;
-	
-	@Validate(required = true)
-	private String masterPassword;
-	
-	private String requestedUrl;
-	
-	@Inject
-	public LoginActionBean(AccountService accountService) {
-		this.accountService = accountService;
-	}
-	
-	@DefaultHandler
-	@DontValidate
-	public Resolution view() {
-		this.requestedUrl = getContext().getRequestedUrl();
-		return new ForwardResolution("/account/login.jsp");
-	}
-	
-	public Resolution login() {
-		SecretKey encryptionKey = 
-			accountService.login(userId, masterPassword);
-		if (encryptionKey == null) {
-			getContext().getValidationErrors().addGlobalError(
-					new LocalizableError("loginFailed"));
-			return getContext().getSourcePageResolution();
-		}
-		getContext().setUserInformation(new UserInformation(userId, encryptionKey));
-		
-		if (requestedUrl != null) {
-			return new RedirectResolution(requestedUrl, false);
-		}
-		
-		return new RedirectResolution(CardsActionBean.class);
-	}
-	
-	@DontValidate
-	public Resolution logout() {
-		getContext().setUserInformation(null);
-		return new RedirectResolution(IndexActionBean.class);
-	}
-	
-	public String getUserId() {
-		return userId;
-	}
+    private AccountService accountService;
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    @Validate(required = true)
+    private String userId;
 
-	public String getMasterPassword() {
-		return masterPassword;
-	}
+    @Validate(required = true)
+    private String masterPassword;
 
-	public void setMasterPassword(String masterPassword) {
-		this.masterPassword = masterPassword;
-	}
+    private String requestedUrl;
 
-	public String getRequestedUrl() {
-		return requestedUrl;
-	}
+    @Inject
+    public LoginActionBean(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
-	public void setRequestedUrl(String requestedUrl) {
-		this.requestedUrl = requestedUrl;
-	}
+    @DefaultHandler
+    @DontValidate
+    public Resolution view() {
+        this.requestedUrl = getContext().getRequestedUrl();
+        return new ForwardResolution("/account/login.jsp");
+    }
+
+    public Resolution login() {
+        SecretKey encryptionKey =
+            accountService.login(userId, masterPassword);
+        if (encryptionKey == null) {
+            getContext().getValidationErrors().addGlobalError(
+                    new LocalizableError("loginFailed"));
+            return getContext().getSourcePageResolution();
+        }
+        getContext().setUserInformation(new UserInformation(userId, encryptionKey));
+
+        if (requestedUrl != null) {
+            return new RedirectResolution(requestedUrl, false);
+        }
+
+        return new RedirectResolution(CardsActionBean.class);
+    }
+
+    @DontValidate
+    public Resolution logout() {
+        getContext().setUserInformation(null);
+        return new RedirectResolution(IndexActionBean.class);
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getMasterPassword() {
+        return masterPassword;
+    }
+
+    public void setMasterPassword(String masterPassword) {
+        this.masterPassword = masterPassword;
+    }
+
+    public String getRequestedUrl() {
+        return requestedUrl;
+    }
+
+    public void setRequestedUrl(String requestedUrl) {
+        this.requestedUrl = requestedUrl;
+    }
 }

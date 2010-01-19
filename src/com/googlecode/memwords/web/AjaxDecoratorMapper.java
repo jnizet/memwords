@@ -16,20 +16,20 @@ import com.opensymphony.module.sitemesh.mapper.AbstractDecoratorMapper;
  * @author JB
  */
 public class AjaxDecoratorMapper extends AbstractDecoratorMapper {
-	
-	@Override
-	public void init(Config config, Properties properties, DecoratorMapper parent) throws InstantiationException {
-		super.init(config, properties, parent);
-	}
+    
+    @Override
+    public void init(Config config, Properties properties, DecoratorMapper parent) throws InstantiationException {
+        super.init(config, properties, parent);
+    }
 
-	@Override
-	public Decorator getDecorator(HttpServletRequest request, Page page) {
-		boolean ajax = AjaxUtils.isAjaxRequest(request);
-		if (ajax) {
-			return getNamedDecorator(request, null);
-		}
-		else {
-			return super.getDecorator(request, page);
-		}
-	}
+    @Override
+    public Decorator getDecorator(HttpServletRequest request, Page page) {
+        boolean ajax = AjaxUtils.isAjaxRequest(request);
+        if (ajax) {
+            return getNamedDecorator(request, null);
+        }
+        else {
+            return super.getDecorator(request, page);
+        }
+    }
 }

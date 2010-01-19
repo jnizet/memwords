@@ -17,53 +17,53 @@ import com.googlecode.memwords.facade.cards.CardService;
  */
 public class DeleteCardActionBean extends BaseCardsActionBean {
 
-	@Validate(required = true)
-	private String cardId;
-	
-	private CardDetails card;
-	
-	@Inject
-	public DeleteCardActionBean(CardService cardService) {
-		super(cardService);
-	}
-	
-	@DefaultHandler
-	public Resolution view() {
-		loadCards();
-		this.card = cardService.getCardDetails(cardId, getContext().getUserInformation().getEncryptionKey());
-		return new ForwardResolution("/cards/deleteCard.jsp");
-	}
-	
-	public Resolution ajaxView() {
-		this.card = cardService.getCardDetails(cardId, getContext().getUserInformation().getEncryptionKey());
-		return new ForwardResolution("/cards/ajaxDeleteCard.jsp");
-	}
-	
-	public Resolution deleteCard() {
-		doDeleteCard();
-		return new RedirectResolution(CardsActionBean.class);
-	}
-	
-	public Resolution ajaxDeleteCard() {
-		doDeleteCard();
-		loadCards();
-		return new ForwardResolution("/cards/ajaxCards.jsp");
-	}
-	
-	protected void doDeleteCard() {
-		cardService.deleteCard(cardId);
-		getContext().getMessages().add(new SimpleMessage("The card has been deleted"));
-	}
-	
-	public String getCardId() {
-		return cardId;
-	}
+    @Validate(required = true)
+    private String cardId;
+    
+    private CardDetails card;
+    
+    @Inject
+    public DeleteCardActionBean(CardService cardService) {
+        super(cardService);
+    }
+    
+    @DefaultHandler
+    public Resolution view() {
+        loadCards();
+        this.card = cardService.getCardDetails(cardId, getContext().getUserInformation().getEncryptionKey());
+        return new ForwardResolution("/cards/deleteCard.jsp");
+    }
+    
+    public Resolution ajaxView() {
+        this.card = cardService.getCardDetails(cardId, getContext().getUserInformation().getEncryptionKey());
+        return new ForwardResolution("/cards/ajaxDeleteCard.jsp");
+    }
+    
+    public Resolution deleteCard() {
+        doDeleteCard();
+        return new RedirectResolution(CardsActionBean.class);
+    }
+    
+    public Resolution ajaxDeleteCard() {
+        doDeleteCard();
+        loadCards();
+        return new ForwardResolution("/cards/ajaxCards.jsp");
+    }
+    
+    protected void doDeleteCard() {
+        cardService.deleteCard(cardId);
+        getContext().getMessages().add(new SimpleMessage("The card has been deleted"));
+    }
+    
+    public String getCardId() {
+        return cardId;
+    }
 
-	public void setCardId(String cardId) {
-		this.cardId = cardId;
-	}
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
+    }
 
-	public CardDetails getCard() {
-		return card;
-	}
+    public CardDetails getCard() {
+        return card;
+    }
 }

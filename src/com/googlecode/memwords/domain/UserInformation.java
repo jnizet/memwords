@@ -11,19 +11,19 @@ import javax.crypto.SecretKey;
  */
 @SuppressWarnings("serial")
 public final class UserInformation implements Serializable {
-	private String userId;
-	private SecretKey encryptionKey;
-	
-	public UserInformation(String userId, SecretKey encryptionKey) {
-		this.userId = userId;
-		this.encryptionKey = encryptionKey;
-	}
+    private String userId;
+    private SecretKey encryptionKey;
+    
+    public UserInformation(String userId, SecretKey encryptionKey) {
+        this.userId = userId;
+        this.encryptionKey = encryptionKey;
+    }
 
-	public String getUserId() {
-		return userId;
-	}
+    public String getUserId() {
+        return userId;
+    }
 
-	public SecretKey getEncryptionKey() {
-		return encryptionKey;
-	}
+    public SecretKey getEncryptionKey() {
+        return encryptionKey;
+    }
 }
