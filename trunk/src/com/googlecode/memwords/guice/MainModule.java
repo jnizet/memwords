@@ -11,23 +11,28 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.servlet.RequestScoped;
 
+/**
+ * The main (and only) Guice module used by the application
+ * @author JB
+ */
 public class MainModule implements Module {
 
-	private static final EntityManagerFactory EMF_INSTANCE =
+    private static final EntityManagerFactory EMF_INSTANCE =
         Persistence.createEntityManagerFactory("transactions-optional");
-	
-	@Override
-	public void configure(Binder binder) {
-	}
 
-	@Provides
-	URLFetchService provideURLFetchService() {
-	    return URLFetchServiceFactory.getURLFetchService();
-	}
-	
-	@Provides
-	@RequestScoped
-	EntityManager provideEntityManager() {
-	    return EMF_INSTANCE.createEntityManager();
-	}
+    @Override
+    public void configure(Binder binder) {
+        // Does nothing (everything is done via annotations)
+    }
+
+    @Provides
+    protected URLFetchService provideURLFetchService() {
+        return URLFetchServiceFactory.getURLFetchService();
+    }
+
+    @Provides
+    @RequestScoped
+    protected EntityManager provideEntityManager() {
+        return EMF_INSTANCE.createEntityManager();
+    }
 }

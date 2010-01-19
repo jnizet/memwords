@@ -15,37 +15,37 @@ import com.googlecode.memwords.facade.cards.CardService;
  */
 public class DisplayCardActionBean extends BaseCardsActionBean {
 
-	@Validate(required = true)
-	private String cardId;
-	
-	private CardDetails card;
-	
-	@Inject
-	public DisplayCardActionBean(CardService cardService) {
-		super(cardService);
-	}
-	
-	@DefaultHandler
-	public Resolution view() {
-		loadCards();
-		this.card = cardService.getCardDetails(cardId, getContext().getUserInformation().getEncryptionKey());
-		return new ForwardResolution("/cards/cardDetails.jsp");
-	}
+    @Validate(required = true)
+    private String cardId;
+    
+    private CardDetails card;
+    
+    @Inject
+    public DisplayCardActionBean(CardService cardService) {
+        super(cardService);
+    }
+    
+    @DefaultHandler
+    public Resolution view() {
+        loadCards();
+        this.card = cardService.getCardDetails(cardId, getContext().getUserInformation().getEncryptionKey());
+        return new ForwardResolution("/cards/cardDetails.jsp");
+    }
 
-	public Resolution ajaxView() {
-		this.card = cardService.getCardDetails(cardId, getContext().getUserInformation().getEncryptionKey());
-		return new ForwardResolution("/cards/ajaxCardDetails.jsp");
-	}
+    public Resolution ajaxView() {
+        this.card = cardService.getCardDetails(cardId, getContext().getUserInformation().getEncryptionKey());
+        return new ForwardResolution("/cards/ajaxCardDetails.jsp");
+    }
 
-	public String getCardId() {
-		return cardId;
-	}
+    public String getCardId() {
+        return cardId;
+    }
 
-	public void setCardId(String cardId) {
-		this.cardId = cardId;
-	}
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
+    }
 
-	public CardDetails getCard() {
-		return card;
-	}
+    public CardDetails getCard() {
+        return card;
+    }
 }

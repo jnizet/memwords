@@ -1,0 +1,207 @@
+<project basedir=".." default="all">
+
+    <property file="ant/ant.properties"/>
+    <property name="cobertura.datafile" location="cobertura/report/cobertura.ser"/>
+    
+    <import file="${gae-sdk.dir}/config/user/ant-macros.xml" />
+
+    <path id="build.classpath">
+        <pathelement path="war/WEB-INF/classes" />
+        <fileset dir="war/WEB-INF/lib">
+            <include name="**/*.jar" />
+        </fileset>
+        <fileset dir="${gae-sdk.dir}/lib">
+            <include name="shared/**/*.jar" />
+        </fileset>
+    </path>
+
+    <path id="test.classpath">
+        <pathelement path="cobertura/classes" />
+        <path refid="build.classpath" />
+        <pathelement path="test/classes" />
+        <fileset dir="test/lib">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
+
+    <path id="cobertura.classpath">
+        <fileset dir="${cobertura.dir}">
+            <include name="cobertura.jar" />
+            <include name="lib/**/*.jar" />
+        </fileset>
+    </path>
+    
+    <target name="clean">
+        <delete dir="war/WEB-INF/classes"/>
+        <delete dir="test/classes"/>
+        <delete dir="test/report"/>
+        <delete dir="pmd/report"/>
+        <delete dir="checkstyle/report"/>
+        <delete dir="cobertura/classes"/>
+        <delete dir="cobertura/report"/>
+    </target>
+
+    <target name="compile" 
+            description="Compiles Java source and copies other source files to the WAR.">
+        <mkdir dir="war/WEB-INF/classes" />
+        <copy todir="war/WEB-INF/classes">
+            <fileset dir="src">
+                <exclude name="**/*.java" />
+            </fileset>
+        </copy>
+        <javac srcdir="src" 
+               destdir="war/WEB-INF/classes" 
+               classpathref="build.classpath" 
+               debug="on" />
+    </target>
+
+    <target name="build" 
+            depends="compile" 
+            description="Performs JPA enhancement on compiled data classes.">
+        <enhance_war war="war" />
+    </target>
+
+    <target name="rebuild"
+            description="clean, then build"
+            depends="clean, build"/>
+
+    <target name="build-unit-tests"
+            description="Builds the unit test classes">
+        <mkdir dir="test/classes" />
+        <copy todir="test/classes">
+            <fileset dir="test/src">
+                <exclude name="**/*.java" />
+            </fileset>
+        </copy>
+        <javac srcdir="test/src" 
+               destdir="test/classes" 
+               classpathref="test.classpath" 
+               debug="on" />
+    </target>
+
+    <target name="run-unit-tests"
+            description="Runs the unit tests and generates a report">
+        <mkdir dir="test/report"/>
+        <mkdir dir="test/report/xml"/>
+        <junit fork="true"
+               forkmode="perBatch">
+            <sysproperty key="net.sourceforge.cobertura.datafile"
+                         file="${cobertura.datafile}" />
+            <classpath refid="test.classpath"/>
+            <classpath refid="cobertura.classpath" />
+            <formatter type="xml"/>
+            <batchtest todir="test/report/xml">
+                <fileset dir="test/src">
+                    <include name="**/*.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+
+        <mkdir dir="test/report/html"/>
+        <junitreport todir="test/report">
+            <fileset dir="test/report/xml" >
+                <include name="*.xml"/>
+            </fileset>
+            <report todir="test//report/html"/>
+        </junitreport>
+    </target>
+
+    <target name="tests"
+            description="build and run unit tests"
+            depends="build-unit-tests, run-unit-tests"/>
+
+    <target name="pmd">
+        <taskdef name="pmd" 
+                 classname="net.sourceforge.pmd.ant.PMDTask">
+            <classpath>
+                <fileset dir="${pmd.dir}/lib">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+        </taskdef>
+        
+        <mkdir dir="pmd/report"/>
+        <mkdir dir="pmd/report/xml"/>
+        <mkdir dir="pmd/report/html"/>
+        
+        <pmd shortFilenames="true"
+             targetjdk="1.6"
+             rulesetfiles="pmd/ruleset.xml">
+            <formatter type="xml" toFile="pmd/report/xml/pmd_report.xml"/>
+            <fileset dir="src/">
+                <include name="**/*.java" />
+            </fileset>
+        </pmd>
+        <copy todir="pmd/report/html">
+            <fileset dir="${pmd.dir}/etc/xslt/">
+              <exclude name="*.xslt"/>
+            </fileset>
+        </copy>
+        <xslt in="pmd/report/xml/pmd_report.xml" 
+              style="${pmd.dir}/etc/xslt/corley-pmd-report.xslt" 
+              out="pmd/report/html/report_pmd.html" />
+    </target>
+    
+    <target name="checkstyle">
+        <taskdef resource="checkstyletask.properties"
+                 classpath="${checkstyle.dir}/checkstyle-all-5.0.jar"/>
+        <mkdir dir="checkstyle/report"/>
+        <mkdir dir="checkstyle/report/xml"/>
+        <mkdir dir="checkstyle/report/html"/>
+        
+        <checkstyle config="checkstyle/checkstyle-config.xml"
+                    classpathref="build.classpath"
+                    failonviolation="false">
+            <fileset dir="src">
+                <include name="**/*.java"/>
+            </fileset>
+            <formatter type="xml" toFile="checkstyle/report/xml/checkstyle-report.xml"/>
+        </checkstyle>
+        <xslt basedir="checkstyle/report/xml"
+              destdir="checkstyle/report/html"
+              style="${checkstyle.dir}/contrib/checkstyle-noframes-sorted.xsl" /> 
+    </target>
+
+    <target name="cobertura-prepare">
+        <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
+    </target>
+        
+    <target name="cobertura-instrument" depends="cobertura-prepare">
+        <mkdir dir="cobertura/classes"/>
+        <mkdir dir="cobertura/report"/>
+        <cobertura-instrument datafile="${cobertura.datafile}"
+                              todir="cobertura/classes">
+            <fileset dir="war/WEB-INF/classes">
+                <include name="**/*.class" />
+            </fileset>
+        </cobertura-instrument>
+    </target>
+    
+    <target name="cobertura-report" depends="cobertura-prepare">
+        <mkdir dir="cobertura/report/html"/>
+        <cobertura-report datafile="${cobertura.datafile}"
+                          format="html" 
+                          destdir="cobertura/report/html" 
+                          srcdir="src" />
+    </target>
+    
+    <target name="cobertura"
+            description="instrument classes, builds and run unit tests, and generate the cobertura report"
+            depends="cobertura-instrument, tests, cobertura-report"/>
+    
+    <target name="all"
+            description="Clean, build, generate PMD and checkstyle reports, build and run tests with cobertura"
+            depends="rebuild, pmd, checkstyle, cobertura"/> 
+        
+    
+    <target name="runserver" 
+            depends="build" 
+            description="Starts the development server.">
+        <dev_appserver war="war" port="8888">
+            <options>
+                <arg value="--jvm_flag=-Xdebug" />
+                <arg value="--jvm_flag=-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9999" />
+            </options>
+        </dev_appserver>
+    </target>
+</project>
