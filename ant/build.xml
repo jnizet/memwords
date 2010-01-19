@@ -37,6 +37,7 @@
         <delete dir="test/report"/>
         <delete dir="pmd/report"/>
         <delete dir="checkstyle/report"/>
+        <delete dir="findbugs/report"/>
         <delete dir="cobertura/classes"/>
         <delete dir="cobertura/report"/>
     </target>
@@ -161,6 +162,29 @@
               destdir="checkstyle/report/html"
               style="${checkstyle.dir}/contrib/checkstyle-noframes-sorted.xsl" /> 
     </target>
+    
+    <target name="findbugs">
+        <taskdef name="findbugs" 
+                 classname="edu.umd.cs.findbugs.anttask.FindBugsTask"
+                 classpath="${findbugs.dir}/lib/findbugs-ant.jar"/>
+        <mkdir dir="findbugs/report"/>
+        <mkdir dir="findbugs/report/xml"/>
+        <mkdir dir="findbugs/report/html"/>
+
+        <findbugs home="${findbugs.dir}"
+                  output="xml:withMessages"
+                  outputFile="findbugs/report/xml/findbugs-report.xml"
+                  jvmargs="-Duser.language=en">
+            <auxClasspath>
+                <path refid="build.classpath"/>
+            </auxClasspath>
+            <sourcePath path="src" />
+            <class location="war/WEB-INF/classes" />
+        </findbugs>
+        <xslt basedir="findbugs/report/xml"
+              destdir="findbugs/report/html"
+              style="${findbugs.dir}/src/xsl/default.xsl" /> 
+    </target>
 
     <target name="cobertura-prepare">
         <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
@@ -190,8 +214,8 @@
             depends="cobertura-instrument, tests, cobertura-report"/>
     
     <target name="all"
-            description="Clean, build, generate PMD and checkstyle reports, build and run tests with cobertura"
-            depends="rebuild, pmd, checkstyle, cobertura"/> 
+            description="Clean, build, generate PMD, checkstyle and findbugs reports, build and run tests with cobertura"
+            depends="rebuild, pmd, checkstyle, findbugs, cobertura"/> 
         
     
     <target name="runserver" 
