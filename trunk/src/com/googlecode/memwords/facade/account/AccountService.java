@@ -19,7 +19,7 @@ public interface AccountService {
      * account exists for the given user ID
      */
     Account getAccount(String userId);
-    
+
     /**
      * Creates an account for the given user ID, using the given master password.
      * @param userId the ID of the user for which an account must be created
@@ -36,7 +36,7 @@ public interface AccountService {
      * @return the secret key associated to the account
      */
     SecretKey login(String userId, String masterPassword);
-    
+
     /**
      * Tests if an account with the given userId exists or not
      */

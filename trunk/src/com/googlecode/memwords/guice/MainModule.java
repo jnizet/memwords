@@ -17,7 +17,7 @@ import com.google.inject.servlet.RequestScoped;
  */
 public class MainModule implements Module {
 
-    private static final EntityManagerFactory EMF_INSTANCE =
+    public static final EntityManagerFactory EMF_INSTANCE =
         Persistence.createEntityManagerFactory("transactions-optional");
 
     @Override

@@ -39,14 +39,17 @@ public class CardServiceImpl implements CardService {
     private EntityManager em;
     private CryptoEngine cryptoEngine;
     private URLFetchService urlFetchService;
+    private FavIconFinder favIconFinder;
 
     @Inject
     public CardServiceImpl(EntityManager em,
                            CryptoEngine cryptoEngine,
-                           URLFetchService urlFetchService) {
+                           URLFetchService urlFetchService,
+                           FavIconFinder favIconFinder) {
         this.em = em;
         this.cryptoEngine = cryptoEngine;
         this.urlFetchService = urlFetchService;
+        this.favIconFinder = favIconFinder;
     }
 
     @Override
@@ -146,6 +149,9 @@ public class CardServiceImpl implements CardService {
     @Override
     public CardDetails getCardDetails(String cardId, SecretKey encryptionKey) {
         Card card = em.find(Card.class, cardId);
+        if (card == null) {
+            return null;
+        }
         return new CardDetails(
                 card.getId(),
                 cryptoEngine.decryptString(card.getName(),
@@ -192,11 +198,9 @@ public class CardServiceImpl implements CardService {
             try {
                 HTTPResponse response = urlFetchService.fetch(url);
                 if (response != null) {
-                    FavIconSaxParser parser = new FavIconSaxParser(url);
-
                     InputSource inputSource =
                         new InputSource(new ByteArrayInputStream(response.getContent()));
-                    String iconUrl = parser.findFavIcon(inputSource);
+                    String iconUrl = favIconFinder.findFavIcon(inputSource, url);
                     if (iconUrl != null) {
                         return iconUrl;
                     }
