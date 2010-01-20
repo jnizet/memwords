@@ -11,5 +11,11 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/nekohtml.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="test/lib/junit-4.8.1.jar"/>
+	<classpathentry kind="lib" path="test/lib/appengine-api-stubs.jar"/>
+	<classpathentry kind="lib" path="test/lib/appengine-local-runtime.jar"/>
+	<classpathentry kind="lib" path="test/lib/easymock-2.5.2.jar"/>
+	<classpathentry kind="lib" path="test/lib/easymockclassextension-2.5.2.jar"/>
+	<classpathentry kind="lib" path="test/lib/cglib-nodep-2.2.jar"/>
+	<classpathentry kind="lib" path="test/lib/objenesis-1.2.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

@@ -35,6 +35,7 @@
         <delete dir="war/WEB-INF/classes"/>
         <delete dir="test/classes"/>
         <delete dir="test/report"/>
+        <delete dir="test/temp"/>
         <delete dir="pmd/report"/>
         <delete dir="checkstyle/report"/>
         <delete dir="findbugs/report"/>
@@ -85,7 +86,8 @@
         <mkdir dir="test/report"/>
         <mkdir dir="test/report/xml"/>
         <junit fork="true"
-               forkmode="perBatch">
+               forkmode="perBatch"
+               dir="${basedir}">
             <sysproperty key="net.sourceforge.cobertura.datafile"
                          file="${cobertura.datafile}" />
             <classpath refid="test.classpath"/>
@@ -93,7 +95,7 @@
             <formatter type="xml"/>
             <batchtest todir="test/report/xml">
                 <fileset dir="test/src">
-                    <include name="**/*.java"/>
+                    <include name="**/*Test.java"/>
                 </fileset>
             </batchtest>
         </junit>
@@ -103,7 +105,7 @@
             <fileset dir="test/report/xml" >
                 <include name="*.xml"/>
             </fileset>
-            <report todir="test//report/html"/>
+            <report todir="test/report/html"/>
         </junitreport>
     </target>
 
@@ -164,29 +166,38 @@
     </target>
     
     <target name="findbugs">
-        <taskdef name="findbugs" 
-                 classname="edu.umd.cs.findbugs.anttask.FindBugsTask"
-                 classpath="${findbugs.dir}/lib/findbugs-ant.jar"/>
         <mkdir dir="findbugs/report"/>
         <mkdir dir="findbugs/report/xml"/>
         <mkdir dir="findbugs/report/html"/>
 
-        <findbugs home="${findbugs.dir}"
-                  output="xml:withMessages"
-                  outputFile="findbugs/report/xml/findbugs-report.xml"
-                  jvmargs="-Duser.language=en"
-                  excludefilter="findbugs/findbugs-exclude.xml">
-            <auxClasspath>
-                <path refid="build.classpath"/>
-            </auxClasspath>
-            <sourcePath path="src" />
-            <class location="war/WEB-INF/classes" />
-        </findbugs>
+        <property name="auxClasspath" refid="build.classpath"></property>
+        
+        <!-- the findbugs ant task does the same thing, but hangs when called after other
+             targets -->
+        <java classpath="${findbugs.dir}/lib/findbugs.jar" 
+              classname="edu.umd.cs.findbugs.FindBugs2"
+              fork="true">
+            <jvmarg line="-Duser.language=en"/>
+            <jvmarg line="-Dfindbugs.home=${findbugs.dir}"/>
+            <arg value="-sortByClass"/>
+            <arg value="-timestampNow"/>
+            <arg value="-xml:withMessages"/>
+            <arg value="-exclude"/>
+            <arg value="${basedir}/findbugs/findbugs-exclude.xml"/>
+            <arg value="-auxclasspath"/>
+            <arg value="${auxClasspath}"/>
+            <arg value="-sourcepath"/>
+            <arg value="src"/>
+            <arg value="-outputFile"/>
+            <arg value="${basedir}/findbugs/report/xml/findbugs-report.xml"/>
+            <arg value="-exitcode"/>
+            <arg value="${basedir}/war/WEB-INF/classes"/>
+        </java>
         <xslt basedir="findbugs/report/xml"
               destdir="findbugs/report/html"
               style="${findbugs.dir}/src/xsl/default.xsl" /> 
     </target>
-
+    
     <target name="cobertura-prepare">
         <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
     </target>
@@ -218,7 +229,6 @@
             description="Clean, build, generate PMD, checkstyle and findbugs reports, build and run tests with cobertura"
             depends="rebuild, pmd, checkstyle, findbugs, cobertura"/> 
         
-    
     <target name="runserver" 
             depends="build" 
             description="Starts the development server.">

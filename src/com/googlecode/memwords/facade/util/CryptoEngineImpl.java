@@ -114,6 +114,19 @@ public class CryptoEngineImpl implements CryptoEngine {
         return result;
     }
 
+    @Override
+    public byte[] stringToBytes(String s) {
+        if (s == null) {
+            return null;
+        }
+        try {
+            return s.getBytes("UTF-8");
+        }
+        catch (UnsupportedEncodingException e) {
+            throw new ShouldNeverHappenException(e);
+        }
+    }
+
     protected byte[] crypt(byte[] data, SecretKey key, byte[] iv, int cryptMode) {
         try {
             if (key == null) {
@@ -136,18 +149,6 @@ public class CryptoEngineImpl implements CryptoEngine {
             return encrypted;
         }
         catch (GeneralSecurityException e) {
-            throw new ShouldNeverHappenException(e);
-        }
-    }
-
-    protected byte[] stringToBytes(String s) {
-        if (s == null) {
-            return null;
-        }
-        try {
-            return s.getBytes("UTF-8");
-        }
-        catch (UnsupportedEncodingException e) {
             throw new ShouldNeverHappenException(e);
         }
     }

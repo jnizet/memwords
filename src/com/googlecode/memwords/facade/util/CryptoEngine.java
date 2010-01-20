@@ -82,4 +82,11 @@ public interface CryptoEngine {
      * @param bytes the byte array, which must be at least 16 bytes long
      */
     byte[] buildInitializationVector(byte[] bytes);
+
+    /**
+     * Transforms a string into a byte array using the UTF-8 encoding
+     * @param s the string to transform
+     * @return the transformed string, or <code>null</code> if the string is <code>null</code>.
+     */
+    byte[] stringToBytes(String s);
 }
