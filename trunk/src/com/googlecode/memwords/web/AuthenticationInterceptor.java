@@ -16,6 +16,7 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 import com.googlecode.memwords.web.account.CreateAccountActionBean;
 import com.googlecode.memwords.web.account.LoginActionBean;
 import com.googlecode.memwords.web.util.AjaxUtils;
+import com.googlecode.memwords.web.util.IntegrationTestsActionBean;
 
 /**
  * Stripes interceptor verifying that the user is authenticated.
@@ -66,7 +67,8 @@ public class AuthenticationInterceptor implements Interceptor {
         Class<?> actionBeanClass = actionBean.getClass();
         return actionBeanClass.equals(IndexActionBean.class)
                || actionBeanClass.equals(LoginActionBean.class)
-               || actionBeanClass.equals(CreateAccountActionBean.class);
+               || actionBeanClass.equals(CreateAccountActionBean.class)
+               || actionBeanClass.equals(IntegrationTestsActionBean.class);
     }
 
     /**

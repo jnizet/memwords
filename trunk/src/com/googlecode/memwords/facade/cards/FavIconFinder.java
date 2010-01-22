@@ -19,5 +19,5 @@ public interface FavIconFinder {
      * @return the absolute favIcon URL found, or <code>null</code> if not found
      * @throws FavIconException if an exception occurred while finding the favIcon
      */
-    public String findFavIcon(InputSource source, URL baseUrl) throws FavIconException;
+    String findFavIcon(InputSource source, URL baseUrl) throws FavIconException;
 }

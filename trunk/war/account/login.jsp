@@ -16,7 +16,7 @@
     <p>
         Please enter your user ID and master password to log in.
     </p>
-    <stripes:form beanclass="com.googlecode.memwords.web.account.LoginActionBean">
+    <stripes:form beanclass="com.googlecode.memwords.web.account.LoginActionBean" id="loginForm">
         <stripes:hidden name="requestedUrl"/>
         <table>
             <tr>

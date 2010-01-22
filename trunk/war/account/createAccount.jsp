@@ -14,12 +14,21 @@
              var="userIdDisponibilityUrl"/>
 <script type="text/javascript">
   function loadUserIdDisponibility() {
-	var userId = jQuery.trim($("#userId").val());
+    var userId = jQuery.trim($("#userId").val());
 	if (userId.length == 0) {
 		$("#userIdDisponibility").html("");
 	}
 	else {
-      $("#userIdDisponibility").load('${userIdDisponibilityUrl}', { userId : userId });
+		setLoading($("#userIdDisponibility"));
+		$.ajax({
+		  url: '${userIdDisponibilityUrl}',
+          data: {userId : userId},
+		  success: function(html) {
+		    $("#userIdDisponibility").html(html);
+		  }
+		});
+			    
+        // $("#userIdDisponibility").load('${userIdDisponibilityUrl}', { userId : userId });
 	}
   }
   $(document).ready(function () {
@@ -36,7 +45,7 @@
     <p>
         Please fill the following form in order to create an account.
     </p>
-    <stripes:form beanclass="com.googlecode.memwords.web.account.CreateAccountActionBean">
+    <stripes:form beanclass="com.googlecode.memwords.web.account.CreateAccountActionBean" id="createAccountForm">
         <table>
             <tr>
                 <th>User ID :</th>
