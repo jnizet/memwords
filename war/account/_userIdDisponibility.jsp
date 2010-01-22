@@ -7,6 +7,6 @@
         <span class="message">This user ID is available</span>
     </c:when>
     <c:otherwise>
-        <span class="error">This user ID is NOT available</span>
+        <span class="error">This user ID is not available</span>
     </c:otherwise>
 </c:choose>

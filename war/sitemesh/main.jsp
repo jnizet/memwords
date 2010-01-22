@@ -16,7 +16,10 @@
         <script type="text/javascript" src="<c:url value="/js/jquery-1.3.2.min.js" />"></script>
         <script type="text/javascript" src="<c:url value="/js/jquery.form.js" />"></script>
         <script type="text/javascript">
-            var baseUrl = '<c:url value="/"/>';
+            <c:set var="baseUrl" value="${request.contextPath}"/>
+            <c:if test="${empty baseUrl}"><c:set var="baseUrl" value="/"/></c:if>
+            var baseUrl = '${baseUrl}';
+            <c:if test="${header.integrationTesting == true}">$.ajaxSetup({ async: false });</c:if>
         </script>
         <script type="text/javascript" src="<c:url value="/js/main.js" />"></script>
         <decorator:head />

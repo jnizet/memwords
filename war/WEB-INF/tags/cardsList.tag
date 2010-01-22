@@ -13,7 +13,7 @@
         <div class="card">
 	        <a href="<stripes:url beanclass="com.googlecode.memwords.web.cards.DisplayCardActionBean">
 	                                             <stripes:param name="cardId" value="${card.id}"/>
-	                                           </stripes:url>" onclick="return displayCard('${card.id}');">
+	                                           </stripes:url>" onclick="return displayCard('${card.id}');" title="Display card details">
 	          <tags:cardIcon  card="${card}"/>
               <c:out value="${card.name}"/>
 	        </a>
