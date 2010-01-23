@@ -9,6 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Login</title>
+<script type="text/javascript" src="<c:url value="/js/account.js"/>"></script>
 </head>
 <body>
   <h1>Login</h1>

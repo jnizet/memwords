@@ -9,6 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Modify a card</title>
+<script type="text/javascript" src="<c:url value="/js/cards.js"/>"></script>
 </head>
 <body>
   <h1>Modify a card</h1>

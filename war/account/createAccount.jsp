@@ -9,26 +9,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Create an account</title>
-<stripes:url beanclass="com.googlecode.memwords.web.account.CreateAccountActionBean" 
-             event="ajaxGetUserIdAvailability"
-             var="userIdAvailabilityUrl"/>
+<script type="text/javascript" src="<c:url value="/js/account.js"/>"></script>
 <script type="text/javascript">
-  function loadUserIdAvailability() {
-    var userId = jQuery.trim($("#userId").val());
-    if (userId.length == 0) {
-      $("#userIdAvailability").html("");
-    }
-    else {
-      setLoading($("#userIdAvailability"));
-      $.ajax({
-        url: '${userIdAvailabilityUrl}',
-        data: {userId : userId},
-        success: function(html) {
-          $("#userIdAvailability").html(html);
-        }
-      });
-    }
-  }
   $(document).ready(function () {
     $("#userId").bind("blur", function () {
         loadUserIdAvailability();

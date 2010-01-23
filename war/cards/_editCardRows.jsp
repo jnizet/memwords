@@ -31,6 +31,6 @@
      <span id="iconUrlSpan" <tags:hideIf test="${empty actionBean.iconUrl}"/>>
        <img src="<c:out value="${actionBean.iconUrl}"/>" class="cardIcon" alt=""/>
      </span>
-     <span id="iconUrlLoading"></span>
+     <span id="iconUrlLoadingSpan"></span>
   </td>
 </tr>
