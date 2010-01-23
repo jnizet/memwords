@@ -5,6 +5,6 @@
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
 <body>
-    <tags:messages/>
-    <%@ include file="_emptyCardDetails.jsp" %>
+  <tags:messages/>
+  <%@ include file="_emptyCardDetails.jsp" %>
 </body>

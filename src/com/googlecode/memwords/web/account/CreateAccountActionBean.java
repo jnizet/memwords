@@ -68,9 +68,9 @@ public class CreateAccountActionBean extends MwActionBean {
     }
 
     @DontValidate
-    public Resolution ajaxGetUserIdDisponibility() {
+    public Resolution ajaxGetUserIdAvailability() {
         this.userIdAvailable = !accountService.accountExists(this.userId);
-        return new ForwardResolution("/account/_userIdDisponibility.jsp");
+        return new ForwardResolution("/account/_userIdAvailability.jsp");
     }
 
     public String getUserId() {

@@ -10,61 +10,55 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Create an account</title>
 <stripes:url beanclass="com.googlecode.memwords.web.account.CreateAccountActionBean" 
-             event="ajaxGetUserIdDisponibility"
-             var="userIdDisponibilityUrl"/>
+             event="ajaxGetUserIdAvailability"
+             var="userIdAvailabilityUrl"/>
 <script type="text/javascript">
-  function loadUserIdDisponibility() {
+  function loadUserIdAvailability() {
     var userId = jQuery.trim($("#userId").val());
-	if (userId.length == 0) {
-		$("#userIdDisponibility").html("");
-	}
-	else {
-		setLoading($("#userIdDisponibility"));
-		$.ajax({
-		  url: '${userIdDisponibilityUrl}',
-          data: {userId : userId},
-		  success: function(html) {
-		    $("#userIdDisponibility").html(html);
-		  }
-		});
-			    
-        // $("#userIdDisponibility").load('${userIdDisponibilityUrl}', { userId : userId });
-	}
+    if (userId.length == 0) {
+      $("#userIdAvailability").html("");
+    }
+    else {
+      setLoading($("#userIdAvailability"));
+      $.ajax({
+        url: '${userIdAvailabilityUrl}',
+        data: {userId : userId},
+        success: function(html) {
+          $("#userIdAvailability").html(html);
+        }
+      });
+    }
   }
   $(document).ready(function () {
     $("#userId").bind("blur", function () {
-        loadUserIdDisponibility();
-      }
-    );
+        loadUserIdAvailability();
+    });
   });
 </script>
 </head>
 <body>
-    <h1>Create an account</h1>
-    
-    <p>
-        Please fill the following form in order to create an account.
-    </p>
-    <stripes:form beanclass="com.googlecode.memwords.web.account.CreateAccountActionBean" id="createAccountForm">
-        <table>
-            <tr>
-                <th>User ID :</th>
-                <td><stripes:text name="userId" id="userId"/><span id="userIdDisponibility"></span></td>
-            </tr>
-            <tr>
-                <th>Master password :</th>
-                <td><stripes:password name="masterPassword"/></td>
-            </tr>
-            <tr>
-                <th>Master password confirmation :</th>
-                <td><stripes:password name="masterPassword2"/></td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <stripes:submit name="createAccount" value="Create Account"/>                    
-                </td>
-            </tr>
-        </table>
-    </stripes:form>
+  <h1>Create an account</h1>
+
+  <p>Please fill the following form in order to create an account.</p>
+  <stripes:form beanclass="com.googlecode.memwords.web.account.CreateAccountActionBean" 
+                id="createAccountForm">
+    <table>
+      <tr>
+        <th>User ID :</th>
+        <td><stripes:text name="userId" id="userId" /><span id="userIdAvailability"></span></td>
+      </tr>
+      <tr>
+        <th>Master password :</th>
+        <td><stripes:password name="masterPassword" /></td>
+      </tr>
+      <tr>
+        <th>Master password confirmation :</th>
+        <td><stripes:password name="masterPassword2" /></td>
+      </tr>
+      <tr>
+        <td colspan="2"><stripes:submit name="createAccount" value="Create Account" /></td>
+      </tr>
+    </table>
+  </stripes:form>
 </body>
 </html>

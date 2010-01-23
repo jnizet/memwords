@@ -30,23 +30,23 @@ public class CreateAccountTest {
     }
 
     @Test
-    public void testUserIdDisponibility() throws Exception {
+    public void testUserIdAvailability() throws Exception {
         WebClient wc = startWebClient();
         HtmlPage page = wc.getPage(url("/account/CreateAccount.action"));
         HtmlForm form = page.getHtmlElementById("createAccountForm");
         form.getInputByName("userId").type("test");
         form.getInputByName("userId").blur();
         assertEquals("This user ID is not available",
-                     page.getHtmlElementById("userIdDisponibility").asText());
+                     page.getHtmlElementById("userIdAvailability").asText());
         form.getInputByName("userId").type("test2");
         form.getInputByName("userId").blur();
         assertEquals("This user ID is available",
-                     page.getHtmlElementById("userIdDisponibility").asText());
+                     page.getHtmlElementById("userIdAvailability").asText());
         form.<HtmlTextInput>getInputByName("userId").select();
         form.getInputByName("userId").type(" ");
         form.getInputByName("userId").blur();
         assertEquals("",
-                     page.getHtmlElementById("userIdDisponibility").asText());
+                     page.getHtmlElementById("userIdAvailability").asText());
     }
 
     @Test

@@ -11,28 +11,24 @@
 <title>Login</title>
 </head>
 <body>
-    <h1>Login</h1>
-    
-    <p>
-        Please enter your user ID and master password to log in.
-    </p>
-    <stripes:form beanclass="com.googlecode.memwords.web.account.LoginActionBean" id="loginForm">
-        <stripes:hidden name="requestedUrl"/>
-        <table>
-            <tr>
-                <th>User ID :</th>
-                <td><stripes:text name="userId"/></td>
-            </tr>
-            <tr>
-                <th>Master password :</th>
-                <td><stripes:password name="masterPassword" repopulate="false"/></td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <stripes:submit name="login" value="Login"/>                    
-                </td>
-            </tr>
-        </table>
-    </stripes:form>
+  <h1>Login</h1>
+  
+  <p>Please enter your user ID and master password to log in.</p>
+  <stripes:form beanclass="com.googlecode.memwords.web.account.LoginActionBean" id="loginForm">
+    <stripes:hidden name="requestedUrl" />
+    <table>
+      <tr>
+        <th>User ID :</th>
+        <td><stripes:text name="userId" /></td>
+      </tr>
+      <tr>
+        <th>Master password :</th>
+        <td><stripes:password name="masterPassword" repopulate="false" /></td>
+      </tr>
+      <tr>
+        <td colspan="2"><stripes:submit name="login" value="Login" /></td>
+      </tr>
+    </table>
+  </stripes:form>
 </body>
 </html>
