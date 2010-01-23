@@ -21,29 +21,29 @@ import com.googlecode.memwords.facade.cards.CardService;
  * @author JB
  */
 public class CreateCardActionBean extends BaseEditCardActionBean implements ValidationErrorHandler {
-    
+
     @Inject
     public CreateCardActionBean(CardService cardService) {
         super(cardService);
     }
-    
+
     @DefaultHandler
     @DontValidate
     public Resolution view() {
         loadCards();
         return new ForwardResolution("/cards/createCard.jsp");
     }
-    
+
     @DontValidate
     public Resolution ajaxView() {
         return new ForwardResolution("/cards/ajaxCreateCard.jsp");
     }
-    
+
     public Resolution createCard() {
         doCreateCard();
         return new RedirectResolution(CardsActionBean.class);
     }
-    
+
     public Resolution ajaxCreateCard() {
         doCreateCard();
         loadCards();
@@ -53,27 +53,32 @@ public class CreateCardActionBean extends BaseEditCardActionBean implements Vali
     protected void doCreateCard() {
         CardDetails cardDetails = new CardDetails(null, name, login, password, url, iconUrl);
         cardService.createCard(
-                getContext().getUserInformation().getUserId(), 
-                cardDetails, 
+                getContext().getUserInformation().getUserId(),
+                cardDetails,
                 getContext().getUserInformation().getEncryptionKey());
         getContext().getMessages().add(new SimpleMessage("Card {0} created", cardDetails.getName()));
     }
-    
+
     @ValidationMethod(on = {"createCard", "ajaxCreateCard"}, when = ValidationState.ALWAYS)
     public void validateNameDoesntExist(ValidationErrors errors) {
         if (!errors.containsKey("name")
-            && cardService.cardExists(getContext().getUserInformation().getUserId(), 
-                                      name, 
-                                      null, 
+            && cardService.cardExists(getContext().getUserInformation().getUserId(),
+                                      name,
+                                      null,
                                       getContext().getUserInformation().getEncryptionKey())) {
             errors.add("name", new LocalizableError("cardNameAlreadyExists"));
         }
     }
-    
+
     @Override
     public Resolution handleValidationErrors(ValidationErrors errors) {
-        if ("createCard".equals(getContext().getEventName())) {
+        String eventName = getContext().getEventName();
+        if ("createCard".equals(eventName)) {
             loadCards();
+            return null;
+        }
+        else if ("ajaxCreateCard".equals(eventName)) {
+            return new ForwardResolution("/cards/ajaxCreateCard.jsp");
         }
         return null;
     }

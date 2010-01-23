@@ -120,7 +120,7 @@ public class CardsTest {
 
         HtmlAnchor deleteLink = getFirstLinkByTitle(card3Div, "Delete card");
         HtmlPage deletePage = deleteLink.click();
-        testTitle(deletePage, "Delete card");
+        testTitle(deletePage, "Delete a card");
     }
 
     @Test

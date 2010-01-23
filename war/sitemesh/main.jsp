@@ -13,7 +13,7 @@
         <!--[if IE]>
 		    <link rel="stylesheet" type="text/css" href="<c:url value="/css/ie.css"/>"/>
 		<![endif]-->
-        <script type="text/javascript" src="<c:url value="/js/jquery-1.3.2.min.js" />"></script>
+        <script type="text/javascript" src="<c:url value="/js/jquery-1.3.2.js" />"></script>
         <script type="text/javascript" src="<c:url value="/js/jquery.form.js" />"></script>
         <script type="text/javascript">
             <c:set var="baseUrl" value="${request.contextPath}"/>
