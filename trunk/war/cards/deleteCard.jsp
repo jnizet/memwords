@@ -8,10 +8,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>Delete card</title>
+<title>Delete a card</title>
 </head>
 <body>
-    <h1>Delete card</h1>
+    <h1>Delete a card</h1>
     <tags:cardsList cards="${actionBean.cards}"/>
     <%@ include file="_deleteCard.jsp" %>
 </body>

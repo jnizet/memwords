@@ -44,7 +44,7 @@
       </tr>
       <tr>
         <td colspan="2">
-          <stripes:form beanclass="com.googlecode.memwords.web.cards.DisplayCardActionBean">
+          <stripes:form beanclass="com.googlecode.memwords.web.cards.DisplayCardActionBean" id="cardDetailsForm">
             <stripes:url var="cardsUrl" beanclass="com.googlecode.memwords.web.cards.CardsActionBean"/>
             <stripes:submit name="cancel" value="Close" onclick="return closeCardDetails();"/>
           </stripes:form>

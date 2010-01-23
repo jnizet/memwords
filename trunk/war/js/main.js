@@ -31,7 +31,8 @@ function changeFormEvent(form, oldEvent, newEvent) {
 
 function ajaxifyForm(form) {
 	form.ajaxForm(
-		{ success: function(responseText) {htmlMultiple(responseText, true)} });
+		{ success: function(responseText) {htmlMultiple(responseText, true)}
+		});
 }
 
 function loadMultiple(url) {

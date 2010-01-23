@@ -72,7 +72,7 @@ public class ModifyCardActionBean extends BaseEditCardActionBean implements Vali
         getContext().getMessages().add(new SimpleMessage("Card {0} modified", cardDetails.getName()));
     }
 
-    @ValidationMethod(on = {"createCard", "ajaxCreateCard"}, when = ValidationState.ALWAYS)
+    @ValidationMethod(on = {"modifyCard", "ajaxModifyCard"}, when = ValidationState.ALWAYS)
     public void validateNameDoesntExist(ValidationErrors errors) {
         if (!errors.containsKey("name")
             && cardService.cardExists(getContext().getUserInformation().getUserId(),
@@ -85,8 +85,13 @@ public class ModifyCardActionBean extends BaseEditCardActionBean implements Vali
 
     @Override
     public Resolution handleValidationErrors(ValidationErrors errors) {
-        if ("modifyCard".equals(getContext().getEventName())) {
+        String eventName = getContext().getEventName();
+        if ("modifyCard".equals(eventName)) {
             loadCards();
+            return null;
+        }
+        else if ("ajaxModifyCard".equals(eventName)) {
+            return new ForwardResolution("/cards/ajaxModifyCard.jsp");
         }
         return null;
     }
