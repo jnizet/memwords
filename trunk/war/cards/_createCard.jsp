@@ -6,6 +6,9 @@
       var form = $("#createCardForm")
       changeFormEvent(form, "createCard", "ajaxCreateCard");
       ajaxifyForm(form);
+      $("#cancelButton").click(function() {
+        return closeCardDetails();
+      });
     });
   </script>
   <stripes:form id="createCardForm"
@@ -16,7 +19,7 @@
         <td colspan="2">
           <stripes:submit name="createCard" value="Create card" id="submitButton"/>
           <stripes:url var="cardsUrl" beanclass="com.googlecode.memwords.web.cards.CardsActionBean"/>
-          <stripes:submit name="cancel" value="Cancel" onclick="return closeCardDetails();"/>
+          <stripes:submit name="cancel" value="Cancel" id="cancelButton"/>
         </td>
       </tr>
     </table>

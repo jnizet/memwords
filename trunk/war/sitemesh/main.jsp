@@ -13,12 +13,10 @@
     <!--[if IE]>
       <link rel="stylesheet" type="text/css" href="<c:url value="/css/ie.css"/>"/>
     <![endif]-->
-    <script type="text/javascript" src="<c:url value="/js/jquery-1.3.2.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/js/jquery-1.3.2.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/js/jquery.form.js" />"></script>
     <script type="text/javascript">
-      <c:set var="baseUrl" value="${request.contextPath}"/>
-      <c:if test="${empty baseUrl}"><c:set var="baseUrl" value="/"/></c:if>
-        var baseUrl = '${baseUrl}';
+      var baseUrl = '${request.contextPath}';
       <c:if test="${header.integrationTesting == true}">$.ajaxSetup({ async: false });</c:if>
     </script>
     <script type="text/javascript" src="<c:url value="/js/main.js" />"></script>
@@ -33,8 +31,8 @@
       <div id="content">
         <div id="messagesContainer">
           <div id="messagesControl">
-            <a id="hideMessagesLink" href="#" onclick="hideMessagePanel();"><img src="<c:url value="/img/up.png"/>" width="16" height="16" alt="Hide message panel" title="Hide message panel"/></a>
-            <a id="showMessagesLink" href="#" onclick="showMessagePanel();"><img src="<c:url value="/img/down.png"/>" width="16" height="16" alt="Show message panel" title="Show message panel"/></a>
+            <a id="hideMessagesLink" href="#"><img src="<c:url value="/img/up.png"/>" width="16" height="16" alt="Hide message panel" title="Hide message panel"/></a>
+            <a id="showMessagesLink" href="#"><img src="<c:url value="/img/down.png"/>" width="16" height="16" alt="Show message panel" title="Show message panel"/></a>
           </div>
           <tags:messages/>
         </div>

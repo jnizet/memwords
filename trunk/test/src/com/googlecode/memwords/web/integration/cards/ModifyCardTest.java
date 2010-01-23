@@ -63,6 +63,12 @@ public class ModifyCardTest extends EditCardTestBase {
         form.getInputByName("url").blur();
         assertTrue(form.getInputByName("iconUrl").getValueAttribute().contains("google"));
         assertTrue(getDisplayedCardIconSrc(page).contains("google"));
+
+        ((HtmlTextInput) form.getInputByName("url")).select();
+        form.getInputByName("url").type("http://www.googlesjdkfhksjdfhksjdhfkjh.com");
+        form.getInputByName("url").blur();
+        assertEquals("/img/card.png", getDisplayedCardIconSrc(page));
+        testErrorExists(page, "An error occurred while getting the icon of the web site. The default icon will be used.");
     }
 
     @Test
