@@ -7,7 +7,7 @@
         return unmaskPassword();
       }); 
       $("#maskPasswordLink").click(function() {
-        return maskPasswordField();
+        return maskPassword();
       });
       $("#cancelButton").click(function() {
         return closeCardDetails();
