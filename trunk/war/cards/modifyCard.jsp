@@ -11,8 +11,8 @@
 <title>Modify a card</title>
 </head>
 <body>
-    <h1>Modify a card</h1>
-    <tags:cardsList cards="${actionBean.cards}"/>
-    <%@ include file="_modifyCard.jsp" %>
+  <h1>Modify a card</h1>
+  <tags:cardsList cards="${actionBean.cards}"/>
+  <%@ include file="_modifyCard.jsp" %>
 </body>
 </html>

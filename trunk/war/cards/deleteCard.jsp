@@ -11,8 +11,8 @@
 <title>Delete a card</title>
 </head>
 <body>
-    <h1>Delete a card</h1>
-    <tags:cardsList cards="${actionBean.cards}"/>
-    <%@ include file="_deleteCard.jsp" %>
+  <h1>Delete a card</h1>
+  <tags:cardsList cards="${actionBean.cards}"/>
+  <%@ include file="_deleteCard.jsp" %>
 </body>
 </html>
