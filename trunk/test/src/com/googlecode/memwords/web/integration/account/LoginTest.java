@@ -29,7 +29,7 @@ public class LoginTest {
         WebClient wc = startWebClient();
         HtmlPage page = wc.getPage(url("/account/Login.action"));
         testBasics(page);
-        testTitle(page, "Login");
+        testTitle(page, "Log in");
     }
 
     @Test
@@ -37,14 +37,14 @@ public class LoginTest {
         WebClient wc = startWebClient();
         HtmlPage page = wc.getPage(url("/account/Login.action"));
         HtmlForm form = page.getHtmlElementById("loginForm");
-        page = form.getInputByValue("Login").click();
-        testTitle(page, "Login");
+        page = form.getInputByValue("Log in").click();
+        testTitle(page, "Log in");
         testErrorExists(page, "User ID is a required field");
         testErrorExists(page, "Master password is a required field");
         form = page.getHtmlElementById("loginForm");
         form.getInputByName("userId").type("test");
         form.getInputByName("masterPassword").type("hello");
-        page = form.getInputByValue("Login").click();
+        page = form.getInputByValue("Log in").click();
         testErrorExists(page, "Login failed. Try again.");
         form = page.getHtmlElementById("loginForm");
         assertEquals("test", form.getInputByName("userId").getValueAttribute());
@@ -64,6 +64,6 @@ public class LoginTest {
         testTitle(indexPage, "Welcome");
         // try to re-click on the cards link : the login page should be displayed
         HtmlPage loginPage = cardsLink.click();
-        testTitle(loginPage, "Login");
+        testTitle(loginPage, "Log in");
     }
 }

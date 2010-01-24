@@ -11,29 +11,14 @@
   </script>
 
   <c:set var="card" value="${actionBean.card}"/>
-  <p>Do you really want to delete the following card?</p>
-  <h2>
-    <tags:cardIcon card="${card}"/>
-    <c:out value="${card.name}"/>
-  </h2>
-  <table>
-    <tr>
-      <th>URL :</th>
-      <td>
-        <c:if test="${!empty card.url}">
-          <a class="out" href="<c:out value="${card.url}"/>"><c:out value="${card.url}"/></a>
-        </c:if>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2">
-        <stripes:form beanclass="com.googlecode.memwords.web.cards.DeleteCardActionBean" id="deleteCardForm">
-          <stripes:hidden name="cardId"/>
-          <stripes:submit name="deleteCard" value="Yes, Delete"/>
-          <stripes:url var="cardsUrl" beanclass="com.googlecode.memwords.web.cards.CardsActionBean"/>
-          <stripes:submit name="cancel" value="No, Cancel" id="cancelButton"/>
-        </stripes:form>
-      </td>
-    </tr>
-  </table>
+  <p>
+    <fmt:message key="cards._deleteCard.deleteConfirmationMessagePattern">
+      <fmt:param value="${card.name}"/>
+    </fmt:message>
+  </p>
+  <stripes:form beanclass="com.googlecode.memwords.web.cards.DeleteCardActionBean" id="deleteCardForm">
+    <stripes:hidden name="cardId"/>
+    <stripes:submit name="deleteCard"><fmt:message key="cards._deleteCard.deleteButton"/></stripes:submit>
+    <stripes:submit name="cancel" id="cancelButton"><fmt:message key="cards._deleteCard.cancelButton"/></stripes:submit>
+  </stripes:form>
 </div>

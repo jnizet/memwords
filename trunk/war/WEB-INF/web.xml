@@ -5,7 +5,14 @@ xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	
-	<filter>
+    <context-param>
+        <param-name>
+            javax.servlet.jsp.jstl.fmt.localizationContext
+        </param-name>
+        <param-value>StripesResources</param-value>
+    </context-param>
+
+    <filter>
         <display-name>Stripes Filter</display-name>
         <filter-name>StripesFilter</filter-name>
         <filter-class>net.sourceforge.stripes.controller.StripesFilter</filter-class>
@@ -24,6 +31,10 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		        com.googlecode.memwords.web.AuthenticationInterceptor
 		    </param-value>
 		</init-param>
+        <init-param>
+            <param-name>LocalePicker.Class</param-name>
+            <param-value>com.googlecode.memwords.web.MwLocalePicker</param-value>
+        </init-param>
 		
         <!-- For Guice -->
         <init-param>

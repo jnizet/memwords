@@ -3,7 +3,7 @@ package com.googlecode.memwords.web.cards;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.validation.SimpleError;
+import net.sourceforge.stripes.validation.ScopedLocalizableError;
 import net.sourceforge.stripes.validation.Validate;
 
 import com.google.inject.Inject;
@@ -43,13 +43,14 @@ public class BaseEditCardActionBean extends BaseCardsActionBean {
             this.iconUrl = cardService.findFavIconUrl(this.url);
             if (this.iconUrl == null) {
                 getContext().getValidationErrors().addGlobalError(
-                    new SimpleError("This web site has no icon. The default icon will be used."));
+                    new ScopedLocalizableError(BaseEditCardActionBean.class.getName(),
+                                               "noIconFound"));
             }
         }
         catch (FavIconException e) {
             getContext().getValidationErrors().addGlobalError(
-                new SimpleError("An error occurred while getting the icon of the web site."
-                                + " The default icon will be used."));
+                new ScopedLocalizableError(BaseEditCardActionBean.class.getName(),
+                                           "errorWhileFetchingIcon"));
         }
         return new ForwardResolution("/cards/_icon.jsp");
     }

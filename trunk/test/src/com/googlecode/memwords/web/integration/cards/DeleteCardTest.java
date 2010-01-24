@@ -13,7 +13,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
- * Integration tests for the Deleta Card page
+ * Integration tests for the Delete Card page
  * @author JB
  */
 public class DeleteCardTest {
@@ -41,7 +41,7 @@ public class DeleteCardTest {
         WebClient wc = startWebClient();
         HtmlPage page = goToDeletePage(wc);
         HtmlForm form = page.getHtmlElementById("deleteCardForm");
-        form.getInputByValue("No, Cancel").click();
+        form.getInputByValue("No, cancel").click();
         WebAssert.assertElementNotPresent(page, "deleteCardForm");
         WebAssert.assertTextPresent(page, "Create a new card");
         assertEquals(3, page.getHtmlElementById("cards")
@@ -53,7 +53,7 @@ public class DeleteCardTest {
         WebClient wc = startWebClient();
         HtmlPage page = goToDeletePage(wc);
         HtmlForm form = page.getHtmlElementById("deleteCardForm");
-        form.getInputByValue("Yes, Delete").click();
+        form.getInputByValue("Yes, delete").click();
         testMessageExists(page, "The card has been deleted");
         WebAssert.assertElementNotPresent(page, "deleteCardForm");
         WebAssert.assertTextPresent(page, "Create a new card");
@@ -68,7 +68,7 @@ public class DeleteCardTest {
         wc.setJavaScriptEnabled(false);
         HtmlPage page = goToDeletePage(wc);
         HtmlForm form = page.getHtmlElementById("deleteCardForm");
-        page = form.getInputByValue("No, Cancel").click();
+        page = form.getInputByValue("No, cancel").click();
         testTitle(page, "Cards");
         WebAssert.assertElementNotPresent(page, "deleteCardForm");
         WebAssert.assertTextPresent(page, "Create a new card");
@@ -82,7 +82,7 @@ public class DeleteCardTest {
         wc.setJavaScriptEnabled(false);
         HtmlPage page = goToDeletePage(wc);
         HtmlForm form = page.getHtmlElementById("deleteCardForm");
-        page = form.getInputByValue("Yes, Delete").click();
+        page = form.getInputByValue("Yes, delete").click();
         testTitle(page, "Cards");
         testMessageExists(page, "The card has been deleted");
         WebAssert.assertElementNotPresent(page, "deleteCardForm");

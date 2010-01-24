@@ -112,7 +112,7 @@ public class CardsTest {
         HtmlAnchor detailsLink = getFirstLinkByText(card1Div, "card1");
 
         HtmlPage detailsPage = detailsLink.click();
-        testTitle(detailsPage, "Card Details");
+        testTitle(detailsPage, "Card details");
 
         HtmlAnchor modifyLink = getFirstLinkByTitle(card2Div, "Modify card");
         HtmlPage modifyPage = modifyLink.click();

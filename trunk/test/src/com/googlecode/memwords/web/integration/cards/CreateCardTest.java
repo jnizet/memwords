@@ -108,7 +108,7 @@ public class CreateCardTest extends EditCardTestBase {
         form.getInputByName("password").type("password");
         form.getInputByValue("Create card").click();
 
-        testMessageExists(page, "Card card4 created");
+        testMessageExists(page, "The card \"card4\" has been created");
         HtmlDivision cardsDiv = page.getHtmlElementById("cards");
         List<HtmlDivision> cardDivs = cardsDiv.getElementsByAttribute("div", "class", "card");
         assertEquals(4, cardDivs.size());
@@ -156,7 +156,7 @@ public class CreateCardTest extends EditCardTestBase {
         HtmlPage cardsPage = form.getInputByValue("Create card").click();
 
         testTitle(cardsPage, "Cards");
-        testMessageExists(cardsPage, "Card card4 created");
+        testMessageExists(cardsPage, "The card \"card4\" has been created.");
         HtmlDivision cardsDiv = cardsPage.getHtmlElementById("cards");
         List<HtmlDivision> cardDivs = cardsDiv.getElementsByAttribute("div", "class", "card");
         assertEquals(4, cardDivs.size());
@@ -174,6 +174,6 @@ public class CreateCardTest extends EditCardTestBase {
         form.getInputByName("name").type("card1");
         form.getInputByValue("Create card").click();
 
-        testErrorExists(page, "You already have a card with the name card1");
+        testErrorExists(page, "You already have a card with the name \"card1\".");
     }
 }

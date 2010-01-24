@@ -102,7 +102,7 @@ public final class IntegrationUtils {
         HtmlForm form = page.getHtmlElementById("loginForm");
         form.getInputByName("userId").type("test");
         form.getInputByName("masterPassword").type("test");
-        page = form.getInputByValue("Login").click();
+        page = form.getInputByValue("Log in").click();
         testTitle(page, "Cards");
     }
 

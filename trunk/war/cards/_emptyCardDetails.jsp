@@ -8,7 +8,6 @@
   </script>
   <h2>
     <stripes:link beanclass="com.googlecode.memwords.web.cards.CreateCardActionBean"
-                  id="createCardLink" 
-                  title="Create a new card"><img src="<c:url value="/img/add.png"/>" class="cardIcon" alt=""/>Create a new card</stripes:link>
+                  id="createCardLink"><img src="<c:url value="/img/add.png"/>" class="cardIcon" alt=""/><fmt:message key="cards._emptyCardDetails.createCardLink"/></stripes:link>
   </h2>
 </div>

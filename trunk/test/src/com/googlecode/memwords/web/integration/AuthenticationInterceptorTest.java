@@ -30,7 +30,7 @@ public class AuthenticationInterceptorTest {
     public void testGetRequest() throws Exception {
         WebClient wc = startWebClient();
         HtmlPage page = wc.getPage(url("/cards/CreateCard.action"));
-        testTitle(page, "Login");
+        testTitle(page, "Log in");
         HtmlPage pageAfterLogin = login(page);
         testTitle(pageAfterLogin, "Create a card");
     }
@@ -40,7 +40,7 @@ public class AuthenticationInterceptorTest {
         WebClient wc = startWebClient();
         String url = url("/cards/CreateCard.action?name=card4");
         HtmlPage page = wc.getPage(url);
-        testTitle(page, "Login");
+        testTitle(page, "Log in");
         HtmlPage pageAfterLogin = login(page);
         testTitle(pageAfterLogin, "Create a card");
         assertEquals(url, page.getWebResponse().getRequestSettings().getUrl().toString());
@@ -52,7 +52,7 @@ public class AuthenticationInterceptorTest {
         WebRequestSettings request =
             new WebRequestSettings(new URL(url("/cards/CreateCard.action")), HttpMethod.POST);
         HtmlPage page = wc.getPage(request);
-        testTitle(page, "Login");
+        testTitle(page, "Log in");
         HtmlPage pageAfterLogin = login(page);
         testTitle(pageAfterLogin, "Cards");
     }
@@ -72,7 +72,7 @@ public class AuthenticationInterceptorTest {
         HtmlForm loginForm = loginPage.getHtmlElementById("loginForm");
         loginForm.getInputByName("userId").type("test");
         loginForm.getInputByName("masterPassword").type("test");
-        HtmlPage result = loginForm.getInputByValue("Login").click();
+        HtmlPage result = loginForm.getInputByValue("Log in").click();
         return result;
     }
 }

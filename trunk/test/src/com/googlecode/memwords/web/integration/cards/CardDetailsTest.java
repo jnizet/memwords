@@ -33,9 +33,9 @@ public class CardDetailsTest {
         wc = startWebClient();
         wc.setJavaScriptEnabled(false);
         page = goToDetailsPage(wc);
-        testTitle(page, "Card Details");
+        testTitle(page, "Card details");
         testBasics(page);
-        testTitle(page, "Card Details");
+        testTitle(page, "Card details");
     }
 
     @Test
