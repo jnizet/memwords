@@ -178,7 +178,7 @@ public class ModifyCardTest extends EditCardTestBase {
         form.getInputByValue("Modify card").click();
 
         testErrorExists(page, "Name is a required field");
-        testErrorExists(page, "Login / User ID is a required field");
+        testErrorExists(page, "Login is a required field");
         testErrorExists(page, "Password is a required field");
 
         form = page.getHtmlElementById("modifyCardForm");

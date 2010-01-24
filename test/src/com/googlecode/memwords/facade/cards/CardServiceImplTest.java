@@ -59,8 +59,8 @@ public class CardServiceImplTest extends GAETestCase {
 
     @Test
     public void testGetCards() {
-        CardDetails cardDetails1 = new CardDetails(null, "name", "login", "password", "url", "iconUrl");
-        CardDetails cardDetails2 = new CardDetails(null, "name2", "login2", "password2", "url2", "iconUrl2");
+        CardDetails cardDetails1 = new CardDetails(null, "name", "login", "password", "url", "iconUrl", "note");
+        CardDetails cardDetails2 = new CardDetails(null, "name2", "login2", "password2", "url2", "iconUrl2", "note2");
         Card card2 = impl.createCard(userId, cardDetails2, encryptionKey);
         Card card1 = impl.createCard(userId, cardDetails1, encryptionKey);
         List<CardBasicInformation> cards = impl.getCards(userId, encryptionKey);
@@ -81,7 +81,7 @@ public class CardServiceImplTest extends GAETestCase {
     @Test
     public void testCardExists() {
         assertFalse(impl.cardExists(userId, "name", null, encryptionKey));
-        CardDetails cardDetails1 = new CardDetails(null, "name", "login", "password", "url", "iconUrl");
+        CardDetails cardDetails1 = new CardDetails(null, "name", "login", "password", "url", "iconUrl", "note");
         Card card1 = impl.createCard(userId, cardDetails1, encryptionKey);
         assertTrue(impl.cardExists(userId, "name", null, encryptionKey));
         assertFalse(impl.cardExists(userId, "name", card1.getId(), encryptionKey));
@@ -89,7 +89,7 @@ public class CardServiceImplTest extends GAETestCase {
 
     @Test
     public void testCreateCard() {
-        CardDetails cardDetails = new CardDetails(null, "name", "login", "password", "url", "iconUrl");
+        CardDetails cardDetails = new CardDetails(null, "name", "login", "password", "url", "iconUrl", "note");
         Card card = impl.createCard(userId, cardDetails, encryptionKey);
         assertEquals(userId, card.getAccount().getUserId());
         assertEquals(1, card.getAccount().getCards().size());
@@ -113,13 +113,17 @@ public class CardServiceImplTest extends GAETestCase {
                      cryptoEngine.decryptString(card.getUrl(),
                                                 encryptionKey,
                                                 card.getInitializationVector()));
+        assertEquals(cardDetails.getNote(),
+                     cryptoEngine.decryptString(card.getNote(),
+                                                encryptionKey,
+                                                card.getInitializationVector()));
     }
 
     @Test
     public void testModifyCard() {
-        CardDetails cardDetails = new CardDetails(null, "name", "login", "password", "url", "iconUrl");
+        CardDetails cardDetails = new CardDetails(null, "name", "login", "password", "url", "iconUrl", "note");
         Card card = impl.createCard(userId, cardDetails, encryptionKey);
-        CardDetails cardDetails2 = new CardDetails(card.getId(), "name2", "login2", "password2", "url2", "iconUrl2");
+        CardDetails cardDetails2 = new CardDetails(card.getId(), "name2", "login2", "password2", "url2", "iconUrl2", "note2");
         Card card2 = impl.modifyCard(cardDetails2, encryptionKey);
         assertEquals(card2.getId(), card.getId());
         CardDetails result = impl.getCardDetails(card.getId(), encryptionKey);
@@ -128,13 +132,14 @@ public class CardServiceImplTest extends GAETestCase {
         assertEquals(cardDetails2.getName(), result.getName());
         assertEquals(cardDetails2.getPassword(), result.getPassword());
         assertEquals(cardDetails2.getUrl(), result.getUrl());
+        assertEquals(cardDetails2.getNote(), result.getNote());
     }
 
     @Test
     public void testGetCardDetails() {
         assertNull(impl.getCardDetails("cardId", encryptionKey));
 
-        CardDetails cardDetails = new CardDetails(null, "name", "login", "password", "url", "iconUrl");
+        CardDetails cardDetails = new CardDetails(null, "name", "login", "password", "url", "iconUrl", "note");
         Card card = impl.createCard(userId, cardDetails, encryptionKey);
         CardDetails result = impl.getCardDetails(card.getId(), encryptionKey);
         assertEquals(cardDetails.getIconUrl(), result.getIconUrl());
@@ -142,11 +147,12 @@ public class CardServiceImplTest extends GAETestCase {
         assertEquals(cardDetails.getName(), result.getName());
         assertEquals(cardDetails.getPassword(), result.getPassword());
         assertEquals(cardDetails.getUrl(), result.getUrl());
+        assertEquals(cardDetails.getNote(), result.getNote());
     }
 
     @Test
     public void testDeleteCard() {
-        CardDetails cardDetails = new CardDetails(null, "name", "login", "password", "url", "iconUrl");
+        CardDetails cardDetails = new CardDetails(null, "name", "login", "password", "url", "iconUrl", "note");
         Card card = impl.createCard(userId, cardDetails, encryptionKey);
         assertNotNull(impl.getCardDetails(card.getId(), encryptionKey));
         impl.deleteCard(card.getId());

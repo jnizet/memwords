@@ -51,7 +51,7 @@ function unmaskPassword() {
  * Used in the card details and delete card pages.
  * @return false
  */
-function maskPasswordField() {
+function maskPassword() {
     $("#passwordDiv").attr("class", "masked");
     $("#unmaskPasswordLink").show();
     $("#maskPasswordLink").hide();
@@ -109,7 +109,7 @@ function loadCardIcon() {
 }
 
 /**
- * Changed the visibility of the Test URL link depending on the value entered in
+ * Changes the visibility of the Test URL link depending on the value entered in
  * the URL text field of the create or modify card form. The link is displayed if the 
  * URL is valid
  */

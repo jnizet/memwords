@@ -11,61 +11,61 @@ import javax.persistence.ManyToOne;
 import org.datanucleus.jpa.annotations.Extension;
 
 /**
- * A card, linked to an account, containing authentication information, usually for a web site, 
+ * A card, linked to an account, containing authentication information, usually for a web site,
  * or for an application
  * @author JB
  */
 @SuppressWarnings("serial")
 @Entity
 public class Card implements Serializable {
-    
+
     /**
      * The auto-generated ID
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Extension(vendorName = "datanucleus", 
-               key = "gae.encoded-pk", 
+    @Extension(vendorName = "datanucleus",
+               key = "gae.encoded-pk",
                value = "true")
     private String id;
-    
+
     /**
      * The initialization vector (IV) used to encrypt/decrypt information stored in this card.
      * The use of a different IV for each card makes sure that if two cards have the same password,
      * the encrypted value stored in the database will be different.
      */
     private byte[] initializationVector;
-    
+
     /**
      * The name of the web site or application (encrypted)
      */
     private byte[] name;
-    
+
     /**
      * The URL of the web site (encrypted)
      */
     private byte[] url;
-    
+
     /**
      * The URL of the icon of the card (encrypted)
      */
     private byte[] iconUrl;
-    
+
     /**
-     * The description of the web site or application (encrypted)
+     * The note attached to the card (encrypted)
      */
-    private byte[] description;
-    
+    private byte[] note;
+
     /**
      * The login of the web site or application (encrypted)
      */
     private byte[] login;
-    
+
     /**
      * The password of the web site or application (encrypted)
      */
     private byte[] password;
-    
+
     /**
      * The account of the authentication info
      */
@@ -79,11 +79,11 @@ public class Card implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
-    
+
     public byte[] getInitializationVector() {
         return initializationVector;
     }
-    
+
     public void setInitializationVector(byte[] initializationVector) {
         this.initializationVector = initializationVector;
     }
@@ -112,12 +112,12 @@ public class Card implements Serializable {
         this.iconUrl = iconUrl;
     }
 
-    public byte[] getDescription() {
-        return description;
+    public byte[] getNote() {
+        return note;
     }
 
-    public void setDescription(byte[] description) {
-        this.description = description;
+    public void setNote(byte[] note) {
+        this.note = note;
     }
 
     public byte[] getLogin() {
