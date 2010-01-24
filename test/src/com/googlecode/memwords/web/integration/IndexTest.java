@@ -34,7 +34,7 @@ public class IndexTest {
         HtmlPage page = wc.getPage(url("/"));
         HtmlAnchor loginLink = getSideBarLink(page, "Log in");
         HtmlPage loginPage = loginLink.click();
-        testTitle(loginPage, "Login");
+        testTitle(loginPage, "Log in");
 
         HtmlAnchor createAccountLink = getSideBarLink(page, "Create account");
         HtmlPage createAccountPage = createAccountLink.click();

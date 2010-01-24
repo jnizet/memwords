@@ -18,9 +18,8 @@
       <%@ include file="_editCardRows.jsp" %>
       <tr>
         <td colspan="2">
-          <stripes:submit name="modifyCard" value="Modify card" id="submitButton"/>
-          <stripes:url var="cardsUrl" beanclass="com.googlecode.memwords.web.cards.CardsActionBean"/>
-          <stripes:submit name="cancel" value="Cancel" id="cancelButton"/>
+          <stripes:submit name="modifyCard" id="submitButton"><fmt:message key="cards._modifyCard.submitButton"/></stripes:submit>
+          <stripes:submit name="cancel" id="cancelButton"><fmt:message key="cards._modifyCard.cancelButton"/></stripes:submit>
         </td>
       </tr>
     </table>

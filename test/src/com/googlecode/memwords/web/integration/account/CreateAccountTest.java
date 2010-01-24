@@ -54,26 +54,26 @@ public class CreateAccountTest {
         WebClient wc = startWebClient();
         HtmlPage page = wc.getPage(url("/account/CreateAccount.action"));
         HtmlForm form = page.getHtmlElementById("createAccountForm");
-        page = form.getInputByValue("Create Account").click();
+        page = form.getInputByValue("Create account").click();
         testTitle(page, "Create an account");
-        testErrorExists(page, "Master Password is a required field");
-        testErrorExists(page, "Master Password Confirmation is a required field");
+        testErrorExists(page, "Master password is a required field");
+        testErrorExists(page, "Master password confirmation is a required field");
         testErrorExists(page, "User ID is a required field");
 
         form = page.getHtmlElementById("createAccountForm");
         form.getInputByName("masterPassword").type("a");
         form.getInputByName("masterPassword2").type("b");
-        page = form.getInputByValue("Create Account").click();
+        page = form.getInputByValue("Create account").click();
         testTitle(page, "Create an account");
-        testErrorExists(page, "Master Password must be at least 4 characters long");
+        testErrorExists(page, "Master password must be at least 4 characters long");
         testErrorExists(page, "The master password confirmation must be identical to the master password");
 
         form.getInputByName("userId").type("test");
         form.getInputByName("masterPassword").type("password");
         form.getInputByName("masterPassword2").type("password");
-        page = form.getInputByValue("Create Account").click();
+        page = form.getInputByValue("Create account").click();
         testTitle(page, "Create an account");
-        testErrorExists(page, "User ID \"test\" is not available");
+        testErrorExists(page, "The user ID \"test\" is not available");
     }
 
     @Test
@@ -84,7 +84,7 @@ public class CreateAccountTest {
         form.getInputByName("userId").type("test2");
         form.getInputByName("masterPassword").type("password2");
         form.getInputByName("masterPassword2").type("password2");
-        page = form.getInputByValue("Create Account").click();
+        page = form.getInputByValue("Create account").click();
         testTitle(page, "Cards");
     }
 }

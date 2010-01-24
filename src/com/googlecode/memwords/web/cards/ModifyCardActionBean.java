@@ -5,7 +5,6 @@ import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.SimpleMessage;
 import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.ValidationErrorHandler;
 import net.sourceforge.stripes.validation.ValidationErrors;
@@ -15,6 +14,7 @@ import net.sourceforge.stripes.validation.ValidationState;
 import com.google.inject.Inject;
 import com.googlecode.memwords.domain.CardDetails;
 import com.googlecode.memwords.facade.cards.CardService;
+import com.googlecode.memwords.web.util.ScopedLocalizableMessage;
 
 /**
  * Action bean used to modify a    card
@@ -69,7 +69,9 @@ public class ModifyCardActionBean extends BaseEditCardActionBean implements Vali
         cardService.modifyCard(
                 cardDetails,
                 getContext().getUserInformation().getEncryptionKey());
-        getContext().getMessages().add(new SimpleMessage("Card {0} modified", cardDetails.getName()));
+        getContext().getMessages().add(new ScopedLocalizableMessage(ModifyCardActionBean.class,
+                                                                    "cardModified",
+                                                                    cardDetails.getName()));
     }
 
     @ValidationMethod(on = {"modifyCard", "ajaxModifyCard"}, when = ValidationState.ALWAYS)

@@ -1,5 +1,5 @@
 <tr>
-  <th><label class="mandatory">Name :</label></th>
+  <th><label class="mandatory"><fmt:message key="cards._editCardRows.nameLabel"/></label></th>
   <td>
     <stripes:text name="name"/>
     <%-- fake password field in order to avoid autocomplete and "autoclear" of password field --%>
@@ -7,22 +7,22 @@
   </td>
 </tr>
 <tr>
-  <th><label class="mandatory">Login :</label></th>
+  <th><label class="mandatory"><fmt:message key="cards._editCardRows.loginLabel"/></label></th>
   <td><stripes:text name="login"/></td>
 </tr>
 <tr>
-  <th><label class="mandatory">Password :</label></th>
+  <th><label class="mandatory"><fmt:message key="cards._editCardRows.passwordLabel"/></label></th>
   <td><stripes-d:password name="password" autocomplete="off" repopulate="true"/></td>
 </tr>
 <tr>
-  <th>URL :</th>
+  <th><fmt:message key="cards._editCardRows.urlLabel"/></th>
   <td>
      <stripes:text name="url" id="urlTextField" size="30"/>
-     <a class="external" style="display: none;" id="testUrlLink" target="_blank" href="#">Test</a>
+     <a class="external" style="display: none;" id="testUrlLink" target="_blank" href="#"><fmt:message key="cards._editCardRows.testUrlLink"/></a>
   </td>
 </tr>
 <tr>
-  <th>Icon :</th>
+  <th><fmt:message key="cards._editCardRows.iconLabel"/></th>
   <td>
      <stripes:hidden name="iconUrl" id="iconUrlHiddenField"/>
      <span id="defaultIconUrlSpan" <tags:hideIf test="${!empty actionBean.iconUrl}"/>>
@@ -35,7 +35,7 @@
   </td>
 </tr>
 <tr>
-  <th style="vertical-align: top;">Note :</th>
+  <th style="vertical-align: top;"><fmt:message key="cards._editCardRows.noteLabel"/></th>
   <td>
      <stripes:textarea name="note" cols="45" rows="3"/>
   </td>
