@@ -1,6 +1,6 @@
 <%@ taglib prefix="stripes-d" uri="http://stripes.sourceforge.net/stripes-dynattr.tld" %>
 <div id="cardDetails">
-  <script type=text/javascript>
+  <script type="text/javascript">
     <%@ include file="_editCardJs.jsp" %>
     $("document").ready(function() {
       var form = $("#modifyCardForm")

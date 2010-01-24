@@ -1,5 +1,5 @@
 <div id="cardDetails">
-  <script type=text/javascript>
+  <script type="text/javascript">
     $("document").ready(function() {
       var form = $("#deleteCardForm")
       changeFormEvent(form, "deleteCard", "ajaxDeleteCard");
