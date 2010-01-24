@@ -126,7 +126,7 @@ img {
  */
 div#cards {
   padding: 0;
-  width: 430px;
+  min-width: 330px;
   float: left;
 }
 div.card, div#cardDetails {
@@ -139,11 +139,11 @@ div.card, div#cardDetails {
   -moz-border-radius-topright: 3px;
 }
 div.card {
-  width: 200px;
+  min-width: 150px;
   float: left;
 }
 div#cardDetails {
-  width: 400px;
+  min-width: 400px;
   min-height: 400px;
   float: left;
   position: relative;

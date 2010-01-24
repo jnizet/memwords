@@ -30,6 +30,8 @@ public class BaseEditCardActionBean extends BaseCardsActionBean {
 
     protected String iconUrl;
 
+    protected String note;
+
     @Inject
     public BaseEditCardActionBean(CardService cardService) {
         super(cardService);
@@ -90,5 +92,13 @@ public class BaseEditCardActionBean extends BaseCardsActionBean {
 
     public void setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

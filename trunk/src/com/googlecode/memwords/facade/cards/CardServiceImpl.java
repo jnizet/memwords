@@ -127,6 +127,9 @@ public class CardServiceImpl implements CardService {
         card.setIconUrl(cryptoEngine.encryptString(cardDetails.getIconUrl(),
                                                    encryptionKey,
                                                    card.getInitializationVector()));
+        card.setNote(cryptoEngine.encryptString(cardDetails.getNote(),
+                                                encryptionKey,
+                                                card.getInitializationVector()));
     }
 
     @Override
@@ -168,7 +171,11 @@ public class CardServiceImpl implements CardService {
                                            card.getInitializationVector()),
                 cryptoEngine.decryptString(card.getIconUrl(),
                                            encryptionKey,
-                                           card.getInitializationVector()));
+                                           card.getInitializationVector()),
+                 cryptoEngine.decryptString(card.getNote(),
+                                            encryptionKey,
+                                            card.getInitializationVector()));
+
     }
 
     @Override

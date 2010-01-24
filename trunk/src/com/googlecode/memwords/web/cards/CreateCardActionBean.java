@@ -51,7 +51,7 @@ public class CreateCardActionBean extends BaseEditCardActionBean implements Vali
     }
 
     protected void doCreateCard() {
-        CardDetails cardDetails = new CardDetails(null, name, login, password, url, iconUrl);
+        CardDetails cardDetails = new CardDetails(null, name, login, password, url, iconUrl, note);
         cardService.createCard(
                 getContext().getUserInformation().getUserId(),
                 cardDetails,

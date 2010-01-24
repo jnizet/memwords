@@ -7,7 +7,7 @@
   </td>
 </tr>
 <tr>
-  <th><label class="mandatory">Login / User ID :</label></th>
+  <th><label class="mandatory">Login :</label></th>
   <td><stripes:text name="login"/></td>
 </tr>
 <tr>
@@ -32,5 +32,11 @@
        <img src="<c:out value="${actionBean.iconUrl}"/>" class="cardIcon" alt=""/>
      </span>
      <span id="iconUrlLoadingSpan"></span>
+  </td>
+</tr>
+<tr>
+  <th style="vertical-align: top;">Note :</th>
+  <td>
+     <stripes:textarea name="note" cols="45" rows="3"/>
   </td>
 </tr>

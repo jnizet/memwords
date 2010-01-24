@@ -26,7 +26,7 @@
   <h2><tags:cardIcon card="${card}" /> <c:out value="${card.name}" /></h2>
   <table>
     <tr>
-      <th>Login / User ID :</th>
+      <th>Login :</th>
       <td><c:out value="${card.login}" /></td>
     </tr>
     <tr>
@@ -42,6 +42,10 @@
           <a class="external" target="_blank" href="<c:out value="${card.url}"/>"><c:out value="${card.url}" /></a>
         </c:if>
       </td>
+    </tr>
+    <tr>
+      <th style="vertical-align: top;">Note :</th>
+      <td><tags:nlToBr value="${card.note}"/></td>
     </tr>
     <tr>
       <td colspan="2">

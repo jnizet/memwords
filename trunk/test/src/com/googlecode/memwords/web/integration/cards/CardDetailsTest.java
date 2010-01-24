@@ -48,6 +48,7 @@ public class CardDetailsTest {
         assertTrue(text.contains("login1"));
         assertTrue(text.contains("password1"));
         assertTrue(text.contains("http://www.google.com"));
+        assertTrue(text.contains("This is the note\r\nfor card1"));
     }
 
     @Test

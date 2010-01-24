@@ -116,7 +116,8 @@ public class IntegrationTestsActionBean extends MwActionBean {
                                                   "login1",
                                                   "password1",
                                                   "http://www.google.com",
-                                                  "http://www.google.com/favicon.ico");
+                                                  "http://www.google.com/favicon.ico",
+                                                  "This is the note\nfor card1");
         cardService.createCard(testUserId,
                                cardDetails,
                                testSecretKey);
@@ -125,7 +126,8 @@ public class IntegrationTestsActionBean extends MwActionBean {
                                       "login2",
                                       "password2",
                                       "http://www.yahoo.com",
-                                      "http://www.yahoo.com/favicon.ico");
+                                      "http://www.yahoo.com/favicon.ico",
+                                      "This is the note\nfor card2");
         cardService.createCard(testUserId,
                                cardDetails,
                                testSecretKey);
@@ -134,7 +136,8 @@ public class IntegrationTestsActionBean extends MwActionBean {
                                       "login3",
                                       "password3",
                                       "http://www.my.site.com",
-                                      null);
+                                      null,
+                                      "This is the note\nfor card3");
         cardService.createCard(testUserId,
                                cardDetails,
                                testSecretKey);
