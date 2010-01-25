@@ -180,7 +180,7 @@ div#cardDetailsLinks {
   right: 0px;
   width: 100%;
 }
-img.cardIcon, img.loading {
+img.cardIcon, img.loading, img.icon {
   width: 16px;
   height: 16px;
   vertical-align: middle;
@@ -205,9 +205,13 @@ div.masked::-moz-selection {
 }
 div.masked::selection  {
   background: 134879;
-  color: transparent;	
+  color: transparent;
 }
-label.mandatory {
+label.required {
   background: transparent url(../img/go.png) no-repeat scroll left center;
   padding: 0 0 0 16px;
+}
+div.formNotice {
+  font-style: italic;
+  font-size: small;
 }

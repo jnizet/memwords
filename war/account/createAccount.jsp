@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -16,6 +17,7 @@
     $("#userId").bind("blur", function () {
         loadUserIdAvailability();
     });
+    $("#userId").focus();
   });
 </script>
 </head>
@@ -23,19 +25,20 @@
   <h1><fmt:message key="account.createAccount.h1"/></h1>
 
   <p><fmt:message key="account.createAccount.fillFormMessage"/></p>
+  <tags:formNotice/>
   <stripes:form beanclass="com.googlecode.memwords.web.account.CreateAccountActionBean" 
                 id="createAccountForm">
     <table>
       <tr>
-        <th><fmt:message key="account.createAccount.userIdLabel"/></th>
+        <th><label class="required"><fmt:message key="account.createAccount.userIdLabel"/></label></th>
         <td><stripes:text name="userId" id="userId" /><span id="userIdAvailability"></span></td>
       </tr>
       <tr>
-        <th><fmt:message key="account.createAccount.masterPasswordLabel"/></th>
+        <th><label class="required"><fmt:message key="account.createAccount.masterPasswordLabel"/></label></th>
         <td><stripes:password name="masterPassword" /></td>
       </tr>
       <tr>
-        <th><fmt:message key="account.createAccount.masterPasswordConfirmationLabel"/></th>
+        <th><label class="required"><fmt:message key="account.createAccount.masterPasswordConfirmationLabel"/></label></th>
         <td><stripes:password name="masterPassword2" /></td>
       </tr>
       <tr>

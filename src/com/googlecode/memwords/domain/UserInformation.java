@@ -13,7 +13,7 @@ import javax.crypto.SecretKey;
 public final class UserInformation implements Serializable {
     private String userId;
     private SecretKey encryptionKey;
-    
+
     public UserInformation(String userId, SecretKey encryptionKey) {
         this.userId = userId;
         this.encryptionKey = encryptionKey;
@@ -25,5 +25,13 @@ public final class UserInformation implements Serializable {
 
     public SecretKey getEncryptionKey() {
         return encryptionKey;
+    }
+
+    public UserInformation withoutSecretKey() {
+        return new UserInformation(userId, null);
+    }
+
+    public UserInformation withSecretKey(SecretKey secretKey) {
+        return new UserInformation(userId, secretKey);
     }
 }

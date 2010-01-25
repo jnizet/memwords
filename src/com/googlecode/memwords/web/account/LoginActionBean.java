@@ -1,5 +1,7 @@
 package com.googlecode.memwords.web.account;
 
+import java.io.IOException;
+
 import javax.crypto.SecretKey;
 
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -45,7 +47,7 @@ public class LoginActionBean extends MwActionBean {
         return new ForwardResolution("/account/login.jsp");
     }
 
-    public Resolution login() {
+    public Resolution login() throws IOException {
         SecretKey encryptionKey =
             accountService.login(userId, masterPassword);
         if (encryptionKey == null) {
@@ -53,7 +55,7 @@ public class LoginActionBean extends MwActionBean {
                     new LocalizableError("loginFailed"));
             return getContext().getSourcePageResolution();
         }
-        getContext().setUserInformation(new UserInformation(userId, encryptionKey));
+        getContext().login(new UserInformation(userId, encryptionKey));
 
         if (requestedUrl != null) {
             return new RedirectResolution(requestedUrl, false);
@@ -64,7 +66,7 @@ public class LoginActionBean extends MwActionBean {
 
     @DontValidate
     public Resolution logout() {
-        getContext().setUserInformation(null);
+        getContext().logout();
         return new RedirectResolution(IndexActionBean.class);
     }
 

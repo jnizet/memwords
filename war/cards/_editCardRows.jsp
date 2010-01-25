@@ -1,17 +1,17 @@
 <tr>
-  <th><label class="mandatory"><fmt:message key="cards._editCardRows.nameLabel"/></label></th>
+  <th><label class="required"><fmt:message key="cards._editCardRows.nameLabel"/></label></th>
   <td>
-    <stripes:text name="name"/>
+    <stripes:text name="name" id="nameInput"/>
     <%-- fake password field in order to avoid autocomplete and "autoclear" of password field --%>
     <input type="password" name="" style="display: none;"/>
   </td>
 </tr>
 <tr>
-  <th><label class="mandatory"><fmt:message key="cards._editCardRows.loginLabel"/></label></th>
+  <th><label class="required"><fmt:message key="cards._editCardRows.loginLabel"/></label></th>
   <td><stripes:text name="login"/></td>
 </tr>
 <tr>
-  <th><label class="mandatory"><fmt:message key="cards._editCardRows.passwordLabel"/></label></th>
+  <th><label class="required"><fmt:message key="cards._editCardRows.passwordLabel"/></label></th>
   <td><stripes-d:password name="password" autocomplete="off" repopulate="true"/></td>
 </tr>
 <tr>
