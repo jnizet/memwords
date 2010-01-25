@@ -9,8 +9,11 @@
       $("#cancelButton").click(function() {
         return closeCardDetails();
       });
+      $("#nameInput").focus();
     });
   </script>
+  <h2><fmt:message key="cards._createCard.h2"/></h2>
+  <tags:formNotice/>
   <stripes:form id="createCardForm"
                 beanclass="com.googlecode.memwords.web.cards.CreateCardActionBean">
     <table>

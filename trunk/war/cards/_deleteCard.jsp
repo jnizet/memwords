@@ -10,6 +10,7 @@
     });
   </script>
 
+  <h2><fmt:message key="cards._deleteCard.h2"/></h2>
   <c:set var="card" value="${actionBean.card}"/>
   <p>
     <fmt:message key="cards._deleteCard.deleteConfirmationMessagePattern">

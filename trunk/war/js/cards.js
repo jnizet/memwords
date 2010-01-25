@@ -131,3 +131,21 @@ function changeTestUrlVisibility() {
 function isUrlValid(u) {
     return (u.indexOf("http://") == 0) || (u.indexOf("https://") == 0);
 }
+
+/**
+ * Binds the click events of the links found in the cards list
+ * @param cardIds the IDs of the cards in the list
+ */
+function bindCardsListEvents(cardIds) {
+    for (var i = 0; i < cardIds.length; i++) {
+        $("#displayCardLink_" + cardIds[i]).bind("click", {cardId: cardIds[i]}, function(event) {
+            return displayCard(event.data.cardId);
+        });
+        $("#modifyCardLink_" + cardIds[i]).bind("click", {cardId: cardIds[i]}, function(event) {
+            return modifyCard(event.data.cardId);
+        });
+        $("#deleteCardLink_" + cardIds[i]).bind("click", {cardId: cardIds[i]}, function(event) {
+            return deleteCard(event.data.cardId);
+        });
+    }
+}

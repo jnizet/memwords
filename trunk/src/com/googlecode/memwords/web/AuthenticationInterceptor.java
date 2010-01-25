@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.ErrorResolution;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -19,7 +18,9 @@ import com.googlecode.memwords.web.util.AjaxUtils;
 import com.googlecode.memwords.web.util.IntegrationTestsActionBean;
 
 /**
- * Stripes interceptor verifying that the user is authenticated.
+ * Stripes interceptor which restores the secret key, if found in a cookie, into the user
+ * information (see {@link MwActionBeanContext#loadUserInformation()}.
+ * It then verifies that the user is authenticated.
  * If the user is authenticated, the filter soesn't do anything.
  * If the request is for the index, create account, or login page, it doesn't do
  * anything.
@@ -36,14 +37,17 @@ public class AuthenticationInterceptor implements Interceptor {
 
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
     public Resolution intercept(ExecutionContext ctx) throws Exception {
+        MwActionBeanContext actionBeanContext = (MwActionBeanContext) ctx.getActionBeanContext();
+        actionBeanContext.loadUserInformation();
+
         if (isPermittedWithoutLogin(ctx.getActionBean())) {
             return ctx.proceed();
         }
-        else if (!isLoggedIn(ctx.getActionBeanContext())) {
-            if (AjaxUtils.isAjaxRequest(ctx.getActionBeanContext().getRequest())) {
+        else if (!actionBeanContext.isLoggedIn()) {
+            if (AjaxUtils.isAjaxRequest(actionBeanContext.getRequest())) {
                 return new ErrorResolution(HttpServletResponse.SC_FORBIDDEN, null);
             }
-            addRequestedUrlToContext(ctx.getActionBeanContext());
+            addRequestedUrlToContext(actionBeanContext);
             return new ForwardResolution(LoginActionBean.class);
         }
         else {
@@ -51,8 +55,7 @@ public class AuthenticationInterceptor implements Interceptor {
         }
     }
 
-    private void addRequestedUrlToContext(ActionBeanContext actionBeanContext) {
-        MwActionBeanContext ctx = (MwActionBeanContext) actionBeanContext;
+    private void addRequestedUrlToContext(MwActionBeanContext ctx) {
         HttpServletRequest request = ctx.getRequest();
         if ("GET".equals(request.getMethod())) {
             String url = request.getRequestURL().toString();
@@ -69,12 +72,5 @@ public class AuthenticationInterceptor implements Interceptor {
                || actionBeanClass.equals(LoginActionBean.class)
                || actionBeanClass.equals(CreateAccountActionBean.class)
                || actionBeanClass.equals(IntegrationTestsActionBean.class);
-    }
-
-    /**
-     * Returns <code>true</code> if the user is logged in.
-     */
-    private boolean isLoggedIn(ActionBeanContext ctx) {
-        return ((MwActionBeanContext) ctx).isLoggedIn();
     }
 }
