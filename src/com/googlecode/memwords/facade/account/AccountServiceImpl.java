@@ -1,6 +1,7 @@
 package com.googlecode.memwords.facade.account;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 import javax.crypto.SecretKey;
 import javax.persistence.EntityManager;
@@ -9,6 +10,7 @@ import javax.persistence.EntityTransaction;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlecode.memwords.domain.Account;
+import com.googlecode.memwords.domain.UserInformation;
 import com.googlecode.memwords.facade.util.CryptoEngine;
 
 /**
@@ -33,7 +35,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public SecretKey createAccount(String userId, String masterPassword) {
+    public UserInformation createAccount(String userId, String masterPassword) {
         SecretKey secretKey = cryptoEngine.generateEncryptionKey();
         byte[] persistentPassword = buildPersistentPassword(userId, masterPassword);
         SecretKey wrappingKey = buildWrappingKey(userId, masterPassword);
@@ -49,7 +51,7 @@ public class AccountServiceImpl implements AccountService {
             account.setEncryptedSecretKey(encryptedSecretKey);
             em.persist(account);
             tx.commit();
-            return secretKey;
+            return new UserInformation(account.getUserId(), secretKey, account.getPreferredLocale());
         }
         finally {
             if (tx.isActive()) {
@@ -59,7 +61,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public SecretKey login(String userId, String masterPassword) {
+    public UserInformation login(String userId, String masterPassword) {
         Account account = getAccount(userId);
         if (account == null) {
             return null;
@@ -73,7 +75,8 @@ public class AccountServiceImpl implements AccountService {
         byte[] encryptionKeyAsBytes = cryptoEngine.decrypt(account.getEncryptedSecretKey(),
                                                            wrappingKey,
                                                            iv);
-        return cryptoEngine.bytesToSecretKey(encryptionKeyAsBytes);
+        SecretKey secretKey = cryptoEngine.bytesToSecretKey(encryptionKeyAsBytes);
+        return new UserInformation(account.getUserId(), secretKey, account.getPreferredLocale());
     }
 
     @Override
@@ -95,10 +98,9 @@ public class AccountServiceImpl implements AccountService {
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
-            Account account = new Account(userId);
+            Account account = getAccount(userId);
             account.setMasterPassword(persistentPassword);
             account.setEncryptedSecretKey(encryptedSecretKey);
-            em.persist(account);
             tx.commit();
         }
         finally {
@@ -111,6 +113,22 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public boolean accountExists(String userId) {
         return getAccount(userId) != null;
+    }
+
+    @Override
+    public void changePreferredLocale(String userId, Locale locale) {
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            Account account = getAccount(userId);
+            account.setPreferredLocale(locale);
+            tx.commit();
+        }
+        finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+        }
     }
 
     /**

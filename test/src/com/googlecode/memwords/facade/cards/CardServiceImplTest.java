@@ -48,7 +48,7 @@ public class CardServiceImplTest extends GAETestCase {
         impl = new CardServiceImpl(em, cryptoEngine, mockUrlFetchService, mockFavIconFinder);
 
         AccountService accountService = new AccountServiceImpl(em, cryptoEngine);
-        encryptionKey = accountService.createAccount(userId, "masterPassword");
+        encryptionKey = accountService.createAccount(userId, "masterPassword").getEncryptionKey();
     }
 
     @Override

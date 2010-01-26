@@ -68,7 +68,8 @@ public class MwActionBeanContext extends ActionBeanContext {
         return (UserInformation) getRequest().getAttribute(USER_INFORMATION_REQUEST_ATTRIBUTE);
     }
 
-    protected void setUserInformation(UserInformation info) {
+    public void setUserInformation(UserInformation info) {
+        MwLocalePicker.setPreferredLocale(getRequest(), info.getPreferredLocale());
         getRequest().setAttribute(USER_INFORMATION_REQUEST_ATTRIBUTE, info);
         getRequest().getSession().setAttribute(USER_INFORMATION_SESSION_ATTRIBUTE, info.withoutSecretKey());
     }

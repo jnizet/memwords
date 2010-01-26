@@ -4,6 +4,7 @@ import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -14,6 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.googlecode.memwords.domain.Account;
+import com.googlecode.memwords.domain.UserInformation;
 import com.googlecode.memwords.facade.util.CryptoEngine;
 import com.googlecode.memwords.facade.util.CryptoEngineImpl;
 import com.googlecode.memwords.test.util.GAETestCase;
@@ -112,7 +114,8 @@ public class AccountServiceImplTest extends GAETestCase {
 
         replay(mockCryptoEngine);
 
-        assertSame(secretKey, impl.login(userId, masterPassword));
+        UserInformation loginUserInformation = impl.login(userId, masterPassword);
+        assertSame(secretKey, loginUserInformation.getEncryptionKey());
 
         assertNotNull(implWithRealCryptoEngine.login(userId, masterPassword));
         assertNull(implWithRealCryptoEngine.login("userId2", masterPassword));
@@ -131,9 +134,11 @@ public class AccountServiceImplTest extends GAETestCase {
     public void testChangePassword() {
         String userId = "userId";
         implWithRealCryptoEngine.createAccount(userId, "masterPassword");
-        SecretKey secretKeyBeforeChange = implWithRealCryptoEngine.login(userId, "masterPassword");
+        SecretKey secretKeyBeforeChange =
+            implWithRealCryptoEngine.login(userId, "masterPassword").getEncryptionKey();
         implWithRealCryptoEngine.changePassword(userId, "newPassword", secretKeyBeforeChange);
-        SecretKey secretKeyAfterChange = implWithRealCryptoEngine.login(userId, "newPassword");
+        SecretKey secretKeyAfterChange =
+            implWithRealCryptoEngine.login(userId, "newPassword").getEncryptionKey();
         assertTrue(Arrays.equals(secretKeyBeforeChange.getEncoded(), secretKeyAfterChange.getEncoded()));
     }
 
@@ -144,4 +149,17 @@ public class AccountServiceImplTest extends GAETestCase {
         assertTrue(implWithRealCryptoEngine.accountExists(userId));
         assertFalse(implWithRealCryptoEngine.accountExists("userId2"));
     }
+
+    @Test
+    public void testChangePreferredLocale() {
+        String userId = "userId";
+        UserInformation userInfoBeforeChange = implWithRealCryptoEngine.createAccount(userId, "masterPassword");
+        assertNull(userInfoBeforeChange.getPreferredLocale());
+        Locale newLocale = new Locale("fr", "FR");
+        implWithRealCryptoEngine.changePreferredLocale(userId, newLocale);
+        UserInformation userInfoAfterChange =
+            implWithRealCryptoEngine.login(userId, "masterPassword");
+        assertEquals(newLocale, userInfoAfterChange.getPreferredLocale());
+    }
+
 }

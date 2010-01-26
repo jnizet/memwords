@@ -4,10 +4,13 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import org.apache.commons.lang.LocaleUtils;
 
 /**
  * An account, identified by a user ID and containing a master password hashed twice
@@ -36,6 +39,11 @@ public class Account implements Serializable {
      * The encrypted secret key
      */
     private byte[] encryptedSecretKey;
+
+    /**
+     * The preferred locale
+     */
+    private String preferredLocale;
 
     /**
      * The authentication infos linked to this account
@@ -72,6 +80,19 @@ public class Account implements Serializable {
 
     public void setEncryptedSecretKey(byte[] encryptedSecretKey) {
         this.encryptedSecretKey = encryptedSecretKey;
+    }
+
+    public Locale getPreferredLocale() {
+        return LocaleUtils.toLocale(this.preferredLocale);
+    }
+
+    public void setPreferredLocale(Locale preferredLocale) {
+        if (preferredLocale == null) {
+            this.preferredLocale = null;
+        }
+        else {
+            this.preferredLocale = preferredLocale.toString();
+        }
     }
 
     public List<Card> getCards() {
