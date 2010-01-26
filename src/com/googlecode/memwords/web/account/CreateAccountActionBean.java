@@ -14,6 +14,7 @@ import net.sourceforge.stripes.validation.ValidationMethod;
 import net.sourceforge.stripes.validation.ValidationState;
 
 import com.google.inject.Inject;
+import com.googlecode.memwords.domain.MwConstants;
 import com.googlecode.memwords.domain.UserInformation;
 import com.googlecode.memwords.facade.account.AccountService;
 import com.googlecode.memwords.web.MwActionBean;
@@ -25,14 +26,12 @@ import com.googlecode.memwords.web.cards.CardsActionBean;
  */
 public class CreateAccountActionBean extends MwActionBean {
 
-    private static final int MASTER_PASSWORD_MIN_LENGTH = 4;
-
     private AccountService accountService;
 
     @Validate(required = true)
     private String userId;
 
-    @Validate(required = true, minlength = MASTER_PASSWORD_MIN_LENGTH)
+    @Validate(required = true, minlength = MwConstants.MASTER_PASSWORD_MIN_LENGTH)
     private String masterPassword;
 
     @Validate(required = true, expression = "this == masterPassword")

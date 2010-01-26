@@ -37,7 +37,10 @@ public class MwActionBeanContext extends ActionBeanContext {
      */
     public void login(UserInformation userInformation) {
         setUserInformation(userInformation);
-        Base64 base64 = new Base64(-1); // important : no end of line, else the response isn't handled by browsers
+
+        // important : no end of line, else the cookie contains control characters,
+        // and it doesn't work
+        Base64 base64 = new Base64(-1);
         Cookie cookie = new Cookie(SECRET_KEY_COOKIE_NAME,
                                    base64.encodeToString(userInformation.getEncryptionKey().getEncoded()));
         cookie.setMaxAge(-1);
@@ -91,7 +94,9 @@ public class MwActionBeanContext extends ActionBeanContext {
                 }
             }
             if (secretKeyCookie != null) {
-                Base64 base64 = new Base64(-1); // important : no end of line, else the response isn't handled by browsers
+                // important : no end of line, else the cookie contains control characters,
+                // and it doesn't work
+                Base64 base64 = new Base64(-1);
                 byte[] secretKeyAsBytes = base64.decode(secretKeyCookie.getValue());
                 SecretKey secretKey = cryptoEngine.bytesToSecretKey(secretKeyAsBytes);
                 UserInformation userInformation = infoWithoutSecretKey.withSecretKey(secretKey);

@@ -7,7 +7,7 @@
     <div class="menu"><stripes:link beanclass="com.googlecode.memwords.web.account.LoginActionBean"
                                     event="logout"><fmt:message key="menu.logout"/></stripes:link></div>
     <div class="menu"><stripes:link beanclass="com.googlecode.memwords.web.cards.CardsActionBean"><fmt:message key="menu.cards"/></stripes:link></div>
-    <div class="menu"><fmt:message key="menu.preferences"/></div>
+    <div class="menu"><stripes:link beanclass="com.googlecode.memwords.web.preferences.PreferencesActionBean"><fmt:message key="menu.preferences"/></stripes:link></div>
   </c:when>
   <c:otherwise>
     <div class="menu"><stripes:link beanclass="com.googlecode.memwords.web.account.LoginActionBean"><fmt:message key="menu.login"/></stripes:link></div>
