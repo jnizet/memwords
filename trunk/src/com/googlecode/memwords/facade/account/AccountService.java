@@ -1,9 +1,12 @@
 package com.googlecode.memwords.facade.account;
 
+import java.util.Locale;
+
 import javax.crypto.SecretKey;
 
 import com.google.inject.ImplementedBy;
 import com.googlecode.memwords.domain.Account;
+import com.googlecode.memwords.domain.UserInformation;
 
 
 /**
@@ -24,18 +27,18 @@ public interface AccountService {
      * Creates an account for the given user ID, using the given master password.
      * @param userId the ID of the user for which an account must be created
      * @param masterPassword the master password of the account
-     * @return the encryption key generated for the account
+     * @return the user information, containing the encryption key generated for the account
      */
-    SecretKey createAccount(String userId, String masterPassword);
+    UserInformation createAccount(String userId, String masterPassword);
 
     /**
      * Verifies the master password for the given user ID, and returns the decrypted
      * secret key associated to the account
      * @param userId the ID of the user to authenticate
      * @param masterPassword the master password associated to the account
-     * @return the secret key associated to the account
+     * @return the user information, containing the secret key associated to the account
      */
-    SecretKey login(String userId, String masterPassword);
+    UserInformation login(String userId, String masterPassword);
 
     /**
      * Checks that the given password is the right one for the given user ID
@@ -58,4 +61,11 @@ public interface AccountService {
      * Tests if an account with the given userId exists or not
      */
     boolean accountExists(String userId);
+
+    /**
+     * Changes the preferred locale of the account with the given user ID
+     * @param userId the user ID
+     * @param locale the new preferred locale (may be <code>null</code>)
+     */
+    void changePreferredLocale(String userId, Locale locale);
 }

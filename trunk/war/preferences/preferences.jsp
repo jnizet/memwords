@@ -20,5 +20,10 @@
       <img class="icon" alt="" src="<c:url value="/img/key.png"/>"/>
       <fmt:message key="preferences.preferences.changeMasterPassword"/></stripes:link>
   </div>
+  <div>
+    <stripes:link beanclass="com.googlecode.memwords.web.preferences.ChangePreferredLocaleActionBean">
+      <img class="icon" alt="" src="<c:url value="/img/locale.png"/>"/>
+      <fmt:message key="preferences.preferences.changePreferredLocale"/></stripes:link>
+  </div>
 </body>
 </html>

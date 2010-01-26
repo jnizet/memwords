@@ -1,6 +1,7 @@
 package com.googlecode.memwords.domain;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 import javax.crypto.SecretKey;
 
@@ -13,10 +14,12 @@ import javax.crypto.SecretKey;
 public final class UserInformation implements Serializable {
     private String userId;
     private SecretKey encryptionKey;
+    private Locale preferredLocale;
 
-    public UserInformation(String userId, SecretKey encryptionKey) {
+    public UserInformation(String userId, SecretKey encryptionKey, Locale preferredLocale) {
         this.userId = userId;
         this.encryptionKey = encryptionKey;
+        this.preferredLocale = preferredLocale;
     }
 
     public String getUserId() {
@@ -27,11 +30,19 @@ public final class UserInformation implements Serializable {
         return encryptionKey;
     }
 
+    public Locale getPreferredLocale() {
+        return preferredLocale;
+    }
+
     public UserInformation withoutSecretKey() {
-        return new UserInformation(userId, null);
+        return new UserInformation(this.userId, null, this.preferredLocale);
     }
 
     public UserInformation withSecretKey(SecretKey secretKey) {
-        return new UserInformation(userId, secretKey);
+        return new UserInformation(this.userId, secretKey, this.preferredLocale);
+    }
+
+    public UserInformation withPreferredLocale(Locale preferredLocale) {
+        return new UserInformation(this.userId, this.encryptionKey, preferredLocale);
     }
 }

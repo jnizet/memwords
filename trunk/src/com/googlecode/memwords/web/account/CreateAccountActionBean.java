@@ -1,7 +1,5 @@
 package com.googlecode.memwords.web.account;
 
-import javax.crypto.SecretKey;
-
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -51,9 +49,9 @@ public class CreateAccountActionBean extends MwActionBean {
     }
 
     public Resolution createAccount() {
-        SecretKey encryptionKey =
+        UserInformation userInformation =
             accountService.createAccount(userId, masterPassword);
-        getContext().login(new UserInformation(userId, encryptionKey));
+        getContext().login(userInformation);
         return new RedirectResolution(CardsActionBean.class);
     }
 

@@ -28,7 +28,7 @@ public class MwLocalePicker extends DefaultLocalePicker {
     public static final List<Locale> SUPPORTED_LOCALES;
     private static final Map<Locale, String> ENCODINGS;
 
-    private static final String PREFERRED_LOCALE_SESSION_KEY =
+    private static final String PREFERRED_LOCALE_SESSION_ATTRIBUTE =
         "com.googlecode.memwords.web.preferredLocale";
 
     static {
@@ -52,7 +52,7 @@ public class MwLocalePicker extends DefaultLocalePicker {
         Locale result = null;
         HttpSession session = request.getSession(false);
         if (session != null) {
-            Locale preferredLocale = (Locale) session.getAttribute(PREFERRED_LOCALE_SESSION_KEY);
+            Locale preferredLocale = (Locale) session.getAttribute(PREFERRED_LOCALE_SESSION_ATTRIBUTE);
             if (preferredLocale != null) {
                 result = preferredLocale;
             }
@@ -61,5 +61,10 @@ public class MwLocalePicker extends DefaultLocalePicker {
             result = super.pickLocale(request);
         }
         return result;
+    }
+
+    public static void setPreferredLocale(HttpServletRequest request, Locale preferredLocale) {
+        HttpSession session = request.getSession(true);
+        session.setAttribute(PREFERRED_LOCALE_SESSION_ATTRIBUTE, preferredLocale);
     }
 }

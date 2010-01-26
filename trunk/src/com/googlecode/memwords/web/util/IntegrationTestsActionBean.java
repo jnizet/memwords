@@ -109,7 +109,7 @@ public class IntegrationTestsActionBean extends MwActionBean {
             }
         }
         String testUserId = "test";
-        SecretKey testSecretKey = accountService.createAccount(testUserId, "test");
+        SecretKey testSecretKey = accountService.createAccount(testUserId, "test").getEncryptionKey();
 
         CardDetails cardDetails = new CardDetails(null,
                                                   "card1",
