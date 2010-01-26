@@ -41,7 +41,7 @@ public class MwLocalePicker extends DefaultLocalePicker {
     }
 
     @Override
-    public void init(Configuration configuration) throws Exception {
+    public void init(Configuration configuration) {
         this.configuration = configuration;
         this.locales = SUPPORTED_LOCALES;
         this.encodings = ENCODINGS;

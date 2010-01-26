@@ -120,6 +120,24 @@ public class AccountServiceImplTest extends GAETestCase {
     }
 
     @Test
+    public void testCheckPassword() {
+        String userId = "userId";
+        implWithRealCryptoEngine.createAccount(userId, "masterPassword");
+        assertTrue(implWithRealCryptoEngine.checkPassword(userId, "masterPassword"));
+        assertFalse(implWithRealCryptoEngine.checkPassword(userId, "masterPassword2"));
+    }
+
+    @Test
+    public void testChangePassword() {
+        String userId = "userId";
+        implWithRealCryptoEngine.createAccount(userId, "masterPassword");
+        SecretKey secretKeyBeforeChange = implWithRealCryptoEngine.login(userId, "masterPassword");
+        implWithRealCryptoEngine.changePassword(userId, "newPassword", secretKeyBeforeChange);
+        SecretKey secretKeyAfterChange = implWithRealCryptoEngine.login(userId, "newPassword");
+        assertTrue(Arrays.equals(secretKeyBeforeChange.getEncoded(), secretKeyAfterChange.getEncoded()));
+    }
+
+    @Test
     public void testAccountExists() {
         String userId = "userId";
         implWithRealCryptoEngine.createAccount(userId, "masterPassword");

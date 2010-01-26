@@ -77,6 +77,38 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public boolean checkPassword(String userId, String masterPassword) {
+        Account account = getAccount(userId);
+        if (account == null) {
+            return false;
+        }
+        byte[] persistentPassword = buildPersistentPassword(userId, masterPassword);
+        return Arrays.equals(persistentPassword, account.getMasterPassword());
+    }
+
+    @Override
+    public void changePassword(String userId, String newPassword, SecretKey secretKey) {
+        byte[] persistentPassword = buildPersistentPassword(userId, newPassword);
+        SecretKey wrappingKey = buildWrappingKey(userId, newPassword);
+        byte[] iv = cryptoEngine.buildInitializationVector(wrappingKey.getEncoded());
+        byte[] encryptedSecretKey = cryptoEngine.encrypt(secretKey.getEncoded(), wrappingKey, iv);
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            Account account = new Account(userId);
+            account.setMasterPassword(persistentPassword);
+            account.setEncryptedSecretKey(encryptedSecretKey);
+            em.persist(account);
+            tx.commit();
+        }
+        finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+        }
+    }
+
+    @Override
     public boolean accountExists(String userId) {
         return getAccount(userId) != null;
     }

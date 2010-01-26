@@ -38,6 +38,23 @@ public interface AccountService {
     SecretKey login(String userId, String masterPassword);
 
     /**
+     * Checks that the given password is the right one for the given user ID
+     * @param userId the user ID
+     * @param masterPassword the password to check
+     * @return <code>true</code> if the password is the right one, <code>false</code>
+     * otherwise
+     */
+    boolean checkPassword(String userId, String masterPassword);
+
+    /**
+     * Changes the master password for the given user ID
+     * @param userId the user ID
+     * @param newPassword the new password
+     * @param secretKey the encryption key of the account
+     */
+    void changePassword(String userId, String newPassword, SecretKey secretKey);
+
+    /**
      * Tests if an account with the given userId exists or not
      */
     boolean accountExists(String userId);
