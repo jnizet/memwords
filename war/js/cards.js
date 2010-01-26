@@ -41,6 +41,7 @@ function deleteCard(cardId) {
  */
 function unmaskPassword() {
     $("#passwordDiv").attr("class", "unmasked");
+    $("#passwordDiv").attr("title", null);
     $("#maskPasswordLink").show();
     $("#unmaskPasswordLink").hide();
     return false;
@@ -53,6 +54,7 @@ function unmaskPassword() {
  */
 function maskPassword() {
     $("#passwordDiv").attr("class", "masked");
+    $("#passwordDiv").attr("title", maskedPasswordTitle);
     $("#unmaskPasswordLink").show();
     $("#maskPasswordLink").hide();
     return false;

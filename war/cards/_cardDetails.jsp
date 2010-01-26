@@ -21,6 +21,8 @@
       $("#deleteCardLink").click(function() {
         return deleteCard("${card.id}");
       });
+      // global var used in mask/unmask
+      maskedPasswordTitle = $("#passwordDiv").attr("title");
     });
   </script> 
   <h2><tags:cardIcon card="${card}" /> <c:out value="${card.name}" /></h2>
@@ -32,13 +34,15 @@
     <tr>
       <th><fmt:message key="cards._cardDetails.passwordLabel"/></th>
       <td>
-      <div style="float: left;" id="passwordDiv" class="masked"><c:out value="${card.password}" /></div>
+      <div style="float: left;" id="passwordDiv" class="masked" title="<fmt:message key="cards._cardDetails.maskedPasswordTitle"/>"><c:out value="${card.password}" /></div>
       <a href="#" style="display: none;" id="unmaskPasswordLink"><fmt:message key="cards._cardDetails.unmaskLink"/></a>
-      <a href="#" style="display: none;" id="maskPasswordLink"><fmt:message key="cards._cardDetails.maskLink"/></a></td>
+      <a href="#" style="display: none;" id="maskPasswordLink"><fmt:message key="cards._cardDetails.maskLink"/></a>
+      </td>
     </tr>
     <tr>
       <th><fmt:message key="cards._cardDetails.urlLabel"/></th>
-      <td><c:if test="${!empty card.url}">
+      <td>
+        <c:if test="${!empty card.url}">
           <a class="external" target="_blank" href="<c:out value="${card.url}"/>"><c:out value="${card.url}" /></a>
         </c:if>
       </td>
