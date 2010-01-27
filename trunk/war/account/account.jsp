@@ -10,14 +10,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title><fmt:message key="preferences.preferences.title"/></title>
+<title><fmt:message key="account.account.title"/></title>
 </head>
 <body>
-  <h1><fmt:message key="preferences.preferences.h1"/></h1>
+  <h1><fmt:message key="account.account.h1"/></h1>
+
   <div>
-    <stripes:link beanclass="com.googlecode.memwords.web.preferences.ChangePreferredLocaleActionBean">
-      <img class="icon" alt="" src="<c:url value="/img/locale.png"/>"/>
-      <fmt:message key="preferences.preferences.changePreferredLocale"/></stripes:link>
+    <stripes:link beanclass="com.googlecode.memwords.web.account.ChangeMasterPasswordActionBean">
+      <img class="icon" alt="" src="<c:url value="/img/key.png"/>"/>
+      <fmt:message key="account.account.changeMasterPassword"/></stripes:link>
   </div>
 </body>
 </html>

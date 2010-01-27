@@ -10,40 +10,40 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title><fmt:message key="preferences.changeMasterPassword.title"/></title>
+<title><fmt:message key="account.changeMasterPassword.title"/></title>
 <script type="text/javascript">
   $(document).ready(function () {
     $("#cancelButton").click(function() {
-      window.location = url("/preferences/Preferences.action");
+      window.location = url("/account/Account.action");
     });
     $("#currentPassword").focus();
   });
 </script>
 </head>
 <body>
-  <h1><fmt:message key="preferences.changeMasterPassword.h1"/></h1>
-  <p><fmt:message key="preferences.changeMasterPassword.fillFormMessage"/></p>
+  <h1><fmt:message key="account.changeMasterPassword.h1"/></h1>
+  <p><fmt:message key="account.changeMasterPassword.fillFormMessage"/></p>
   <tags:formNotice />
-  <stripes:form beanclass="com.googlecode.memwords.web.preferences.ChangeMasterPasswordActionBean" 
+  <stripes:form beanclass="com.googlecode.memwords.web.account.ChangeMasterPasswordActionBean" 
                 method="post"
                 id="changeMasterPasswordForm">
     <table>
       <tr>
-        <th><label class="required"><fmt:message key="preferences.changeMasterPassword.currentPasswordLabel"/></label></th>
+        <th><label class="required"><fmt:message key="account.changeMasterPassword.currentPasswordLabel"/></label></th>
         <td><stripes:password name="currentPassword" id="currentPassword" repopulate="false"/></td>
       </tr>
       <tr>
-        <th><label class="required"><fmt:message key="preferences.changeMasterPassword.newPasswordLabel"/></label></th>
+        <th><label class="required"><fmt:message key="account.changeMasterPassword.newPasswordLabel"/></label></th>
         <td><stripes:password name="newPassword" repopulate="false"/></td>
       </tr>
       <tr>
-        <th><label class="required"><fmt:message key="preferences.changeMasterPassword.newPasswordConfirmationLabel"/></label></th>
+        <th><label class="required"><fmt:message key="account.changeMasterPassword.newPasswordConfirmationLabel"/></label></th>
         <td><stripes:password name="newPasswordConfirmation" repopulate="false"/></td>
       </tr>
       <tr>
         <td colspan="2">
-          <stripes:submit name="change"><fmt:message key="preferences.changeMasterPassword.submitButton"/></stripes:submit>
-          <stripes:submit name="cancel" id="cancelButton"><fmt:message key="preferences.changeMasterPassword.cancelButton"/></stripes:submit>
+          <stripes:submit name="change"><fmt:message key="account.changeMasterPassword.submitButton"/></stripes:submit>
+          <stripes:submit name="cancel" id="cancelButton"><fmt:message key="account.changeMasterPassword.cancelButton"/></stripes:submit>
         </td>
       </tr>
     </table>

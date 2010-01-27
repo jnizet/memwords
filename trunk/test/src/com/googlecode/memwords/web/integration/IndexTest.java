@@ -25,7 +25,7 @@ public class IndexTest {
         WebClient wc = startWebClient();
         HtmlPage page = wc.getPage(url("/"));
         testBasics(page);
-        testTitle(page, "Welcome");
+        testTitle(page, "Remembers your passwords");
     }
 
     @Test

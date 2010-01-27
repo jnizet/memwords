@@ -61,7 +61,7 @@ public class LoginTest {
         testTitle(cardsPage, "Cards");
         HtmlAnchor logoutLink = getSideBarLink(page, "Log out");
         HtmlPage indexPage = logoutLink.click();
-        testTitle(indexPage, "Welcome");
+        testTitle(indexPage, "Remembers your passwords");
         // try to re-click on the cards link : the login page should be displayed
         HtmlPage loginPage = cardsLink.click();
         testTitle(loginPage, "Log in");

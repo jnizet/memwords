@@ -65,6 +65,7 @@ public class ModifyCardActionBean extends BaseEditCardActionBean implements Vali
     }
 
     protected void doModifyCard() {
+        loadFavIconUrlIfNecessary();
         CardDetails cardDetails = new CardDetails(cardId, name, login, password, url, iconUrl, note);
         cardService.modifyCard(
                 cardDetails,
