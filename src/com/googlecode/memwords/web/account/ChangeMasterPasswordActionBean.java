@@ -1,4 +1,4 @@
-package com.googlecode.memwords.web.preferences;
+package com.googlecode.memwords.web.account;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontBind;
@@ -44,7 +44,7 @@ public class ChangeMasterPasswordActionBean extends MwActionBean {
     @DefaultHandler
     @DontValidate
     public Resolution view() {
-        return new ForwardResolution("/preferences/changeMasterPassword.jsp");
+        return new ForwardResolution("/account/changeMasterPassword.jsp");
     }
 
     public Resolution change() {
@@ -54,12 +54,12 @@ public class ChangeMasterPasswordActionBean extends MwActionBean {
         getContext().getMessages().add(new ScopedLocalizableMessage(
             ChangeMasterPasswordActionBean.class,
             "masterPasswordChanged"));
-        return new RedirectResolution(PreferencesActionBean.class);
+        return new RedirectResolution(AccountActionBean.class);
     }
 
     @DontBind
     public Resolution cancel() {
-        return new RedirectResolution(PreferencesActionBean.class);
+        return new RedirectResolution(AccountActionBean.class);
     }
 
     @ValidationMethod(on = "change", when = ValidationState.ALWAYS)

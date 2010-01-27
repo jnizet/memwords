@@ -71,6 +71,7 @@ public class AuthenticationInterceptor implements Interceptor {
         return actionBeanClass.equals(IndexActionBean.class)
                || actionBeanClass.equals(LoginActionBean.class)
                || actionBeanClass.equals(CreateAccountActionBean.class)
-               || actionBeanClass.equals(IntegrationTestsActionBean.class);
+               || actionBeanClass.equals(IntegrationTestsActionBean.class)
+               || actionBeanClass.equals(ScreenshotsActionBean.class);
     }
 }

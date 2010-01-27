@@ -129,7 +129,7 @@ div#cards {
   min-width: 330px;
   float: left;
 }
-div.card, div#cardDetails {
+div.card, div#cardDetails, div#features, div#resume {
   background: #dddddd;
   border: 1px solid #aaaaaa;
   margin: 3px;
@@ -211,7 +211,46 @@ label.required {
   background: transparent url(../img/go.png) no-repeat scroll left center;
   padding: 0 0 0 16px;
 }
+img.help {
+  cursor: help;
+}
 div.formNotice {
   font-style: italic;
   font-size: 8pt;
+}
+
+/*
+ * welcome page
+ */
+div#resume {
+  float: left;
+  width: 300px;
+}
+div#features {
+  float: left;
+  width: 300px;
+}
+div#features ul {
+  padding-left: 5px;    
+}
+div#features li {
+  list-style-type: none;
+  background-image: url(../img/tick.png);
+  background-repeat: no-repeat;
+  padding-left: 25px;
+}
+div#faq {
+    clear: both;
+}
+div#faq div.question {
+  background-image: url(../img/bullet_blue.png);
+  background-repeat: no-repeat;
+  background-position: 3px 3px;
+  padding-left: 20px;
+  font-weight: bold;
+  color: #336699;
+}
+div.screenshot {
+  text-align: center;
+  margin-bottom: 15px;
 }

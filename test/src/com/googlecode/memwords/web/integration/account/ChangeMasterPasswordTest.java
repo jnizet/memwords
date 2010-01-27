@@ -1,4 +1,4 @@
-package com.googlecode.memwords.web.integration.preferences;
+package com.googlecode.memwords.web.integration.account;
 
 import static com.googlecode.memwords.web.integration.util.IntegrationUtils.*;
 
@@ -24,7 +24,7 @@ public class ChangeMasterPasswordTest {
     public void testPage() throws Exception {
         WebClient wc = startWebClient();
         login(wc);
-        HtmlPage page = wc.getPage(url("/preferences/ChangeMasterPassword.action"));
+        HtmlPage page = wc.getPage(url("/account/ChangeMasterPassword.action"));
         testBasics(page);
         testTitle(page, "Change master password");
     }
@@ -33,7 +33,7 @@ public class ChangeMasterPasswordTest {
     public void testValidation() throws Exception {
         WebClient wc = startWebClient();
         login(wc);
-        HtmlPage page = wc.getPage(url("/preferences/ChangeMasterPassword.action"));
+        HtmlPage page = wc.getPage(url("/account/ChangeMasterPassword.action"));
         HtmlForm form = page.getHtmlElementById("changeMasterPasswordForm");
         page = form.getInputByValue("Change").click();
         testTitle(page, "Change master password");
@@ -66,13 +66,13 @@ public class ChangeMasterPasswordTest {
     public void testFormSubmission() throws Exception {
         WebClient wc = startWebClient();
         login(wc);
-        HtmlPage page = wc.getPage(url("/preferences/ChangeMasterPassword.action"));
+        HtmlPage page = wc.getPage(url("/account/ChangeMasterPassword.action"));
         HtmlForm form = page.getHtmlElementById("changeMasterPasswordForm");
         form.getInputByName("currentPassword").type("test");
         form.getInputByName("newPassword").type("test2");
         form.getInputByName("newPasswordConfirmation").type("test2");
         page = form.getInputByValue("Change").click();
-        testTitle(page, "Preferences");
+        testTitle(page, "Account");
         testMessageExists(page, "The master password has been changed.");
     }
 
@@ -80,9 +80,9 @@ public class ChangeMasterPasswordTest {
         WebClient wc = startWebClient();
         wc.setJavaScriptEnabled(withJavascript);
         login(wc);
-        HtmlPage page = wc.getPage(url("/preferences/ChangeMasterPassword.action"));
+        HtmlPage page = wc.getPage(url("/account/ChangeMasterPassword.action"));
         HtmlForm form = page.getHtmlElementById("changeMasterPasswordForm");
         page = form.getInputByValue("Cancel").click();
-        testTitle(page, "Preferences");
+        testTitle(page, "Account");
     }
 }

@@ -41,7 +41,7 @@ function deleteCard(cardId) {
  */
 function unmaskPassword() {
     $("#passwordDiv").attr("class", "unmasked");
-    $("#passwordDiv").attr("title", null);
+    $("#passwordHelp").hide();
     $("#maskPasswordLink").show();
     $("#unmaskPasswordLink").hide();
     return false;
@@ -54,7 +54,7 @@ function unmaskPassword() {
  */
 function maskPassword() {
     $("#passwordDiv").attr("class", "masked");
-    $("#passwordDiv").attr("title", maskedPasswordTitle);
+    $("#passwordHelp").show();
     $("#unmaskPasswordLink").show();
     $("#maskPasswordLink").hide();
     return false;
@@ -77,7 +77,6 @@ function closeCardDetails() {
 function loadCardIcon() {
     var cardUrl = $("#urlTextField").val();
     if (isUrlValid(cardUrl)) {
-        $("#submitButton").attr("disabled", true);
         $("#iconUrlHiddenField").val("");
         $("#iconUrlSpan").hide();
         $("#defaultIconUrlSpan").hide();
@@ -87,7 +86,7 @@ function loadCardIcon() {
                  data: {url : cardUrl,
                         ajaxGetIcon : ""},
                  success: function(responseText) {
-                        $("#messages").html($(responseText).filter("#messages").html());
+                     $("#messages").html($(responseText).filter("#messages").html());
                      var iconUrl = $.trim($(responseText).filter("#body").html());
                      if (iconUrl.length > 0) {
                          $("#iconUrlSpan").children("img").attr('src', iconUrl);
@@ -98,7 +97,7 @@ function loadCardIcon() {
                          $("#defaultIconUrlSpan").show();
                      }
                      setLoading($("#iconUrlLoadingSpan"), false);
-                     $("#submitButton").attr("disabled", false);
+                     $("#iconUrlFetchedHiddenField").val("true");
                      initMessages();
                  }
                });

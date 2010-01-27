@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.WebAssert;
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -153,6 +154,7 @@ public class CreateCardTest extends EditCardTestBase {
         form.getInputByName("name").type("card4");
         form.getInputByName("login").type("login");
         form.getInputByName("password").type("password");
+        form.getInputByName("url").type("http://www.google.com");
         HtmlPage cardsPage = form.getInputByValue("Create card").click();
 
         testTitle(cardsPage, "Cards");
@@ -160,6 +162,9 @@ public class CreateCardTest extends EditCardTestBase {
         HtmlDivision cardsDiv = cardsPage.getHtmlElementById("cards");
         List<HtmlDivision> cardDivs = cardsDiv.getElementsByAttribute("div", "class", "card");
         assertEquals(4, cardDivs.size());
+        HtmlAnchor card4DetailsLink = getFirstLinkByText(cardsDiv, "card4");
+        // test that the icon in the link has been fetched
+        assertTrue(card4DetailsLink.getElementsByTagName("img").get(0).asXml().contains("google"));
     }
 
     private void testValidation(HtmlPage page) throws IOException {

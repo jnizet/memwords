@@ -32,6 +32,11 @@ public class BaseEditCardActionBean extends BaseCardsActionBean {
 
     protected String note;
 
+    /**
+     * Hidden field indicating if an ajax request has already tried to retrieve the icon URL
+     */
+    protected boolean iconUrlFetched;
+
     @Inject
     public BaseEditCardActionBean(CardService cardService) {
         super(cardService);
@@ -101,5 +106,24 @@ public class BaseEditCardActionBean extends BaseCardsActionBean {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public boolean isIconUrlFetched() {
+        return iconUrlFetched;
+    }
+
+    public void setIconUrlFetched(boolean iconUrlFetched) {
+        this.iconUrlFetched = iconUrlFetched;
+    }
+
+    protected void loadFavIconUrlIfNecessary() {
+        if (!iconUrlFetched && this.url != null) {
+            try {
+                this.iconUrl = cardService.findFavIconUrl(this.url);
+            }
+            catch (FavIconException e) {
+                // ignore : the fav icon URL stays null
+            }
+        }
     }
 }
