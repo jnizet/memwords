@@ -36,5 +36,9 @@ public class AccountTest {
         HtmlAnchor changeMasterPasswordLink = page.getAnchorByText("Change your master password");
         HtmlPage changeMasterPasswordPage = changeMasterPasswordLink.click();
         testTitle(changeMasterPasswordPage, "Change master password");
+
+        HtmlAnchor destroyAccountLink = page.getAnchorByText("Destroy your account");
+        HtmlPage destroyAccountPage = destroyAccountLink.click();
+        testTitle(destroyAccountPage, "Destroy account");
     }
 }
