@@ -1,0 +1,12 @@
+#Lists the technologies used by MemWords.
+
+= Technologies =
+
+MemWords is developed in Java.
+It uses [http://www.stripesframework.org/ Stripes] as its UI framework, and [http://jquery.com/ JQuery] as Javascript library. The project is built using [http://ant.apache.org Ant].
+
+Unit tests are developed with [http://junit.org/ JUnit], and integration tests with [http://htmlunit.sourceforge.net/ HtmlUnit].
+
+The quality of the code is controlled by [http://pmd.sourceForge.net/ PMD], [http://checkstyle.sourceforge.net/ Checkstyle] and [http://findbugs.sourceforge.net/ FindBugs].
+
+Source code coverage is measured using [http://cobertura.sourceforge.net/ Cobertura].
