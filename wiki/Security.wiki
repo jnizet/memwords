@@ -43,3 +43,5 @@ It's impossible to find back _WK_ from _H_ (since hashing functions are one-way)
 When the user logs in, its user ID and password are concatenated, then hashed twice. If the resulting hash is the same as the one stored in the database (_H_), then the password is the right one. We can recompute _WK_ by hashing the user ID and password once, then we can decrypt _EK_ using _WK_ as a key, and find back _K_, to decrypt the account information in the database.
 
 Once logged in, we can't store _K_, nor the master password, in the session, because Google App Engine stores the session data in the database. We thus use a session cookie which is kept in memory by the user's web browser, and sent back to the server at each request, until the user logs out or the browser is closed.
+
+[security.png]
