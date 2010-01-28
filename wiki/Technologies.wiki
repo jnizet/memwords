@@ -1,5 +1,3 @@
-#Lists the technologies used by MemWords.
-
 = Technologies =
 
 MemWords is developed in Java.
