@@ -2,4 +2,4 @@
   * [Technologies Technologies]
   * [Security Security]
   * [Credits Credits]
-  * [Gotchas Gotchas]
+  * [Gotchas Gotchas, tips and tricks]
