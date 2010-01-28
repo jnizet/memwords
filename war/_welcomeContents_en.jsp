@@ -30,7 +30,7 @@
     What about the administrator of MemWords? If he looks into the database, he will find out my passwords, right?
   </div>
   <div class="answer">
-    No. Most of the information in the database is encrypted : the passwords, but also the logins, notes, URLs, icons, etc.
+    No. Most of the information in the database is encrypted: the passwords, but also the logins, notes, URLs, icons, etc.
   </div>
   <div class="question">
     It's encrypted, but the administrator must know the key, else the information could not be decrypted, isn't it?
@@ -42,17 +42,17 @@
     What are the algorithms used to protect my passwords?
   </div>
   <div class="answer">
-    There are two main cryptographic algorithms used by MemWords : AES-128 and SHA-256.
+    There are two main cryptographic algorithms used by MemWords: AES-128 and SHA-256.
   </div>
   <div class="question">
     Why not using AES-256?
   </div>
   <div class="answer">
     First reason: MemWords is a hobby project, hosted freely on <a href="http://code.google.com/appengine/">Google App Engine</a>. And Google App Engine doesn't support AES-256.<br/>
-    Second reason: AES-128 is secure enough. Your master password is the weakest link anyway. If you're really paranoïd about your passwords, don't store them anywhere but your brain.
+    Second reason: AES-128 is secure enough. Your master password is the weakest link anyway. If you're really paranoid about your passwords, don't store them anywhere but your brain.
   </div>
   <div class="question">
-    What if my master password is compromized?
+    What if my master password is compromised?
   </div>
   <div class="answer">
     Too bad. You still have the possibility to change it, or to destroy your account. But the security of your account
