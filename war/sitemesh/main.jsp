@@ -10,6 +10,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <title><fmt:message key="main.titlePrefix"/><decorator:title default="" /></title>
+    <link rel="shortcut icon" href="<c:url value="/img/mw.png"/>" type="image/png">
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>"/>
     <!--[if IE]>
       <link rel="stylesheet" type="text/css" href="<c:url value="/css/ie.css"/>"/>
