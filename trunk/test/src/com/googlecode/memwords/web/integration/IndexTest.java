@@ -40,4 +40,14 @@ public class IndexTest {
         HtmlPage createAccountPage = createAccountLink.click();
         testTitle(createAccountPage, "Create an account");
     }
+
+    @Test
+    public void testScreenshots() throws Exception {
+        WebClient wc = startWebClient();
+        HtmlPage page = wc.getPage(url("/"));
+        HtmlAnchor screenshotsLink = page.getAnchorByText("Look at screenshots!");
+        HtmlPage screenshotsPage = screenshotsLink.click();
+        testTitle(screenshotsPage, "Screenshots");
+        testBasics(screenshotsPage);
+    }
 }

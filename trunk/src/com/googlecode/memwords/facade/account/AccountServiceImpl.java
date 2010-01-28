@@ -10,6 +10,7 @@ import javax.persistence.EntityTransaction;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlecode.memwords.domain.Account;
+import com.googlecode.memwords.domain.Card;
 import com.googlecode.memwords.domain.UserInformation;
 import com.googlecode.memwords.facade.util.CryptoEngine;
 
@@ -122,6 +123,27 @@ public class AccountServiceImpl implements AccountService {
             tx.begin();
             Account account = getAccount(userId);
             account.setPreferredLocale(locale);
+            tx.commit();
+        }
+        finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+        }
+    }
+
+    @Override
+    public void destroyAccount(String userId) {
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            Account account = getAccount(userId);
+
+            for (Card card : account.getCards()) {
+                em.remove(card);
+            }
+
+            em.remove(account);
             tx.commit();
         }
         finally {

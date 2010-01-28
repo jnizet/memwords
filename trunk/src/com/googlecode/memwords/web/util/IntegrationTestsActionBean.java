@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.crypto.SecretKey;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.servlet.http.HttpServletResponse;
 
@@ -96,17 +95,7 @@ public class IntegrationTestsActionBean extends MwActionBean {
         Query query = em.createQuery("select account from Account account");
         List<Account> accounts = query.getResultList();
         for (Account account : accounts) {
-            EntityTransaction tx = em.getTransaction();
-            try {
-                tx.begin();
-                em.remove(account);
-                tx.commit();
-            }
-            finally {
-                if (tx.isActive()) {
-                    tx.rollback();
-                }
-            }
+            accountService.destroyAccount(account.getUserId());
         }
         String testUserId = "test";
         SecretKey testSecretKey = accountService.createAccount(testUserId, "test").getEncryptionKey();

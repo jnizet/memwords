@@ -68,4 +68,10 @@ public interface AccountService {
      * @param locale the new preferred locale (may be <code>null</code>)
      */
     void changePreferredLocale(String userId, Locale locale);
+
+    /**
+     * Destroys the account with the given user ID
+     * @param userId the user ID
+     */
+    void destroyAccount(String userId);
 }

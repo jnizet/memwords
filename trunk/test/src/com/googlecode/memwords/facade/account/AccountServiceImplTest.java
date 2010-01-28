@@ -15,7 +15,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.googlecode.memwords.domain.Account;
+import com.googlecode.memwords.domain.Card;
+import com.googlecode.memwords.domain.CardDetails;
 import com.googlecode.memwords.domain.UserInformation;
+import com.googlecode.memwords.facade.cards.CardService;
+import com.googlecode.memwords.facade.cards.CardServiceImpl;
 import com.googlecode.memwords.facade.util.CryptoEngine;
 import com.googlecode.memwords.facade.util.CryptoEngineImpl;
 import com.googlecode.memwords.test.util.GAETestCase;
@@ -162,4 +166,27 @@ public class AccountServiceImplTest extends GAETestCase {
         assertEquals(newLocale, userInfoAfterChange.getPreferredLocale());
     }
 
+    @Test
+    public void testDestroyAccount() {
+        String userId = "userId";
+        UserInformation userInfo = implWithRealCryptoEngine.createAccount(userId, "masterPassword");
+
+        CardService cardService = new CardServiceImpl(em, new CryptoEngineImpl(), null, null);
+        Card card =
+            cardService.createCard(userId,
+                                   new CardDetails(null,
+                                                   "login",
+                                                   "password",
+                                                   null,
+                                                   null,
+                                                   null,
+                                                   null),
+                                   userInfo.getEncryptionKey());
+
+        implWithRealCryptoEngine.destroyAccount(userId);
+        Account account = impl.getAccount(userId);
+        assertNull(account);
+        card = em.find(Card.class, card.getId());
+        assertNull(card);
+    }
 }
