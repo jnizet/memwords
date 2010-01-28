@@ -36,7 +36,8 @@
     It's encrypted, but the administrator must know the key, else the information could not be decrypted, isn't it?
   </div>
   <div class="answer">
-    No. The key used to encrypt <em>your</em> information is protected by <em>your</em> master password, that you're the only one to know.
+    No. The key used to encrypt <em>your</em> information is protected by <em>your</em> master password, that you're the only one to know.<br/>
+    <a href="http://code.google.com/p/memwords/wiki/Security" class="external">More information about security in MemWords</a>
   </div>
   <div class="question">
     What are the algorithms used to protect my passwords?
