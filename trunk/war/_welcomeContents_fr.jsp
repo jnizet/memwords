@@ -36,7 +36,8 @@
     C'est encrypté, mais l'administrateur doit forcément connaître la clé, sinon les informations ne pourraient pas être décryptées, n'est-ce pas&nbsp;?
   </div>
   <div class="answer">
-    Non. La clé utilisée pour encrypter <em>vos</em> informations est protégée par <em>votre</em> mot de passe principal, que vous êtes le seul à connaître.
+    Non. La clé utilisée pour encrypter <em>vos</em> informations est protégée par <em>votre</em> mot de passe principal, que vous êtes le seul à connaître.<br/>
+    <a href="http://code.google.com/p/memwords/wiki/Security" class="external">Plus d'informations sur la sécurité dans MemWords</a>
   </div>
   <div class="question">
     Quels sont les algorithmes utilisés pour protéger mes mots de passe?
