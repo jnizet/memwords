@@ -1,4 +1,3 @@
-#labels Featured
   * [Motivation Motivation]
   * [Technologies Technologies]
   * [Security Security]
