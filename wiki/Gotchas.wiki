@@ -110,3 +110,6 @@ Then we write a little class in our test source tree with a main method like thi
     }
 }}}
 We now just have to launch this class, in the ant file, once the integration tests have been run.
+
+== Stripes and Sitemesh ==
+Sitemesh is great to apply a common template to all the pages of a webapp. It uses a servlet filter which post-processes the response of a request and adds the decoration. Given the way it works, it seems normal to position the Sitemesh filter at the beginning of the chain, just before the Stripes filter. This works, until it doesn't anymore (when adding messages in the action context and issuing a redirect, for example). In fact, in order for Stripes to work with Sitemesh, the Sitemesh filter must be after the STripes filter in the chain.
