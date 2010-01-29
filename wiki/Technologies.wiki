@@ -2,9 +2,13 @@
 = Technologies =
 
 MemWords is developed in Java.
-It uses [http://www.stripesframework.org/ Stripes] as its UI framework, and [http://jquery.com/ JQuery] as Javascript library. The project is built using [http://ant.apache.org Ant].
+It uses [http://www.stripesframework.org/ Stripes] as its UI framework, combined with [http://www.opensymphony.com/sitemesh/ Sitemesh] for the page layout, and [http://jquery.com/ JQuery] as Javascript library. 
 
-Unit tests are developed with [http://junit.org/ JUnit], and integration tests with [http://htmlunit.sourceforge.net/ HtmlUnit].
+MemWords also used a dependency injection framework: [http://code.google.com/p/google-guice/ Guice]. Guice is integrated into Stripes using [http://code.google.com/p/stripes-guicer/ stripes-guicer].
+
+The project is built using [http://ant.apache.org Ant].
+
+Unit tests are developed with [http://junit.org/ JUnit] and [http://easymock.org/ EasyMock], and integration tests with [http://htmlunit.sourceforge.net/ HtmlUnit].
 
 The quality of the code is controlled by [http://pmd.sourceForge.net/ PMD], [http://checkstyle.sourceforge.net/ Checkstyle] and [http://findbugs.sourceforge.net/ FindBugs].
 
