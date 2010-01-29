@@ -33,7 +33,7 @@ In the common template JSP (Sitemesh is used to apply a common template to all t
 }}}
 
 == HtmlUnit and test data ==
-Each HtmlUnit test expects the application to work with a pre-defined test data-set. But some tests will obviously make changes to this data-set; add cards, destroy an account, etc. The setUp of each HtmlUnit test should thus repopulate the database with the original data-set. With a SQL database, it would be trivial. But with GAE, everything must be created and deleted via the API using persistent entities. The solution is simple: add an action to our application which resets the database in its initial state, using our functional services. Each HtmlUnit test setUp will then call a utility method, which will start a WebClient instance, and invoke the action through its URL. Of course, this must not be possible in production mode (it would delete all the accounts from the production database). Fortunately, it's easy to detect if the application runs in production mode: 
+Each HtmlUnit test expects the application to work with a pre-defined test data-set. But some tests will obviously make changes to this data-set: add cards, destroy an account, etc. The setUp of each HtmlUnit test should thus repopulate the database with the original data-set. With a SQL database, it would be trivial. But with GAE, everything must be created and deleted via the API using persistent entities. The solution is simple: add an action to our application which resets the database in its initial state, using our functional services. Each HtmlUnit test setUp will then call a utility method, which will start a WebClient instance, and invoke the action through its URL. Of course, this must not be possible in production mode (it would delete all the accounts from the production database). Fortunately, it's easy to detect if the application runs in production mode: 
 {{{
     @Before(stages = LifecycleStage.BindingAndValidation)
     public Resolution checkRunningInDevelopmentEnvironment() {
@@ -48,9 +48,9 @@ When added to a Stripes action bean, this method will be called before calling a
 
 == Google App Engine and Cobertura ==
 Cobertura adds a shutdown hook to the JVM it runs in, in order to flush its statistics to the data-file. Unfortunately, there is no ant task in the GAE SDK which allows stopping a server. It's thus hard to automate the code coverage measurement of the integration tests.
-Even if we stop the server manually, Cobertura tris to write to a file, but it can't because Google App Engine runs in a sandbox where file access is forbidden. We thus have to find another way to get the cobertura data at the end of our integration tests.
+Even if we stop the server manually, Cobertura tries to write to a file, but it can't because Google App Engine runs in a sandbox where file access is forbidden. We thus have to find another way to get the cobertura data at the end of our integration tests.
 
-HtmlUnit is once again the solution here. First we add an event method to the action bean that sets up the test data set. This event method will get the cobertura data, and write them into the HTTP response instead of writing them to a file. We do thisby reflection so that it compiles even when Cobertura is not in the classpath :
+HtmlUnit is once again the solution here. First we add an event method to the action bean that sets up the test data set. This event method will get the cobertura data, and write them into the HTTP response instead of writing them to a file. We do this by reflection so that it compiles even when Cobertura is not in the classpath :
 {{{
    public Resolution flushCobertura() throws ClassNotFoundException,
                                               SecurityException,
@@ -112,4 +112,4 @@ Then we write a little class in our test source tree with a main method like thi
 We now just have to launch this class, in the ant file, once the integration tests have been run.
 
 == Stripes and Sitemesh ==
-Sitemesh is great to apply a common template to all the pages of a webapp. It uses a servlet filter which post-processes the response of a request and adds the decoration. Given the way it works, it seems normal to position the Sitemesh filter at the beginning of the chain, just before the Stripes filter. This works, until it doesn't anymore (when adding messages in the action context and issuing a redirect, for example). In fact, in order for Stripes to work with Sitemesh, the Sitemesh filter must be after the STripes filter in the chain.
+Sitemesh is great to apply a common template to all the pages of a webapp. It uses a servlet filter which post-processes the response of a request and adds the decoration. Given the way it works, it seems normal to position the Sitemesh filter at the beginning of the chain, just before the Stripes filter. This works, until you try to use some Stripes classes in your sitemesh decorators (when adding messages in the action context and issuing a redirect, for example). In fact, in order for Stripes to work well with Sitemesh, the Sitemesh filter must be after the Stripes filter in the chain.
