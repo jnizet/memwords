@@ -127,9 +127,13 @@ public class BaseEditCardActionBean extends BaseCardsActionBean {
      */
     protected void loadFavIconUrlIfNecessary(String cardId) {
         if (!iconUrlFetched) {
-            CardDetails previousCardDetails =
-                cardService.getCardDetails(cardId, getContext().getUserInformation().getEncryptionKey());
-            if (!equalOrBothNull(this.url, previousCardDetails.getUrl())) {
+            String previousUrl = null;
+            if (cardId != null) {
+                CardDetails previousCardDetails =
+                    cardService.getCardDetails(cardId, getContext().getUserInformation().getEncryptionKey());
+                previousUrl = previousCardDetails.getUrl();
+            }
+            if (!equalOrBothNull(this.url, previousUrl)) {
                 try {
                     if (this.url == null) {
                         this.iconUrl = null;
