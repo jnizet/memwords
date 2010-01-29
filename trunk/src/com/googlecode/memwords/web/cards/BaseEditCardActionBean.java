@@ -7,6 +7,7 @@ import net.sourceforge.stripes.validation.ScopedLocalizableError;
 import net.sourceforge.stripes.validation.Validate;
 
 import com.google.inject.Inject;
+import com.googlecode.memwords.domain.CardDetails;
 import com.googlecode.memwords.facade.cards.CardService;
 import com.googlecode.memwords.facade.cards.FavIconException;
 
@@ -116,14 +117,40 @@ public class BaseEditCardActionBean extends BaseCardsActionBean {
         this.iconUrlFetched = iconUrlFetched;
     }
 
-    protected void loadFavIconUrlIfNecessary() {
-        if (!iconUrlFetched && this.url != null) {
-            try {
-                this.iconUrl = cardService.findFavIconUrl(this.url);
+    /**
+     * Loads the fav icon URL if <code>iconUrlFetched</code> is <code>false</code>
+     * (which indicates that the fav icon URL has not been fetched with AJAX at client side)
+     * and if <code>url</code> is different than the current URL of the card identified by
+     * the given cardId (which indicates that there is no reason to reload the fav icon URL,
+     * since the URL is the same as before)
+     * @param cardId the ID of the card. <code>null</code> in the case of a creation.
+     */
+    protected void loadFavIconUrlIfNecessary(String cardId) {
+        if (!iconUrlFetched) {
+            CardDetails previousCardDetails =
+                cardService.getCardDetails(cardId, getContext().getUserInformation().getEncryptionKey());
+            if (!equalOrBothNull(this.url, previousCardDetails.getUrl())) {
+                try {
+                    if (this.url == null) {
+                        this.iconUrl = null;
+                    }
+                    else {
+                        this.iconUrl = cardService.findFavIconUrl(this.url);
+                    }
+                }
+                catch (FavIconException e) {
+                    // ignore : the fav icon URL stays null
+                }
             }
-            catch (FavIconException e) {
-                // ignore : the fav icon URL stays null
-            }
+        }
+    }
+
+    private boolean equalOrBothNull(String a, String b) {
+        if (a == null) {
+            return (b == null);
+        }
+        else {
+            return a.equals(b);
         }
     }
 }
