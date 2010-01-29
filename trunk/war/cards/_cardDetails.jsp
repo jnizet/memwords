@@ -32,9 +32,7 @@
     <tr>
       <th><fmt:message key="cards._cardDetails.passwordLabel"/></th>
       <td>
-      <div style="float: left;" id="passwordDiv" class="masked"">
-        <c:out value="${card.password}" />
-      </div>
+      <div style="float: left;" id="passwordDiv" class="masked""><c:out value="${card.password}" /></div>
       <tags:help key="cards._cardDetails.maskedPasswordHelp" id="passwordHelp"/>
       <a href="#" style="display: none;" id="unmaskPasswordLink"><fmt:message key="cards._cardDetails.unmaskLink"/></a>
       <a href="#" style="display: none;" id="maskPasswordLink"><fmt:message key="cards._cardDetails.maskLink"/></a>
