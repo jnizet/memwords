@@ -151,7 +151,7 @@ public class BaseEditCardActionBean extends BaseCardsActionBean {
 
     private boolean equalOrBothNull(String a, String b) {
         if (a == null) {
-            return (b == null);
+            return b == null;
         }
         else {
             return a.equals(b);

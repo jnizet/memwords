@@ -1,6 +1,7 @@
 package com.googlecode.memwords.facade.account;
 
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.crypto.SecretKey;
 
@@ -74,4 +75,11 @@ public interface AccountService {
      * @param userId the user ID
      */
     void destroyAccount(String userId);
+
+    /**
+     * Changes the preferred time zone of the account with the given user ID
+     * @param userId the user ID
+     * @param timeZone the new preferred time zone (may be <code>null</code>)
+     */
+    void changePreferredTimeZone(String userId, TimeZone timeZone);
 }

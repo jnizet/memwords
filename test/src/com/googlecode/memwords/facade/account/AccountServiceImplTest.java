@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -164,6 +165,18 @@ public class AccountServiceImplTest extends GAETestCase {
         UserInformation userInfoAfterChange =
             implWithRealCryptoEngine.login(userId, "masterPassword");
         assertEquals(newLocale, userInfoAfterChange.getPreferredLocale());
+    }
+
+    @Test
+    public void testChangePreferredTimeZone() {
+        String userId = "userId";
+        UserInformation userInfoBeforeChange = implWithRealCryptoEngine.createAccount(userId, "masterPassword");
+        assertNull(userInfoBeforeChange.getPreferredTimeZone());
+        TimeZone timeZone = TimeZone.getTimeZone("GMT");
+        implWithRealCryptoEngine.changePreferredTimeZone(userId, timeZone);
+        UserInformation userInfoAfterChange =
+            implWithRealCryptoEngine.login(userId, "masterPassword");
+        assertEquals(timeZone, userInfoAfterChange.getPreferredTimeZone());
     }
 
     @Test

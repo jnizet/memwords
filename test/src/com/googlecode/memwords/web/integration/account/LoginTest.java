@@ -66,4 +66,17 @@ public class LoginTest {
         HtmlPage loginPage = cardsLink.click();
         testTitle(loginPage, "Log in");
     }
+
+    @Test
+    public void testWelcomeBackMessage() throws Exception {
+        WebClient wc = startWebClient();
+        // first login ever : no welcome back message
+        HtmlPage page = login(wc);
+        assertTrue(page.getHtmlElementById("messages").asText().isEmpty());
+
+        wc = startWebClient();
+        // second login : welcome back message
+        page = login(wc);
+        testMessageExists(page, "Welcome back. Your last login was on ");
+    }
 }

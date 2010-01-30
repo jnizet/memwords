@@ -1,6 +1,8 @@
 package com.googlecode.memwords.web.account;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.TimeZone;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
@@ -11,11 +13,14 @@ import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.Validate;
 
 import com.google.inject.Inject;
+import com.googlecode.memwords.domain.HistoricLogin;
 import com.googlecode.memwords.domain.UserInformation;
 import com.googlecode.memwords.facade.account.AccountService;
+import com.googlecode.memwords.facade.loginhistory.LoginHistoryService;
 import com.googlecode.memwords.web.IndexActionBean;
 import com.googlecode.memwords.web.MwActionBean;
 import com.googlecode.memwords.web.cards.CardsActionBean;
+import com.googlecode.memwords.web.util.ScopedLocalizableMessage;
 
 /**
  * Action bean used to handle the login
@@ -24,6 +29,7 @@ import com.googlecode.memwords.web.cards.CardsActionBean;
 public class LoginActionBean extends MwActionBean {
 
     private AccountService accountService;
+    private LoginHistoryService loginHistoryService;
 
     @Validate(required = true)
     private String userId;
@@ -34,8 +40,10 @@ public class LoginActionBean extends MwActionBean {
     private String requestedUrl;
 
     @Inject
-    public LoginActionBean(AccountService accountService) {
+    public LoginActionBean(AccountService accountService,
+                           LoginHistoryService loginHistoryService) {
         this.accountService = accountService;
+        this.loginHistoryService = loginHistoryService;
     }
 
     @DefaultHandler
@@ -54,6 +62,21 @@ public class LoginActionBean extends MwActionBean {
             return getContext().getSourcePageResolution();
         }
         getContext().login(userInformation);
+
+        HistoricLogin historicLogin =
+            loginHistoryService.getLatestHistoricLogin(userInformation.getUserId());
+        if (historicLogin != null) {
+            TimeZone timeZone = getContext().getTimeZone();
+            DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, getContext().getLocale());
+            dateFormat.setTimeZone(timeZone);
+            DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM, getContext().getLocale());
+            timeFormat.setTimeZone(timeZone);
+            getContext().getMessages().add(new ScopedLocalizableMessage(LoginActionBean.class,
+                                                                        "loginSucceededWithLastLogin",
+                                                                        dateFormat.format(historicLogin.getDate()),
+                                                                        timeFormat.format(historicLogin.getDate()),
+                                                                        historicLogin.getIp()));
+        }
 
         if (requestedUrl != null) {
             return new RedirectResolution(requestedUrl, false);

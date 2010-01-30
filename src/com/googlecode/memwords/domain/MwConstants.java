@@ -11,6 +11,11 @@ public final class MwConstants {
      */
     public static final int MASTER_PASSWORD_MIN_LENGTH = 4;
 
+    /**
+     * The GMT time zone ID
+     */
+    public static final String GMT = "GMT";
+
     private MwConstants() {
     }
 }

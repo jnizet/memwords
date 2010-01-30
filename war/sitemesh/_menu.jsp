@@ -8,6 +8,7 @@
                                     event="logout"><fmt:message key="menu.logout"/></stripes:link></div>
     <div class="menu"><stripes:link beanclass="com.googlecode.memwords.web.cards.CardsActionBean"><fmt:message key="menu.cards"/></stripes:link></div>
     <div class="menu"><stripes:link beanclass="com.googlecode.memwords.web.account.AccountActionBean"><fmt:message key="menu.account"/></stripes:link></div>
+    <div class="menu"><stripes:link beanclass="com.googlecode.memwords.web.loginhistory.LoginHistoryActionBean"><fmt:message key="menu.loginHistory"/></stripes:link></div>
     <div class="menu"><stripes:link beanclass="com.googlecode.memwords.web.preferences.PreferencesActionBean"><fmt:message key="menu.preferences"/></stripes:link></div>
   </c:when>
   <c:otherwise>

@@ -254,3 +254,12 @@ div.screenshot {
   text-align: center;
   margin-bottom: 15px;
 }
+table.data {
+  border-collapse: collapse;
+}
+table.data th, table.data td {
+  text-align: left;
+  padding: 5px 10px 5px 10px;
+  border-bottom: 1px solid #dddddd;
+  margin: 0;
+}

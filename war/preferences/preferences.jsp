@@ -19,5 +19,10 @@
       <img class="icon" alt="" src="<c:url value="/img/locale.png"/>"/>
       <fmt:message key="preferences.preferences.changePreferredLocale"/></stripes:link>
   </div>
+  <div>
+    <stripes:link beanclass="com.googlecode.memwords.web.preferences.ChangePreferredTimeZoneActionBean">
+      <img class="icon" alt="" src="<c:url value="/img/timezone.png"/>"/>
+      <fmt:message key="preferences.preferences.changePreferredTimeZone"/></stripes:link>
+  </div>
 </body>
 </html>
