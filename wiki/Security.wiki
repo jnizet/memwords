@@ -44,4 +44,4 @@ When the user logs in, its user ID and password are concatenated, then hashed tw
 
 Once logged in, we can't store _K_, nor the master password, in the session, because Google App Engine stores the session data in the database. We thus use a session cookie which is kept in memory by the user's web browser, and sent back to the server at each request, until the user logs out or the browser is closed.
 
-[http://memwords.googlecode.com/files/security.png]
+[http://memwords.googlecode.com/svn/wiki/security.png]
