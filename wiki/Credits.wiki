@@ -1,4 +1,8 @@
 #labels Featured
 = Credits =
 
-Thanks to [http://www.famfamfam.com/ Mark James and it collection of free icons].
+Thanks to Mark James for his [http://www.famfamfam.com/ collection of free icons].
+
+Thanks to Tatice for his [http://tatice.deviantart.com/ collection of operating system icons].
+
+Thanks to J.max for his [http://www.morcha.net/post/46.html collection of web browser icons].
