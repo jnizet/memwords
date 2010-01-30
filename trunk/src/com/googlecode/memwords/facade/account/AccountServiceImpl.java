@@ -2,6 +2,7 @@ package com.googlecode.memwords.facade.account;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.crypto.SecretKey;
 import javax.persistence.EntityManager;
@@ -52,7 +53,10 @@ public class AccountServiceImpl implements AccountService {
             account.setEncryptedSecretKey(encryptedSecretKey);
             em.persist(account);
             tx.commit();
-            return new UserInformation(account.getUserId(), secretKey, account.getPreferredLocale());
+            return new UserInformation(account.getUserId(),
+                                       secretKey,
+                                       account.getPreferredLocale(),
+                                       account.getPreferredTimeZone());
         }
         finally {
             if (tx.isActive()) {
@@ -77,7 +81,10 @@ public class AccountServiceImpl implements AccountService {
                                                            wrappingKey,
                                                            iv);
         SecretKey secretKey = cryptoEngine.bytesToSecretKey(encryptionKeyAsBytes);
-        return new UserInformation(account.getUserId(), secretKey, account.getPreferredLocale());
+        return new UserInformation(account.getUserId(),
+                                   secretKey,
+                                   account.getPreferredLocale(),
+                                   account.getPreferredTimeZone());
     }
 
     @Override
@@ -144,6 +151,22 @@ public class AccountServiceImpl implements AccountService {
             }
 
             em.remove(account);
+            tx.commit();
+        }
+        finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+        }
+    }
+
+    @Override
+    public void changePreferredTimeZone(String userId, TimeZone timeZone) {
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            Account account = getAccount(userId);
+            account.setPreferredTimeZone(timeZone);
             tx.commit();
         }
         finally {

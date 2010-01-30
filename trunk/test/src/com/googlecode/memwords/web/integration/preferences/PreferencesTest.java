@@ -36,5 +36,9 @@ public class PreferencesTest {
         HtmlAnchor changePreferredLocaleLink = page.getAnchorByText("Choose your preferred language");
         HtmlPage changePreferredLocalePage = changePreferredLocaleLink.click();
         testTitle(changePreferredLocalePage, "Choose preferred language");
+
+        HtmlAnchor changePreferredTimeZoneLink = page.getAnchorByText("Choose your time zone");
+        HtmlPage changePreferredTimeZonePage = changePreferredTimeZoneLink.click();
+        testTitle(changePreferredTimeZonePage, "Choose time zone");
     }
 }

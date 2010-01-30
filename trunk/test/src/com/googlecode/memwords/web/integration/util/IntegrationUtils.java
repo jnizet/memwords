@@ -97,13 +97,14 @@ public final class IntegrationUtils {
         assertTrue("This message wasn't found", found);
     }
 
-    public static void login(WebClient wc) throws Exception {
+    public static HtmlPage login(WebClient wc) throws Exception {
         HtmlPage page = wc.getPage(url("/account/Login.action"));
         HtmlForm form = page.getHtmlElementById("loginForm");
         form.getInputByName("userId").type("test");
         form.getInputByName("masterPassword").type("test");
         page = form.getInputByValue("Log in").click();
         testTitle(page, "Cards");
+        return page;
     }
 
     public static HtmlAnchor getFirstLinkByText(HtmlElement e, String text) {

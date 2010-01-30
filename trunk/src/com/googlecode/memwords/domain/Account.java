@@ -1,14 +1,18 @@
 package com.googlecode.memwords.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.apache.commons.lang.LocaleUtils;
 
@@ -22,6 +26,11 @@ import org.apache.commons.lang.LocaleUtils;
 @SuppressWarnings("serial")
 @Entity
 public class Account implements Serializable {
+
+    /**
+     * The max number of historic logins per account
+     */
+    public static final int MAX_HISTORIC_LOGIN_COUNT = 5;
 
     /**
      * The user ID, which is also the primary key of the account.
@@ -46,10 +55,22 @@ public class Account implements Serializable {
     private String preferredLocale;
 
     /**
+     * The preferred time zone (ID)
+     */
+    private String preferredTimeZone;
+
+    /**
      * The authentication infos linked to this account
      */
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Card> cards = new LinkedList<Card>();
+
+    /**
+     * The historic logins of this account, sorted by date, in descending order (latest first)
+     */
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OrderBy("date DESC")
+    private List<HistoricLogin> historicLogins = new ArrayList<HistoricLogin>();
 
     public Account() {
     }
@@ -95,6 +116,22 @@ public class Account implements Serializable {
         }
     }
 
+    public TimeZone getPreferredTimeZone() {
+        if (this.preferredTimeZone == null) {
+            return null;
+        }
+        return TimeZone.getTimeZone(this.preferredTimeZone);
+    }
+
+    public void setPreferredTimeZone(TimeZone timeZone) {
+        if (timeZone == null) {
+            this.preferredTimeZone = null;
+        }
+        else {
+            this.preferredTimeZone = timeZone.getID();
+        }
+    }
+
     public List<Card> getCards() {
         return Collections.unmodifiableList(cards);
     }
@@ -102,5 +139,30 @@ public class Account implements Serializable {
     public void addCard(Card card) {
         card.setAccount(this);
         this.cards.add(card);
+    }
+
+    public List<HistoricLogin> getHistoricLogins() {
+        return Collections.unmodifiableList(historicLogins);
+    }
+
+    /**
+     * Adds a historic login at the beginning of the list
+     * @return <code>true</code> if the number of logins after the
+     * addition is larger than {@link #MAX_HISTORIC_LOGIN_COUNT MAX_HISTORIC_LOGIN_COUNT}
+     */
+    public boolean addHistoricLogin(HistoricLogin historicLogin) {
+        historicLogin.setAccount(this);
+        historicLogins.add(0, historicLogin);
+        return historicLogins.size() > MAX_HISTORIC_LOGIN_COUNT;
+    }
+
+    /**
+     * Removes the historic logins at the end of the list until the size of the list
+     * is equal to {@link #MAX_HISTORIC_LOGIN_COUNT MAX_HISTORIC_LOGIN_COUNT}
+     */
+    public void removeOldHistoricLogins() {
+        while (historicLogins.size() > MAX_HISTORIC_LOGIN_COUNT) {
+            historicLogins.remove(historicLogins.size() - 1);
+        }
     }
 }
