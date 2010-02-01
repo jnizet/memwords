@@ -1,5 +1,7 @@
 = Gotchas, tips and tricks =
 
+<wiki:toc max_depth="2" />
+
 == Google App Engine and .jspf files ==
 Although JSP pages with the .jspf extension work well locally, using the GAE SDK, they are not compiled and thus don't work once deployed. Avoid .jspf files.
 
@@ -22,15 +24,16 @@ There is another way: making AJAX calls synchronous with JQuery:
 {{{
 $.ajaxSetup({ async: false });
 }}}
-But we would like AJAX queries to be synchronous only for integrations tests with HtmlUnit. Here's the trick.
+But we would like AJAX queries to be synchronous only for integrations tests with HtmlUnit, when we need it. Here's the trick.
 Add a header to all the requests done through a HtmlUnit WebClient:
 {{{
-wc.addRequestHeader("integrationTesting", "true");
+wc.addRequestHeader("ajaxSync", "true");
 }}}
 In the common template JSP (Sitemesh is used to apply a common template to all the pages of the application), add the following code:
 {{{
-<c:if test="${header.integrationTesting == true}">$.ajaxSetup({ async: false });</c:if>
+<c:if test="${header.ajaxSync == true}">$.ajaxSetup({ async: false });</c:if>
 }}}
+Using `waitForBackgroundJavaScript` is still sometimes needed when using animations, though.
 
 == HtmlUnit and test data ==
 Each HtmlUnit test expects the application to work with a pre-defined test data-set. But some tests will obviously make changes to this data-set: add cards, destroy an account, etc. The setUp of each HtmlUnit test should thus repopulate the database with the original data-set. With a SQL database, it would be trivial. But with GAE, everything must be created and deleted via the API using persistent entities. The solution is simple: add an action to our application which resets the database in its initial state, using our functional services. Each HtmlUnit test setUp will then call a utility method, which will start a WebClient instance, and invoke the action through its URL. Of course, this must not be possible in production mode (it would delete all the accounts from the production database). Fortunately, it's easy to detect if the application runs in production mode: 
