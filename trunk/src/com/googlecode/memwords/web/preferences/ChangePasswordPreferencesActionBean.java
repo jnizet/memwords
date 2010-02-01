@@ -59,7 +59,7 @@ public class ChangePasswordPreferencesActionBean extends MwActionBean {
         accountService.changePreferences(userInformation.getUserId(),
                                          newPreferences);
         getContext().setUserInformation(
-           userInformation.withPreferences(newPreferences));
+            userInformation.withPreferences(newPreferences));
         getContext().getMessages().add(
             new ScopedLocalizableMessage(ChangePasswordPreferencesActionBean.class,
                                          "passwordPreferencesChanged"));

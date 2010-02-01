@@ -8,6 +8,6 @@
     <span class="message"><fmt:message key="account._userIdAvailability.userIdAvailable"/></span>
   </c:when>
   <c:otherwise>
-    <span class="error">This user ID is not available</span>
+    <span class="error"><fmt:message key="account._userIdAvailability.userIdNotAvailable"/></span>
   </c:otherwise>
 </c:choose>
