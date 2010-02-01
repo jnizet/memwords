@@ -1,0 +1,268 @@
+/*
+ * Layout 
+ */
+body {
+  margin: 0;
+}
+#header, #footer {
+  margin: 0;
+}
+#container {
+  background-color: white;
+  overflow: hidden;
+  margin: 0;
+  padding-left: 125px; /* The width of the rail */
+}
+* html #container {
+  height: 1%; /* So IE plays nice */
+}
+#content {
+  width: 100%;
+  border-left: 125px solid #336699; /* The width and color of the rail */
+  margin-left: -125px; /* Hat tip to Ryan Brill */
+  float: right;
+}
+#sidebar {
+  background-color: #336699;
+  width: 125px;
+  float: left;
+  margin-left: -125px;
+  display: inline; /* So IE plays nice */
+}
+
+/**
+ * style
+ */
+body { 
+  font-family: Verdana, Arial, Helvetica, sans-serif; 
+  font-size: 10pt; 
+  background-color: white;
+}
+
+#header, #footer {
+  background-color: #134879;
+  color: white;
+  padding: 10px;
+}
+#header {
+  font-size : 20pt;
+}
+#footer {
+  font-size : 8pt;
+}
+#header a, #footer a, #sidebar a {
+  color: white;
+}
+#header a {
+  text-decoration: none;
+}
+#sidebar {
+  color: white;
+  min-height: 600px;
+}
+#sidebar div.menu {
+  padding: 10px;	
+}
+#messages, #body {
+  padding: 3px 10px 3px 10px;
+}
+#messages {
+  border-bottom : 1px solid #134879;
+  border-left : 1px solid #134879;
+  border-right : 1px solid #134879;
+  margin-left: 20px;
+  margin-right: 20px;
+  -moz-border-radius-bottomleft: 3px;
+  -moz-border-radius-bottomright: 3px;
+}
+#messagesControl {
+  display: none;
+  float: right;	
+}
+h1 {
+  margin: 6px 0 6px 0;
+}
+th {
+  text-align: right;
+}
+.error {
+  background-color: rgb(255, 128, 128);
+}
+span.error {
+  color : red;
+  background-color: transparent;
+}
+span.message {
+  color : green;
+}
+ul.errors {
+  color : red;
+  font-weight: bold;
+}
+ul.errors li {
+  list-style-type: none;
+  background-image: url(../img/error.png);
+  background-repeat: no-repeat;
+  padding-left: 25px;
+}
+ul.messages {
+  color : green;
+  font-weight: bold;
+}
+ul.messages li {
+  list-style-type: none;
+  background-image: url(../img/success.png);
+  background-repeat: no-repeat;
+  padding-left: 25px;
+}
+#body div {
+  padding: 3px;
+}
+img {
+  border: none;
+}
+/*
+ * Cards styles
+ */
+div#cards {
+  padding: 0;
+  min-width: 330px;
+  float: left;
+}
+div.card, div#cardDetails, div#features, div#resume {
+  background: #dddddd;
+  border: 1px solid #aaaaaa;
+  margin: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -khtml-border-radius: 3px;
+}
+div.card {
+  min-width: 150px;
+  float: left;
+}
+div#cardDetails {
+  min-width: 400px;
+  min-height: 400px;
+  float: left;
+  position: relative;
+}
+div#cardDetails h2 a{
+  text-decoration: none;
+}
+div.spacer {
+  clear: both;
+  height: 0;
+  padding: 0 !important;
+}
+div.card a {
+  font-weight: bold;
+  display: block;
+  text-decoration: none;
+  color: black;
+}
+div.cardLinks {
+  text-align: right;
+}
+div.cardLinks a {
+  display: inline;
+}
+div.cardLinks a img{
+  border: 1px solid transparent;
+}
+div.cardLinks a img:hover {
+  border: 1px solid #aaaaaa;
+}
+div#cardDetailsLinks {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 100%;
+}
+img.cardIcon, img.loading, img.icon {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+a.external {
+  background: transparent url(../img/external.png) no-repeat scroll right center;
+  padding-right: 13px;
+}
+div.masked {
+  color : transparent;
+  background: transparent url(../img/bullet.png) repeat-x scroll left center;
+  min-width: 154px;
+  min-height: 16px;
+}
+div.unmasked {
+  min-width: 154px;
+  min-height: 16px;
+}
+div.masked::-moz-selection {
+  background: #134879;
+  color: transparent;
+}
+div.masked::selection  {
+  background: 134879;
+  color: transparent;
+}
+label.required {
+  background: transparent url(../img/go.png) no-repeat scroll left center;
+  padding: 0 0 0 16px;
+}
+img.help {
+  cursor: help;
+}
+div.formNotice {
+  font-style: italic;
+  font-size: 8pt;
+}
+
+/*
+ * welcome page
+ */
+div#resume {
+  float: left;
+  width: 300px;
+}
+div#features {
+  float: left;
+  width: 300px;
+}
+div#features ul {
+  padding-left: 5px;    
+}
+div#features li {
+  list-style-type: none;
+  background-image: url(../img/tick.png);
+  background-repeat: no-repeat;
+  padding-left: 25px;
+}
+div#faq {
+    clear: both;
+}
+div#faq div.question {
+  background-image: url(../img/bullet_blue.png);
+  background-repeat: no-repeat;
+  background-position: 3px 3px;
+  padding-left: 20px;
+  font-weight: bold;
+  color: #336699;
+}
+div.screenshot {
+  text-align: center;
+  margin-bottom: 15px;
+}
+th.top {
+  vertical-align: top;
+  padding-top: 1px;
+}
+table.data {
+  border-collapse: collapse;
+}
+table.data th, table.data td {
+  text-align: left;
+  padding: 5px 10px 5px 10px;
+  border-bottom: 1px solid #dddddd;
+  margin: 0;
+}
