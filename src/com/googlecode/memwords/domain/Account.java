@@ -60,6 +60,12 @@ public class Account implements Serializable {
     private String preferredTimeZone;
 
     /**
+     * Preferences regarding the default masking of passwords
+     * (<code>null</code> for easy migration)
+     */
+    private Boolean passwordsUnmasked = false;
+
+    /**
      * The authentication infos linked to this account
      */
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
@@ -130,6 +136,17 @@ public class Account implements Serializable {
         else {
             this.preferredTimeZone = timeZone.getID();
         }
+    }
+
+    public boolean isPasswordsUnmasked() {
+        if (passwordsUnmasked == null) {
+            return false;
+        }
+        return passwordsUnmasked;
+    }
+
+    public void setPasswordsUnmasked(boolean passwordsUnmasked) {
+        this.passwordsUnmasked = passwordsUnmasked;
     }
 
     public List<Card> getCards() {

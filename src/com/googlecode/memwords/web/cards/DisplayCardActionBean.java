@@ -17,14 +17,14 @@ public class DisplayCardActionBean extends BaseCardsActionBean {
 
     @Validate(required = true)
     private String cardId;
-    
+
     private CardDetails card;
-    
+
     @Inject
     public DisplayCardActionBean(CardService cardService) {
         super(cardService);
     }
-    
+
     @DefaultHandler
     public Resolution view() {
         loadCards();
@@ -47,5 +47,9 @@ public class DisplayCardActionBean extends BaseCardsActionBean {
 
     public CardDetails getCard() {
         return card;
+    }
+
+    public boolean isPasswordsUnmasked() {
+        return getContext().getUserInformation().getPreferences().isPasswordsUnmasked();
     }
 }

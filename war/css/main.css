@@ -253,6 +253,10 @@ div.screenshot {
   text-align: center;
   margin-bottom: 15px;
 }
+th.top {
+  vertical-align: top;
+  padding-top: 1px;
+}
 table.data {
   border-collapse: collapse;
 }

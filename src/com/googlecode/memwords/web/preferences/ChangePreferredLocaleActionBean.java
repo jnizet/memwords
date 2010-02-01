@@ -11,10 +11,9 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.validation.Validate;
-import net.sourceforge.stripes.validation.ValidationErrorHandler;
-import net.sourceforge.stripes.validation.ValidationErrors;
 
 import com.google.inject.Inject;
+import com.googlecode.memwords.domain.Preferences;
 import com.googlecode.memwords.domain.UserInformation;
 import com.googlecode.memwords.facade.account.AccountService;
 import com.googlecode.memwords.web.MwActionBean;
@@ -26,7 +25,7 @@ import com.googlecode.memwords.web.util.ScopedLocalizableMessage;
  * Action bean used to change the preferred locale
  * @author JB
  */
-public class ChangePreferredLocaleActionBean extends MwActionBean implements ValidationErrorHandler {
+public class ChangePreferredLocaleActionBean extends MwActionBean {
 
     @Validate(converter = LocaleTypeConverter.class)
     private Locale locale;
@@ -44,15 +43,35 @@ public class ChangePreferredLocaleActionBean extends MwActionBean implements Val
     @DontValidate
     public Resolution view() {
         loadSupportedLocales();
-        this.locale = getContext().getUserInformation().getPreferredLocale();
+        loadLocale();
         return new ForwardResolution("/preferences/changePreferredLocale.jsp");
+    }
+
+    @DontValidate
+    public Resolution ajaxView() {
+        loadSupportedLocales();
+        loadLocale();
+        return new ForwardResolution("/preferences/ajaxChangePreferredLocale.jsp");
+    }
+
+    private void loadSupportedLocales() {
+        supportedLocales = new ArrayList<DisplayedLocale>(MwLocalePicker.SUPPORTED_LOCALES.size());
+        for (Locale l : MwLocalePicker.SUPPORTED_LOCALES) {
+            supportedLocales.add(new DisplayedLocale(l));
+        }
+    }
+
+    private void loadLocale() {
+        this.locale = getContext().getUserInformation().getPreferences().getLocale();
     }
 
     public Resolution change() {
         UserInformation userInformation = getContext().getUserInformation();
-        accountService.changePreferredLocale(userInformation.getUserId(),
-                                             locale);
-        getContext().setUserInformation(userInformation.withPreferredLocale(locale));
+        Preferences preferences = userInformation.getPreferences();
+        Preferences newPreferences = preferences.withLocale(this.locale);
+        accountService.changePreferences(userInformation.getUserId(), newPreferences);
+        getContext().setUserInformation(
+            userInformation.withPreferences(newPreferences));
         getContext().getMessages().add(new ScopedLocalizableMessage(ChangePreferredLocaleActionBean.class,
                                                                     "preferredLocaleChanged"));
         return new RedirectResolution(PreferencesActionBean.class);
@@ -61,19 +80,6 @@ public class ChangePreferredLocaleActionBean extends MwActionBean implements Val
     @DontBind
     public Resolution cancel() {
         return new RedirectResolution(PreferencesActionBean.class);
-    }
-
-    @Override
-    public Resolution handleValidationErrors(ValidationErrors errors) {
-        loadSupportedLocales();
-        return null;
-    }
-
-    private void loadSupportedLocales() {
-        supportedLocales = new ArrayList<DisplayedLocale>(MwLocalePicker.SUPPORTED_LOCALES.size());
-        for (Locale l : MwLocalePicker.SUPPORTED_LOCALES) {
-            supportedLocales.add(new DisplayedLocale(l));
-        }
     }
 
     public List<DisplayedLocale> getSupportedLocales() {

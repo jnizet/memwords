@@ -1,12 +1,10 @@
 package com.googlecode.memwords.facade.account;
 
-import java.util.Locale;
-import java.util.TimeZone;
-
 import javax.crypto.SecretKey;
 
 import com.google.inject.ImplementedBy;
 import com.googlecode.memwords.domain.Account;
+import com.googlecode.memwords.domain.Preferences;
 import com.googlecode.memwords.domain.UserInformation;
 
 
@@ -64,22 +62,15 @@ public interface AccountService {
     boolean accountExists(String userId);
 
     /**
-     * Changes the preferred locale of the account with the given user ID
+     * Changes the preferences of the account with the given user ID
      * @param userId the user ID
-     * @param locale the new preferred locale (may be <code>null</code>)
+     * @param locale the new preferences
      */
-    void changePreferredLocale(String userId, Locale locale);
+    void changePreferences(String userId, Preferences preferences);
 
     /**
      * Destroys the account with the given user ID
      * @param userId the user ID
      */
     void destroyAccount(String userId);
-
-    /**
-     * Changes the preferred time zone of the account with the given user ID
-     * @param userId the user ID
-     * @param timeZone the new preferred time zone (may be <code>null</code>)
-     */
-    void changePreferredTimeZone(String userId, TimeZone timeZone);
 }

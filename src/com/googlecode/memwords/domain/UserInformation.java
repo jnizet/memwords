@@ -1,8 +1,6 @@
 package com.googlecode.memwords.domain;
 
 import java.io.Serializable;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import javax.crypto.SecretKey;
 
@@ -15,17 +13,14 @@ import javax.crypto.SecretKey;
 public final class UserInformation implements Serializable {
     private String userId;
     private SecretKey encryptionKey;
-    private Locale preferredLocale;
-    private TimeZone preferredTimeZone;
+    private Preferences preferences;
 
     public UserInformation(String userId,
                            SecretKey encryptionKey,
-                           Locale preferredLocale,
-                           TimeZone preferredTimeZone) {
+                           Preferences preferences) {
         this.userId = userId;
         this.encryptionKey = encryptionKey;
-        this.preferredLocale = preferredLocale;
-        this.preferredTimeZone = preferredTimeZone;
+        this.preferences = preferences;
     }
 
     public String getUserId() {
@@ -36,39 +31,25 @@ public final class UserInformation implements Serializable {
         return encryptionKey;
     }
 
-    public Locale getPreferredLocale() {
-        return preferredLocale;
-    }
-
-    public TimeZone getPreferredTimeZone() {
-        return preferredTimeZone;
+    public Preferences getPreferences() {
+        return preferences;
     }
 
     public UserInformation withoutSecretKey() {
         return new UserInformation(this.userId,
                                    null,
-                                   this.preferredLocale,
-                                   this.preferredTimeZone);
+                                   this.preferences);
     }
 
     public UserInformation withSecretKey(SecretKey secretKey) {
         return new UserInformation(this.userId,
                                    secretKey,
-                                   this.preferredLocale,
-                                   this.preferredTimeZone);
+                                   this.preferences);
     }
 
-    public UserInformation withPreferredLocale(Locale preferredLocale) {
+    public UserInformation withPreferences(Preferences preferences) {
         return new UserInformation(this.userId,
                                    this.encryptionKey,
-                                   preferredLocale,
-                                   this.preferredTimeZone);
-    }
-
-    public UserInformation withPreferredTimeZone(TimeZone preferredTimeZone) {
-        return new UserInformation(this.userId,
-                                   this.encryptionKey,
-                                   this.preferredLocale,
-                                   preferredTimeZone);
+                                   preferences);
     }
 }
