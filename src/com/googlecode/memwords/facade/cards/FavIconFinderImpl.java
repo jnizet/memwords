@@ -22,6 +22,10 @@ public class FavIconFinderImpl implements FavIconFinder {
     public String findFavIcon(InputSource source, URL baseUrl) throws FavIconException {
         FavIconSaxParser parser = new FavIconSaxParser();
         try {
+            // workaround for Java bug #4666701
+            if ("".equals(baseUrl.getFile()))  {
+                baseUrl = new URL(baseUrl.toString() + "/");
+            }
             URI uri = baseUrl.toURI();
             String potentiallyRelativeUrl = parser.findFavIcon(source);
             if (potentiallyRelativeUrl == null) {
