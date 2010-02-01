@@ -205,9 +205,13 @@ public class CardServiceImpl implements CardService {
             try {
                 HTTPResponse response = urlFetchService.fetch(url);
                 if (response != null) {
+                    URL finalUrl = url;
+                    if (response.getFinalUrl() != null) {
+                        finalUrl = response.getFinalUrl();
+                    }
                     InputSource inputSource =
                         new InputSource(new ByteArrayInputStream(response.getContent()));
-                    String iconUrl = favIconFinder.findFavIcon(inputSource, url);
+                    String iconUrl = favIconFinder.findFavIcon(inputSource, finalUrl);
                     if (iconUrl != null) {
                         return iconUrl;
                     }
