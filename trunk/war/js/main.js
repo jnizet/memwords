@@ -25,19 +25,31 @@ function showMessagePanel() {
     $("#showMessagesLink").hide();
     $("#hideMessagesLink").show();
     $("#messages").hide();
-    $("#messages").slideDown("normal");
+    $("#messages").slideDown();
     return false;
 }
 
 /**
-* Hides the message panel with a sliding effect, and adapts the visibility of the message
-* panel control links
-* @return <code>false</code>
-*/
+ * Hides the message panel with a sliding effect, and adapts the visibility of the message
+ * panel control links
+ * @return <code>false</code>
+ */
 function hideMessagePanel() {
     $("#showMessagesLink").show();
     $("#hideMessagesLink").hide();
-    $("#messages").slideUp("normal");
+    $("#messages").slideUp();
+    return false;
+}
+
+/**
+ * Hides and clears the message panel with a sliding effect
+ * @return <code>false</code>
+ */
+function clearMessagePanel() {
+    $("#messages").slideUp(function() {
+        $("#messages").html("");
+        initMessages();
+    });
     return false;
 }
 

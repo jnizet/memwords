@@ -85,10 +85,10 @@ public class MwActionBeanContext extends ActionBeanContext {
     }
 
     public void setUserInformation(UserInformation info) {
-        MwLocalePicker.setPreferredLocale(getRequest(), info.getPreferredLocale());
+        MwLocalePicker.setPreferredLocale(getRequest(), info.getPreferences().getLocale());
         getRequest().setAttribute(USER_INFORMATION_REQUEST_ATTRIBUTE, info);
         getRequest().getSession().setAttribute(USER_INFORMATION_SESSION_ATTRIBUTE, info.withoutSecretKey());
-        Config.set(getRequest().getSession(), Config.FMT_TIME_ZONE, info.getPreferredTimeZone());
+        Config.set(getRequest().getSession(), Config.FMT_TIME_ZONE, info.getPreferences().getTimeZone());
     }
 
     /**
@@ -147,7 +147,7 @@ public class MwActionBeanContext extends ActionBeanContext {
 
     @Override
     public Locale getLocale() {
-        Locale result = getUserInformation().getPreferredLocale();
+        Locale result = getUserInformation().getPreferences().getLocale();
         if (result == null) {
             result = super.getLocale();
         }
@@ -156,8 +156,8 @@ public class MwActionBeanContext extends ActionBeanContext {
 
     public TimeZone getTimeZone() {
         UserInformation userInformation = getUserInformation();
-        if (userInformation != null && userInformation.getPreferredTimeZone() != null) {
-            return userInformation.getPreferredTimeZone();
+        if (userInformation != null && userInformation.getPreferences().getTimeZone() != null) {
+            return userInformation.getPreferences().getTimeZone();
         }
         else {
             return TimeZone.getTimeZone(MwConstants.GMT);

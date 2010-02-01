@@ -2,7 +2,12 @@
   <c:set var="card" value="${actionBean.card}" />
   <script type="text/javascript">
     $(document).ready(function() {
-      $("#unmaskPasswordLink").show();
+      <c:if test="${actionBean.passwordsUnmasked}">
+        $("#maskPasswordLink").show();
+      </c:if>
+      <c:if test="${!actionBean.passwordsUnmasked}">
+        $("#unmaskPasswordLink").show();
+      </c:if>
       $("#unmaskPasswordLink").click(function() {
         return unmaskPassword();
       }); 
@@ -32,8 +37,12 @@
     <tr>
       <th><fmt:message key="cards._cardDetails.passwordLabel"/></th>
       <td>
-      <div style="float: left;" id="passwordDiv" class="masked""><c:out value="${card.password}" /></div>
-      <tags:help key="cards._cardDetails.maskedPasswordHelp" id="passwordHelp"/>
+      <c:set var="passwordClass" value="masked"/>
+      <c:if test="${actionBean.passwordsUnmasked}"><c:set var="passwordClass" value="unmasked"/></c:if>
+      <div style="float: left;" id="passwordDiv" class="${passwordClass}"><c:out value="${card.password}" /></div>
+      <tags:help key="cards._cardDetails.maskedPasswordHelp" 
+                 id="passwordHelp"
+                 hidden="${actionBean.passwordsUnmasked}"/>
       <a href="#" style="display: none;" id="unmaskPasswordLink"><fmt:message key="cards._cardDetails.unmaskLink"/></a>
       <a href="#" style="display: none;" id="maskPasswordLink"><fmt:message key="cards._cardDetails.maskLink"/></a>
       </td>
@@ -47,7 +56,7 @@
       </td>
     </tr>
     <tr>
-      <th style="vertical-align: top;"><fmt:message key="cards._cardDetails.noteLabel"/></th>
+      <th class="top"><fmt:message key="cards._cardDetails.noteLabel"/></th>
       <td><tags:nlToBr value="${card.note}"/></td>
     </tr>
     <tr>

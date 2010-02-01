@@ -46,7 +46,7 @@
   </td>
 </tr>
 <tr>
-  <th style="vertical-align: top;"><fmt:message key="cards._editCardRows.noteLabel"/></th>
+  <th class="top"><fmt:message key="cards._editCardRows.noteLabel"/></th>
   <td>
      <stripes:textarea name="note" cols="45" rows="3"/>
      <tags:help key="cards._editCardRows.noteHelp"/>

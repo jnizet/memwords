@@ -18,6 +18,7 @@ import org.junit.Test;
 import com.googlecode.memwords.domain.Account;
 import com.googlecode.memwords.domain.Card;
 import com.googlecode.memwords.domain.CardDetails;
+import com.googlecode.memwords.domain.Preferences;
 import com.googlecode.memwords.domain.UserInformation;
 import com.googlecode.memwords.facade.cards.CardService;
 import com.googlecode.memwords.facade.cards.CardServiceImpl;
@@ -89,7 +90,7 @@ public class AccountServiceImplTest extends GAETestCase {
         assertTrue(account.getCards().isEmpty());
         assertTrue(Arrays.equals(hashedTwiceUserIdAndPassword, account.getMasterPassword()));
         assertTrue(Arrays.equals(encryptedSecretKey, account.getEncryptedSecretKey()));
-
+        assertFalse(account.isPasswordsUnmasked());
         verify(mockCryptoEngine);
     }
 
@@ -156,27 +157,20 @@ public class AccountServiceImplTest extends GAETestCase {
     }
 
     @Test
-    public void testChangePreferredLocale() {
+    public void testChangePreferences() {
         String userId = "userId";
         UserInformation userInfoBeforeChange = implWithRealCryptoEngine.createAccount(userId, "masterPassword");
-        assertNull(userInfoBeforeChange.getPreferredLocale());
+        assertNull(userInfoBeforeChange.getPreferences().getLocale());
+        assertNull(userInfoBeforeChange.getPreferences().getTimeZone());
+        assertFalse(userInfoBeforeChange.getPreferences().isPasswordsUnmasked());
         Locale newLocale = new Locale("fr", "FR");
-        implWithRealCryptoEngine.changePreferredLocale(userId, newLocale);
+        TimeZone newTimeZone = TimeZone.getTimeZone("Europe/Paris");
+        implWithRealCryptoEngine.changePreferences(userId, new Preferences(newLocale, newTimeZone, true));
         UserInformation userInfoAfterChange =
             implWithRealCryptoEngine.login(userId, "masterPassword");
-        assertEquals(newLocale, userInfoAfterChange.getPreferredLocale());
-    }
-
-    @Test
-    public void testChangePreferredTimeZone() {
-        String userId = "userId";
-        UserInformation userInfoBeforeChange = implWithRealCryptoEngine.createAccount(userId, "masterPassword");
-        assertNull(userInfoBeforeChange.getPreferredTimeZone());
-        TimeZone timeZone = TimeZone.getTimeZone("GMT");
-        implWithRealCryptoEngine.changePreferredTimeZone(userId, timeZone);
-        UserInformation userInfoAfterChange =
-            implWithRealCryptoEngine.login(userId, "masterPassword");
-        assertEquals(timeZone, userInfoAfterChange.getPreferredTimeZone());
+        assertEquals(newLocale, userInfoAfterChange.getPreferences().getLocale());
+        assertEquals(newTimeZone, userInfoAfterChange.getPreferences().getTimeZone());
+        assertTrue(userInfoAfterChange.getPreferences().isPasswordsUnmasked());
     }
 
     @Test

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebAssert;
@@ -13,7 +14,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
 
 /**
  * Utility methods for integration (HtmlUnit) tests
@@ -27,18 +30,29 @@ public final class IntegrationUtils {
     }
 
     /**
-     * Starts and returns a web client.
-     * The web client simulates Firefox 3, and is configured with a
-     * <code>NicelyResynchronizingAjaxController</code>. All requests sent by the web client also
-     * have an additional header "integrationTesting=true", in order for the server to know
-     * an integration test is associated to the request, and adapt the Ajax calls in order for them
-     * to be synchronized and thus avoid having to wait for background tasks to complete
+     * Starts and returns a web client, using {@link #startWebClient(boolean) startWebClient(true)}.
      * @return the web client
      */
     public static WebClient startWebClient() {
+        return startWebClient(true);
+    }
+
+    /**
+     * Starts and returns a web client siumulating Firefox 3, with CSS disabled.
+     * If <code>ajaxSync</code> is <code>true</code>, then the web client is configured with a
+     * <code>NicelyResynchronizingAjaxController</code>. All requests
+     * sent by the web client also have an additional header "ajaxSync=true", in order for the server
+     * to know that Ajax should not be asynchronous, and adapt the Ajax calls in order for them
+     * to be synchronized and thus avoid having to wait for background tasks to complete
+     * @return the web client
+     */
+    public static WebClient startWebClient(boolean ajaxSync) {
         WebClient wc = new WebClient(BrowserVersion.FIREFOX_3);
-        wc.addRequestHeader("integrationTesting", "true");
-        wc.setAjaxController(new NicelyResynchronizingAjaxController());
+        wc.setCssEnabled(false);
+        if (ajaxSync) {
+            wc.addRequestHeader("ajaxSync", "true");
+            wc.setAjaxController(new NicelyResynchronizingAjaxController());
+        }
         return wc;
     }
 
@@ -129,6 +143,17 @@ public final class IntegrationUtils {
 
     public static void testElementNotPresent(HtmlPage page, String elementId) {
         WebAssert.assertElementNotPresent(page, elementId);
+    }
+
+    public static HtmlRadioButtonInput getRadioByNameAndValue(HtmlForm form, String name, String value) {
+        List<HtmlInput> radios = form.getInputsByName(name);
+        for (HtmlInput radio : radios) {
+            if (radio instanceof HtmlRadioButtonInput
+                && value.equals(radio.getValueAttribute())) {
+                return (HtmlRadioButtonInput) radio;
+            }
+        }
+        throw new ElementNotFoundException("input[type=radio, name=" + name + "]", "value", value);
     }
 
     private static boolean errorOrMessageExists(List<HtmlElement> uls, String expectedErrorOrMessage) {

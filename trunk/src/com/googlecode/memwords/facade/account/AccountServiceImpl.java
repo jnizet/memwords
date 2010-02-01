@@ -1,8 +1,6 @@
 package com.googlecode.memwords.facade.account;
 
 import java.util.Arrays;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import javax.crypto.SecretKey;
 import javax.persistence.EntityManager;
@@ -12,6 +10,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlecode.memwords.domain.Account;
 import com.googlecode.memwords.domain.Card;
+import com.googlecode.memwords.domain.Preferences;
 import com.googlecode.memwords.domain.UserInformation;
 import com.googlecode.memwords.facade.util.CryptoEngine;
 
@@ -55,8 +54,9 @@ public class AccountServiceImpl implements AccountService {
             tx.commit();
             return new UserInformation(account.getUserId(),
                                        secretKey,
-                                       account.getPreferredLocale(),
-                                       account.getPreferredTimeZone());
+                                       new Preferences(account.getPreferredLocale(),
+                                                       account.getPreferredTimeZone(),
+                                                       account.isPasswordsUnmasked()));
         }
         finally {
             if (tx.isActive()) {
@@ -83,8 +83,9 @@ public class AccountServiceImpl implements AccountService {
         SecretKey secretKey = cryptoEngine.bytesToSecretKey(encryptionKeyAsBytes);
         return new UserInformation(account.getUserId(),
                                    secretKey,
-                                   account.getPreferredLocale(),
-                                   account.getPreferredTimeZone());
+                                   new Preferences(account.getPreferredLocale(),
+                                                   account.getPreferredTimeZone(),
+                                                   account.isPasswordsUnmasked()));
     }
 
     @Override
@@ -124,12 +125,14 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void changePreferredLocale(String userId, Locale locale) {
+    public void changePreferences(String userId, Preferences preferences) {
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
             Account account = getAccount(userId);
-            account.setPreferredLocale(locale);
+            account.setPreferredLocale(preferences.getLocale());
+            account.setPreferredTimeZone(preferences.getTimeZone());
+            account.setPasswordsUnmasked(preferences.isPasswordsUnmasked());
             tx.commit();
         }
         finally {
@@ -151,22 +154,6 @@ public class AccountServiceImpl implements AccountService {
             }
 
             em.remove(account);
-            tx.commit();
-        }
-        finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-        }
-    }
-
-    @Override
-    public void changePreferredTimeZone(String userId, TimeZone timeZone) {
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            Account account = getAccount(userId);
-            account.setPreferredTimeZone(timeZone);
             tx.commit();
         }
         finally {

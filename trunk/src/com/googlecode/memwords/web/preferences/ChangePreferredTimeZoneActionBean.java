@@ -11,10 +11,9 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.validation.Validate;
-import net.sourceforge.stripes.validation.ValidationErrorHandler;
-import net.sourceforge.stripes.validation.ValidationErrors;
 
 import com.google.inject.Inject;
+import com.googlecode.memwords.domain.Preferences;
 import com.googlecode.memwords.domain.UserInformation;
 import com.googlecode.memwords.facade.account.AccountService;
 import com.googlecode.memwords.web.MwActionBean;
@@ -24,7 +23,7 @@ import com.googlecode.memwords.web.util.ScopedLocalizableMessage;
  * Action bean used to change the preferred time zone
  * @author JB
  */
-public class ChangePreferredTimeZoneActionBean extends MwActionBean implements ValidationErrorHandler {
+public class ChangePreferredTimeZoneActionBean extends MwActionBean {
 
     @Validate(required = true)
     private String timeZoneId;
@@ -42,30 +41,15 @@ public class ChangePreferredTimeZoneActionBean extends MwActionBean implements V
     @DontValidate
     public Resolution view() {
         loadTimeZones();
-        this.timeZoneId = getContext().getTimeZone().getID();
+        loadTimeZone();
         return new ForwardResolution("/preferences/changePreferredTimeZone.jsp");
     }
 
-    public Resolution change() {
-        UserInformation userInformation = getContext().getUserInformation();
-        TimeZone timeZone = TimeZone.getTimeZone(this.timeZoneId);
-        accountService.changePreferredTimeZone(userInformation.getUserId(),
-                                               timeZone);
-        getContext().setUserInformation(userInformation.withPreferredTimeZone(timeZone));
-        getContext().getMessages().add(new ScopedLocalizableMessage(ChangePreferredTimeZoneActionBean.class,
-                                                                    "preferredTimeZoneChanged"));
-        return new RedirectResolution(PreferencesActionBean.class);
-    }
-
-    @DontBind
-    public Resolution cancel() {
-        return new RedirectResolution(PreferencesActionBean.class);
-    }
-
-    @Override
-    public Resolution handleValidationErrors(ValidationErrors errors) {
+    @DontValidate
+    public Resolution ajaxView() {
         loadTimeZones();
-        return null;
+        loadTimeZone();
+        return new ForwardResolution("/preferences/ajaxChangePreferredTimeZone.jsp");
     }
 
     private void loadTimeZones() {
@@ -74,6 +58,37 @@ public class ChangePreferredTimeZoneActionBean extends MwActionBean implements V
         for (String id : ids) {
             timeZones.add(TimeZone.getTimeZone(id));
         }
+    }
+
+    private void loadTimeZone() {
+        this.timeZoneId = getContext().getTimeZone().getID();
+    }
+
+    public Resolution change() {
+        doChange();
+        return new RedirectResolution(PreferencesActionBean.class);
+    }
+
+    public Resolution ajaxChange() {
+        doChange();
+        return new ForwardResolution("/preferences/ajaxPreferences.jsp");
+    }
+
+    private void doChange() {
+        UserInformation userInformation = getContext().getUserInformation();
+        Preferences preferences = userInformation.getPreferences();
+        TimeZone timeZone = TimeZone.getTimeZone(this.timeZoneId);
+        Preferences newPreferences = preferences.withTimeZone(timeZone);
+        accountService.changePreferences(userInformation.getUserId(), newPreferences);
+        getContext().setUserInformation(
+            userInformation.withPreferences(newPreferences));
+        getContext().getMessages().add(new ScopedLocalizableMessage(ChangePreferredTimeZoneActionBean.class,
+                                                                    "preferredTimeZoneChanged"));
+    }
+
+    @DontBind
+    public Resolution cancel() {
+        return new RedirectResolution(PreferencesActionBean.class);
     }
 
     public List<TimeZone> getTimeZones() {

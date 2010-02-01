@@ -19,7 +19,7 @@
     <script type="text/javascript" src="<c:url value="/js/jquery.form.js" />"></script>
     <script type="text/javascript">
       var baseUrl = '${request.contextPath}';
-      <c:if test="${header.integrationTesting == true}">$.ajaxSetup({ async: false });</c:if>
+      <c:if test="${header.ajaxSync == true}">$.ajaxSetup({ async: false });</c:if>
     </script>
     <script type="text/javascript" src="<c:url value="/js/main.js" />"></script>
     <decorator:head />
