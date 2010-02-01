@@ -27,12 +27,6 @@ public class FavIconFinderImpl implements FavIconFinder {
                 baseUrl = new URL(baseUrl.toString() + "/");
             }
             URI uri = baseUrl.toURI();
-            // workaround for Java bug #4666701
-            if (uri.getPath() == null
-                && uri.getFragment() == null
-                && uri.getQuery() == null) {
-
-            }
             String potentiallyRelativeUrl = parser.findFavIcon(source);
             if (potentiallyRelativeUrl == null) {
                 return null;

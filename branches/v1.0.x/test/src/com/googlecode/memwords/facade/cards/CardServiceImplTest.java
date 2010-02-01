@@ -163,6 +163,7 @@ public class CardServiceImplTest extends GAETestCase {
     public void testFindFavIconUrl() throws Exception {
         String html = "html";
         HTTPResponse mockResponse = createMock(HTTPResponse.class);
+        expect(mockResponse.getFinalUrl()).andReturn(null);
         expect(mockResponse.getContent()).andStubReturn(html.getBytes());
 
         String urlAsString = "http://my.domain.com/foo/index.html";
@@ -181,9 +182,33 @@ public class CardServiceImplTest extends GAETestCase {
     }
 
     @Test
+    public void testFindFavIconUrlWhenRedirectOccurs() throws Exception {
+        String html = "html";
+        HTTPResponse mockResponse = createMock(HTTPResponse.class);
+        URL finalUrl = new URL("http://www.my.domain.com/foo/index.html");
+        expect(mockResponse.getFinalUrl()).andStubReturn(finalUrl);
+        expect(mockResponse.getContent()).andStubReturn(html.getBytes());
+
+        String urlAsString = "http://my.domain.com/foo/index.html";
+        URL url = new URL(urlAsString);
+        expect(mockUrlFetchService.fetch(url)).andReturn(mockResponse);
+
+        String iconUrl = "http://www.my.domain.com/ico.png";
+        expect(mockFavIconFinder.findFavIcon(EasyMock.<InputSource>notNull(), eq(finalUrl))).andReturn(iconUrl);
+
+        replay(mockUrlFetchService, mockResponse, mockFavIconFinder);
+
+        String result = impl.findFavIconUrl(urlAsString);
+
+        assertEquals(iconUrl, result);
+        verify(mockUrlFetchService, mockResponse, mockFavIconFinder);
+    }
+
+    @Test
     public void testFindFavIconUrlWhenNotFoundByFinder() throws Exception {
         String html = "html";
         HTTPResponse mockResponse = createMock(HTTPResponse.class);
+        expect(mockResponse.getFinalUrl()).andReturn(null);
         expect(mockResponse.getContent()).andStubReturn(html.getBytes());
 
         String urlAsString = "http://my.domain.com/foo/index.html";
@@ -220,6 +245,7 @@ public class CardServiceImplTest extends GAETestCase {
     public void testFindFavIconUrlWhenNoDefaultFavIcon() throws Exception {
         String html = "html";
         HTTPResponse mockResponse = createMock(HTTPResponse.class);
+        expect(mockResponse.getFinalUrl()).andStubReturn(null);
         expect(mockResponse.getContent()).andStubReturn(html.getBytes());
 
         String urlAsString = "http://my.domain.com/foo/index.html";
