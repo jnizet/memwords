@@ -37,5 +37,12 @@ public class FavIconFinderImplTest {
         assertEquals("http://my.domain.com/foo/favicon.png",
                      impl.findFavIcon(new InputSource(new StringReader(html2)), baseUrl));
         assertNull(impl.findFavIcon(new InputSource(new StringReader(html3)), baseUrl));
+
+        baseUrl = new URL("http://my.domain.com");
+        assertEquals("http://my.domain.com/favicon.png",
+                     impl.findFavIcon(new InputSource(new StringReader(html1)), baseUrl));
+        assertEquals("http://my.domain.com/favicon.png",
+                     impl.findFavIcon(new InputSource(new StringReader(html2)), baseUrl));
+        assertNull(impl.findFavIcon(new InputSource(new StringReader(html3)), baseUrl));
     }
 }
