@@ -125,7 +125,7 @@ public class CreateCardTest extends EditCardTestBase {
         HtmlForm form = page.getHtmlElementById("createCardForm");
         page = form.getInputByValue("Create card").click();
         testTitle(page, "Create a card");
-        testErrorExists(page, "Name is a required field");
+        testErrorExists(page, "Name of the card is a required field");
         HtmlDivision cardsDiv = page.getHtmlElementById("cards");
         List<HtmlDivision> cardDivs = cardsDiv.getElementsByAttribute("div", "class", "card");
         assertEquals(3, cardDivs.size());
@@ -171,7 +171,7 @@ public class CreateCardTest extends EditCardTestBase {
         HtmlForm form = page.getHtmlElementById("createCardForm");
         form.getInputByValue("Create card").click();
 
-        testErrorExists(page, "Name is a required field");
+        testErrorExists(page, "Name of the card is a required field");
         testErrorExists(page, "Login is a required field");
         testErrorExists(page, "Password is a required field");
 
