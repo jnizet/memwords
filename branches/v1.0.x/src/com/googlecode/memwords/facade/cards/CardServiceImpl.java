@@ -96,7 +96,7 @@ public class CardServiceImpl implements CardService {
             tx.begin();
             Card card = new Card();
             card.setInitializationVector(cryptoEngine.generateInitializationVector());
-            updateCard(cardDetails, encryptionKey, card);
+            updateCard(cardDetails, encryptionKey, card, true);
             Account account = em.find(Account.class, userId);
             account.addCard(card);
             em.persist(card);
@@ -110,17 +110,21 @@ public class CardServiceImpl implements CardService {
         }
     }
 
-    private void updateCard(CardDetails cardDetails, SecretKey encryptionKey,
-            Card card) {
+    private void updateCard(CardDetails cardDetails,
+                            SecretKey encryptionKey,
+                            Card card,
+                            boolean modifyPassword) {
         card.setName(cryptoEngine.encryptString(cardDetails.getName(),
                                                 encryptionKey,
                                                 card.getInitializationVector()));
         card.setLogin(cryptoEngine.encryptString(cardDetails.getLogin(),
                                                  encryptionKey,
                                                  card.getInitializationVector()));
-        card.setPassword(cryptoEngine.encryptString(cardDetails.getPassword(),
-                                                    encryptionKey,
-                                                    card.getInitializationVector()));
+        if (modifyPassword) {
+            card.setPassword(cryptoEngine.encryptString(cardDetails.getPassword(),
+                                                        encryptionKey,
+                                                        card.getInitializationVector()));
+        }
         card.setUrl(cryptoEngine.encryptString(cardDetails.getUrl(),
                                                encryptionKey,
                                                card.getInitializationVector()));
@@ -133,12 +137,12 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public Card modifyCard(CardDetails cardDetails, SecretKey encryptionKey) {
+    public Card modifyCard(CardDetails cardDetails, SecretKey encryptionKey, boolean modifyPassword) {
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
             Card card = em.find(Card.class, cardDetails.getId());
-            updateCard(cardDetails, encryptionKey, card);
+            updateCard(cardDetails, encryptionKey, card, modifyPassword);
             tx.commit();
             return card;
         }

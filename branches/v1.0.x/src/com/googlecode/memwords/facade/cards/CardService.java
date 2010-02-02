@@ -16,7 +16,7 @@ import com.googlecode.memwords.domain.CardDetails;
 @ImplementedBy(CardServiceImpl.class)
 public interface CardService {
     /**
-     * Returns the list of cards of the given account, 
+     * Returns the list of cards of the given account,
      * sorted by name.
      * @param userId the ID of the account
      * @param encryptionKey the key used to decrypt the encrypted information of the card
@@ -36,23 +36,25 @@ public interface CardService {
     boolean cardExists(String userId, String name, String cardId, SecretKey encryptionKey);
 
     /**
-     * Creates a card 
+     * Creates a card
      * @param userId the account of the card
      * @param cardDetails the details of the card (without ID)
      * @param encryptionKey the encryption key to use
      * @return the created card
      */
     Card createCard(String userId, CardDetails cardDetails, SecretKey encryptionKey);
-    
+
     /**
-     * Modifies a card 
+     * Modifies a card
      * @param cardDetails the details of the card (with ID)
      * @param encryptionKey the encryption key to use
+     * @param modifyPassword <code>true</code> if the password must be modified, <code>false</code>
+     * otherwise. If <code>false</code>, the password field of the <code>cardDetails</code> is ignored.
      * @return the modified card
      */
-    Card modifyCard(CardDetails cardDetails, SecretKey encryptionKey);
-    
-    
+    Card modifyCard(CardDetails cardDetails, SecretKey encryptionKey, boolean modifyPassword);
+
+
     /**
      * Gets the details of a card, decrypted
      * @param cardId the ID of the card
@@ -66,9 +68,9 @@ public interface CardService {
      * @param cardId the ID of the card to delete
      */
     void deleteCard(String cardId);
-    
+
     /**
-     * Finds the URL of the favIcon associated to the given web site 
+     * Finds the URL of the favIcon associated to the given web site
      * @param the URL (http or https) of a web site
      * @return the URL of the favIcon associated to the web site, or <code>null</code> if no
      * favIcon found

@@ -6,6 +6,8 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.validation.ScopedLocalizableError;
 import net.sourceforge.stripes.validation.Validate;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import com.google.inject.Inject;
 import com.googlecode.memwords.domain.CardDetails;
 import com.googlecode.memwords.facade.cards.CardService;
@@ -16,16 +18,13 @@ import com.googlecode.memwords.facade.cards.FavIconException;
  * methods ant attributes.
  * @author JB
  */
-public class BaseEditCardActionBean extends BaseCardsActionBean {
+public abstract class AbstractEditCardActionBean extends BaseCardsActionBean {
 
     @Validate(required = true)
     protected String name;
 
     @Validate(required = true)
     protected String login;
-
-    @Validate(required = true)
-    protected String password;
 
     protected String url;
 
@@ -39,7 +38,7 @@ public class BaseEditCardActionBean extends BaseCardsActionBean {
     protected boolean iconUrlFetched;
 
     @Inject
-    public BaseEditCardActionBean(CardService cardService) {
+    public AbstractEditCardActionBean(CardService cardService) {
         super(cardService);
     }
 
@@ -49,13 +48,13 @@ public class BaseEditCardActionBean extends BaseCardsActionBean {
             this.iconUrl = cardService.findFavIconUrl(this.url);
             if (this.iconUrl == null) {
                 getContext().getValidationErrors().addGlobalError(
-                    new ScopedLocalizableError(BaseEditCardActionBean.class.getName(),
+                    new ScopedLocalizableError(AbstractEditCardActionBean.class.getName(),
                                                "noIconFound"));
             }
         }
         catch (FavIconException e) {
             getContext().getValidationErrors().addGlobalError(
-                new ScopedLocalizableError(BaseEditCardActionBean.class.getName(),
+                new ScopedLocalizableError(AbstractEditCardActionBean.class.getName(),
                                            "errorWhileFetchingIcon"));
         }
         return new ForwardResolution("/cards/_icon.jsp");
@@ -77,12 +76,16 @@ public class BaseEditCardActionBean extends BaseCardsActionBean {
         this.login = login;
     }
 
-    public String getPassword() {
-        return password;
-    }
+    public abstract String getPassword();
 
-    public void setPassword(String password) {
-        this.password = password;
+    public abstract void setPassword(String password);
+
+    public String getJavaScriptEscapedPassword() {
+        String password = getPassword();
+        if (password == null) {
+            return "";
+        }
+        return StringEscapeUtils.escapeJavaScript(password);
     }
 
     public String getUrl() {
@@ -116,6 +119,8 @@ public class BaseEditCardActionBean extends BaseCardsActionBean {
     public void setIconUrlFetched(boolean iconUrlFetched) {
         this.iconUrlFetched = iconUrlFetched;
     }
+
+    public abstract boolean isModification();
 
     /**
      * Loads the fav icon URL if <code>iconUrlFetched</code> is <code>false</code>
