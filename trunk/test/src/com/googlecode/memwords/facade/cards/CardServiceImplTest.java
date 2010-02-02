@@ -124,7 +124,7 @@ public class CardServiceImplTest extends GAETestCase {
         CardDetails cardDetails = new CardDetails(null, "name", "login", "password", "url", "iconUrl", "note");
         Card card = impl.createCard(userId, cardDetails, encryptionKey);
         CardDetails cardDetails2 = new CardDetails(card.getId(), "name2", "login2", "password2", "url2", "iconUrl2", "note2");
-        Card card2 = impl.modifyCard(cardDetails2, encryptionKey);
+        Card card2 = impl.modifyCard(cardDetails2, encryptionKey, true);
         assertEquals(card2.getId(), card.getId());
         CardDetails result = impl.getCardDetails(card.getId(), encryptionKey);
         assertEquals(cardDetails2.getIconUrl(), result.getIconUrl());
@@ -133,6 +133,12 @@ public class CardServiceImplTest extends GAETestCase {
         assertEquals(cardDetails2.getPassword(), result.getPassword());
         assertEquals(cardDetails2.getUrl(), result.getUrl());
         assertEquals(cardDetails2.getNote(), result.getNote());
+
+        // test with modifyPassword == false
+        CardDetails cardDetails3 = new CardDetails(card.getId(), "name2", "login2", "password3", "url2", "iconUrl2", "note2");
+        impl.modifyCard(cardDetails3, encryptionKey, false);
+        result = impl.getCardDetails(card.getId(), encryptionKey);
+        assertEquals(cardDetails2.getPassword(), result.getPassword());
     }
 
     @Test

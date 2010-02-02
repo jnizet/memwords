@@ -16,6 +16,10 @@
     $("#cancelButton").click(function() {
       window.location = url("/account/Account.action");
     });
+    $("#newPassword").keyup(function() {
+      displayPasswordStrength($("#newPassword").val(), $("#strength"), "inline-block");
+    });
+    displayPasswordStrength($("#newPassword").val(), $("#strength"), "inline-block");
     $("#currentPassword").focus();
   });
 </script>
@@ -34,7 +38,10 @@
       </tr>
       <tr>
         <th><label class="required"><fmt:message key="account.changeMasterPassword.newPasswordLabel"/></label></th>
-        <td><stripes:password name="newPassword" repopulate="false"/></td>
+        <td>
+          <stripes:password name="newPassword" repopulate="false" id="newPassword"/>
+          <div id="strength" class="strength" title="<fmt:message key="main.passwordStrength"/>"></div>
+        </td>
       </tr>
       <tr>
         <th><label class="required"><fmt:message key="account.changeMasterPassword.newPasswordConfirmationLabel"/></label></th>

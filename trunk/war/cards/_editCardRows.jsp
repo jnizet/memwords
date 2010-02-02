@@ -1,10 +1,11 @@
 <tr>
   <th><label class="required"><fmt:message key="cards._editCardRows.nameLabel"/></label></th>
   <td>
+    <%-- fake name && password field in order to avoid autocomplete and "autoclear" of password field --%>
+    <input type="text" name="" style="display: none;"/>
+    <input type="password" name="" style="display: none;"/>
     <stripes:text name="name" id="nameInput"/>
     <tags:help key="cards._editCardRows.nameHelp"/>
-    <%-- fake password field in order to avoid autocomplete and "autoclear" of password field --%>
-    <input type="password" name="" style="display: none;"/>
   </td>
 </tr>
 <tr>
@@ -18,8 +19,14 @@
 <tr>
   <th><label class="required"><fmt:message key="cards._editCardRows.passwordLabel"/></label></th>
   <td>
-    <stripes-d:password name="password" autocomplete="off" repopulate="true"/>
+    <c:if test="${actionBean.modification}">
+      <span id="changePasswordSpan">
+        <stripes:checkbox name="changePassword" id="changePasswordCheckBox"/><label for="changePasswordCheckBox"><fmt:message key="cards._editCardRows.changePasswordCheckBox"/></label>
+      </span>
+    </c:if>
+    <stripes-d:password name="password" autocomplete="off" repopulate="${!actionBean.modification || (actionBean.modification && actionBean.changePassword)}" id="password"/>
     <tags:help key="cards._editCardRows.passwordHelp"/>
+    <div class="strength" id="strength" title="<fmt:message key="main.passwordStrength"/>"></div>
   </td>
 </tr>
 <tr>

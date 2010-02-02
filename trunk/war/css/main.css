@@ -192,6 +192,9 @@ img.cardIcon, img.loading, img.icon {
   height: 16px;
   vertical-align: middle;
 }
+/**
+ * general styles
+ */
 a.external {
   background: transparent url(../img/external.png) no-repeat scroll right center;
   padding-right: 13px;
@@ -224,6 +227,23 @@ img.help {
 div.formNotice {
   font-style: italic;
   font-size: 8pt;
+}
+th.top {
+  vertical-align: top;
+  padding-top: 1px;
+}
+th.topText {
+  vertical-align: top;
+  padding-top: 3px;
+}
+table.data {
+  border-collapse: collapse;
+}
+table.data th, table.data td {
+  text-align: left;
+  padding: 5px 10px 5px 10px;
+  border-bottom: 1px solid #dddddd;
+  margin: 0;
 }
 
 /*
@@ -261,16 +281,38 @@ div.screenshot {
   text-align: center;
   margin-bottom: 15px;
 }
-th.top {
-  vertical-align: top;
-  padding-top: 1px;
+
+/*
+ * password strength
+ */
+#body div.strength {
+  display: none;
+  width: 160px;
+  height: 10px;
+  position: relative;
 }
-table.data {
-  border-collapse: collapse;
+#body div.strength div.bar {
+  width: 100px; 
+  border: 1px solid #aaaaaa;
+  background-color: #FFFFFF; 
+  height: 8px; 
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  position: absolute;
+  top: auto;
+  bottom: auto;
+  left: 0;
 }
-table.data th, table.data td {
-  text-align: left;
-  padding: 5px 10px 5px 10px;
-  border-bottom: 1px solid #dddddd;
-  margin: 0;
+#body div.strength div.bar div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 8px;
+}
+#body div.strength div.score {
+  position: absolute;
+  top: 0;
+  left: 112px;
 }
