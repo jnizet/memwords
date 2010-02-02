@@ -4,7 +4,7 @@
   <p>MemWords un gestionnaire de mots de passe en ligne gratuit.</p>
   <p>MemWords stocke vos mots de passe de manière sûre, protégés par un unique mot de passe principal.</p>
   <p>Où que vous soyez, connectez-vous à MemWords avec votre mot de passe principal, et retrouvez tous les mots de passe que vous y avez stockés.</p>
-  <p style="font-size: x-large;"><stripes:link beanclass="com.googlecode.memwords.web.ScreenshotsActionBean">Jetez un coup d'oeil eux copies d'écran&nbsp;!</stripes:link></p>
+  <p style="font-size: x-large;"><stripes:link beanclass="com.googlecode.memwords.web.ScreenshotsActionBean">Jetez un coup d'oeil aux copies d'écran&nbsp;!</stripes:link></p>
 </div>
 <div id="features">
   <h2>Points clés</h2>

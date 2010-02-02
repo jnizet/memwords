@@ -18,6 +18,10 @@
         loadUserIdAvailability();
     });
     $("#userId").focus();
+    $("#masterPassword").keyup(function() {
+      displayPasswordStrength($("#masterPassword").val(), $("#strength"), "inline-block");
+    });
+    displayPasswordStrength($("#masterPassword").val(), $("#strength"), "inline-block");
   });
 </script>
 </head>
@@ -34,8 +38,11 @@
         <td><stripes:text name="userId" id="userId" /><span id="userIdAvailability"></span></td>
       </tr>
       <tr>
-        <th><label class="required"><fmt:message key="account.createAccount.masterPasswordLabel"/></label></th>
-        <td><stripes:password name="masterPassword" /></td>
+        <th class="topText"><label class="required"><fmt:message key="account.createAccount.masterPasswordLabel"/></label></th>
+        <td>
+          <stripes:password name="masterPassword" id="masterPassword"/>
+          <div class="strength" id="strength" title="<fmt:message key="main.passwordStrength"/>"></div>
+        </td>
       </tr>
       <tr>
         <th><label class="required"><fmt:message key="account.createAccount.masterPasswordConfirmationLabel"/></label></th>

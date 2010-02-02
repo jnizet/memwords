@@ -125,6 +125,26 @@ public class ModifyCardTest extends EditCardTestBase {
         HtmlDivision cardsDiv = page.getHtmlElementById("cards");
         List<HtmlDivision> cardDivs = cardsDiv.getElementsByAttribute("div", "class", "card");
         assertEquals(3, cardDivs.size());
+
+        // test that an error is triggered when checking the change password checkbox is checked and
+        // the password is empty
+        form = page.getHtmlElementById("modifyCardForm");
+        form.getInputByName("changePassword").setChecked(true);
+        form.getInputByName("password").setValueAttribute("");
+        page = form.getInputByValue("Modify card").click();
+        testTitle(page, "Modify a card");
+        testErrorExists(page, "Password is a required field");
+
+        // test that no error is triggered when not checking the change password checkbox
+        // and the password is empty
+        form = page.getHtmlElementById("modifyCardForm");
+        form.getInputByName("changePassword").setChecked(false);
+        form.getInputByName("password").setValueAttribute("");
+        page = form.getInputByValue("Modify card").click();
+        testTitle(page, "Modify a card");
+        assertFalse(page.getHtmlElementById("messages").asXml().contains("Password is a required field"));
+
+
     }
 
     @Test
@@ -177,7 +197,7 @@ public class ModifyCardTest extends EditCardTestBase {
 
         form.getInputByValue("Modify card").click();
 
-        testErrorExists(page, "Name is a required field");
+        testErrorExists(page, "Name of the card is a required field");
         testErrorExists(page, "Login is a required field");
         testErrorExists(page, "Password is a required field");
 

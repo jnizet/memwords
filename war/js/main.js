@@ -179,3 +179,139 @@ $(document).ready(function () {
     });
 });
 
+/**
+ * Computes the strength (0 to 100) of a password
+ * @param password the password
+ * @return the strength (from 0 to 100)
+ */
+function comptePasswordStrength(password) {
+    if (password == null) {
+        password = "";
+    }
+    var upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
+    var digits = "0123456789";
+
+    var score = 0;
+    if (password.length > 4 && password.length < 8) {
+        score += (10 - (7 - password.length));
+    }
+    else if (password.length >= 8 && password.length < 15) {
+        score += (25 - (15 - password.length));
+    }
+    else if (password.length >= 15) {
+        score += 25;
+    }
+
+    var upperCount = countContain(password, upperCaseLetters);
+    var lowerCount = countContain(password, lowerCaseLetters);
+    var letterCount = upperCount + lowerCount;
+    if (upperCount == 0 && lowerCount != 0) {
+        score += 10;
+    }
+    else if (upperCount != 0 && lowerCount == 0) {
+        score += 10;
+    }
+    else if (upperCount != 0 && lowerCount != 0) {
+        score += 20;
+    }
+
+    var digitCount = countContain(password, digits);
+    if (digitCount > 1 && digitCount < 2) {
+        score += 10;
+    }
+    else if (digitCount >= 2) {
+        score += 20;
+    }
+
+    var specialCharCount = password.length - (digitCount + letterCount);
+    if (specialCharCount == 1) {
+        score += 10;
+    }
+    else if (specialCharCount > 1) {
+        score += 25;
+    }
+
+    if (digitCount != 0 && letterCount != 0) {
+        score += 2;
+    }
+    if (digitCount != 0 && letterCount != 0 && specialCharCount != 0) {
+        score += 3;
+    }
+    if (digitCount != 0 && upperCount != 0 && lowerCount != 0
+            && specialCharCount != 0) {
+        score += 5;
+    }
+
+    return score;
+}
+
+/**
+ * Counts the number of chars from password which are in the given chars
+ */
+function countContain(password, chars) {
+    var count = 0;
+    for (var i = 0; i < password.length; i++) {
+        if (chars.indexOf(password.charAt(i)) >= 0) {
+            count++;
+        }
+    }
+    return count; 
+} 
+
+/**
+ * Computes the strength of the given password, initialized the bar div if not done yet,
+ * and animates the background color of the bar div and changes the value of the score contained in 
+ * the bar div to reflect the new score.
+ * By default, the display of the div is set to block. Use the display parameter to set it to another value.
+ */
+function displayPasswordStrength(password, barDiv, display) {
+    if ($.trim(barDiv.html()).length == 0) {
+        barDiv.html('<div class="bar"><div></div></div><div class="score"></div>');
+    }
+    if (display == null) {
+        display = "block";
+    }
+    barDiv.css("display", display);
+    var score = comptePasswordStrength(password);
+    if (score > 100) {
+        score = 100;
+    }
+
+    var color = "#ffffff";
+
+    if (score >= 90) {
+        color = "#3bce08";
+    }
+    else if (score >= 80) {
+        color = "#7ff67c";
+    }
+    else if (score >= 70) {
+        color = "#c6ff63";
+    }
+    else if (score >= 60) {
+        color = "#ffff00";
+    }
+    else if (score >= 50) {
+        color = "orange";
+    }
+    else if (score >= 25) {
+        color = "#ff2c2c";
+    }
+    else if (score > 0) {
+        color = "red";
+    }
+
+    var backgroundDiv = $("div.bar div", barDiv);
+    var scoreDiv = $("div.score", barDiv);
+    backgroundDiv.animate( {
+        width : score,
+        backgroundColor : color
+    }, 
+    "fast",
+    function() {
+        scoreDiv.html(score + "&nbsp;%");
+    });
+    return false;
+}
+

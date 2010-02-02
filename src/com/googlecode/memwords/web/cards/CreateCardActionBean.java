@@ -6,6 +6,7 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.validation.LocalizableError;
+import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidationErrorHandler;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import net.sourceforge.stripes.validation.ValidationMethod;
@@ -20,7 +21,10 @@ import com.googlecode.memwords.web.util.ScopedLocalizableMessage;
  * Action bean used to create a new card
  * @author JB
  */
-public class CreateCardActionBean extends BaseEditCardActionBean implements ValidationErrorHandler {
+public class CreateCardActionBean extends AbstractEditCardActionBean implements ValidationErrorHandler {
+
+    @Validate(required = true)
+    private String password;
 
     @Inject
     public CreateCardActionBean(CardService cardService) {
@@ -85,5 +89,20 @@ public class CreateCardActionBean extends BaseEditCardActionBean implements Vali
             return new ForwardResolution("/cards/ajaxCreateCard.jsp");
         }
         return null;
+    }
+
+    @Override
+    public boolean isModification() {
+        return false;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
