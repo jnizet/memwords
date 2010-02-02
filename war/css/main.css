@@ -29,6 +29,14 @@ body {
   margin-left: -125px;
   display: inline; /* So IE plays nice */
 }
+div#loading {
+  float: right;
+  display: none;
+}
+div#loading img {
+  width: 32;
+  height: 32;
+}
 
 /**
  * style

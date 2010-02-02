@@ -137,7 +137,8 @@ function url(u) {
  */
 function setLoading(span, loading) {
     if (loading) {
-        span.html('<img src="' + url("/img/busy.gif") + '" class="loading" alt="Loading..."/>');
+        var loadingMessage = $("div#loading img").attr("title");
+        span.html('<img src="' + url("/img/busy.gif") + '" class="loading" alt="" title="' + loadingMessage + '"/>');
     }
     else {
         span.html('');
@@ -160,6 +161,16 @@ $(document).ready(function () {
             $(this).html(xmlHttpRequest.responseText);
         }
     });
+    $("#loading").ajaxStart(function() {
+        $(this).show();
+    });
+    $("#loading").ajaxStop(function() {
+        $(this).hide();
+    });
+    $(window).unload(function() {
+        $("#loading").show();
+    });
+
     $("#hideMessagesLink").click(function() {
         return hideMessagePanel();
     });
