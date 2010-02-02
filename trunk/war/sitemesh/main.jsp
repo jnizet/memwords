@@ -28,6 +28,7 @@
   <body>
     <div id="header">
       <a href="<c:url value="/Index.action"/>"><fmt:message key="main.header.appNameAndVersion"/></a>
+      <div id="loading"><img src="<c:url value="/img/busy_big.gif"/>" alt="" title="<fmt:message key="main.loadingMessage"/>"/></div>
     </div>
     <div id="container">
       <div id="content">
