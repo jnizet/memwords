@@ -93,6 +93,7 @@ public class ChangeMasterPasswordActionBean extends MwActionBean {
     /**
      * Validation method to check that the current password is the right one
      * @param errors the errors to update
+     * @return <code>null</code>
      */
     @ValidationMethod(on = "change", when = ValidationState.ALWAYS)
     public Resolution validateCurrentPassword(ValidationErrors errors) {

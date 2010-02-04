@@ -60,6 +60,7 @@ public interface AccountService {
     /**
      * Tests if an account with the given user ID exists or not
      * @param userId the user ID to verify
+     * @return <code>true</code> if the account exists, <code>false</code> otherwise
      */
     boolean accountExists(String userId);
 

@@ -244,6 +244,13 @@ public abstract class AbstractEditCardActionBean extends BaseCardsActionBean {
         }
     }
 
+    /**
+     * Tests if both strings are equal.
+     * @param a the first string
+     * @param b the second string
+     * @return <code>true</code> if both strings are equal, or if both strings are <code>null</code>,
+     * <code>false</code> otherwise.
+     */
     private boolean equalOrBothNull(String a, String b) {
         if (a == null) {
             return b == null;

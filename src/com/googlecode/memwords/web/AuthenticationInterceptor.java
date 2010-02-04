@@ -35,6 +35,12 @@ import com.googlecode.memwords.web.util.IntegrationTestsActionBean;
 @Intercepts(LifecycleStage.HandlerResolution)
 public class AuthenticationInterceptor implements Interceptor {
 
+    /**
+     * Intercepts the request, and returns the appropriate resolution.
+     * See class documentation for more details
+     * @param ctx the execution context
+     * @return the appropriate resolution
+     */
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
     public Resolution intercept(ExecutionContext ctx) throws Exception {
         MwActionBeanContext actionBeanContext = (MwActionBeanContext) ctx.getActionBeanContext();
@@ -55,6 +61,10 @@ public class AuthenticationInterceptor implements Interceptor {
         }
     }
 
+    /**
+     * Adds the requested URL to the context if the request is a GET request
+     * @param ctx the context to which the requested URL must be added
+     */
     private void addRequestedUrlToContext(MwActionBeanContext ctx) {
         HttpServletRequest request = ctx.getRequest();
         if ("GET".equals(request.getMethod())) {
@@ -66,6 +76,12 @@ public class AuthenticationInterceptor implements Interceptor {
         }
     }
 
+    /**
+     * Determines if login is needed in order to access the given action bean
+     * @param actionBean the action bean being requested
+     * @return <code>true</code> if the action bean may be accessed without login,
+     * <code>false</code> otherwise
+     */
     private boolean isPermittedWithoutLogin(ActionBean actionBean) {
         Class<?> actionBeanClass = actionBean.getClass();
         return actionBeanClass.equals(IndexActionBean.class)

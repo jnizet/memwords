@@ -400,7 +400,16 @@
         <!-- <property name="tokens" value="INTERFACE_DEF, CLASS_DEF"/> -->
         <module name="JavadocType">
         </module>
+        
+        <!--  module name="JavadocMethod">
+        </module -->
 
+        <!--  module name="JavadocVariable">
+        </module -->
+
+        <!-- module name="JavadocStyle">
+        </module -->
+        
         <!-- See http://checkstyle.sf.net/config_misc.html -->
         <!--
             Checks that long constants are defined with an upper ell.

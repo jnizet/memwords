@@ -65,6 +65,7 @@ public class IntegrationTestsActionBean extends MwActionBean {
      * Interceptor method which checks that all requests to this action bean are
      * done in a development environment, and returns an error resolution
      * if it's not the case
+     * @return an error resolution if needed, <code>null</code> otherwise
      */
     @Before(stages = LifecycleStage.BindingAndValidation)
     public Resolution checkRunningInDevelopmentEnvironment() {
@@ -78,6 +79,7 @@ public class IntegrationTestsActionBean extends MwActionBean {
     /**
      * Dumps the cobertura data to the response, as a serialized object.
      * It uses reflection so that the method compiles even if cobertura is not in the classpath
+     * @return <code>null</code>, because this event handler writes everything needed to the response
      */
     @DefaultHandler
     public Resolution flushCobertura() throws ClassNotFoundException,
@@ -110,6 +112,7 @@ public class IntegrationTestsActionBean extends MwActionBean {
     /**
      * Sets up the data necessary for integration tests : empties the database, then
      * repopulates it with test data
+     * @return <code>null</code>, because this event handler writes everything needed to the response
      */
     @SuppressWarnings("unchecked")
     public Resolution setUp() throws IOException {

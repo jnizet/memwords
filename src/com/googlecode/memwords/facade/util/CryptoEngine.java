@@ -69,17 +69,20 @@ public interface CryptoEngine {
 
     /**
      * Generates a random encryption key for the AES (128 bits - 16 bytes) algorithm
+     * @return the generated secret key
      */
     SecretKey generateEncryptionKey();
 
     /**
      * Generates a random initialization vector for the AES (128 bits - 16 bytes) algorithm
+     * @return the generated initialization vector
      */
     byte[] generateInitializationVector();
 
     /**
      * Takes the first 16 bytes of the given byte array in order to use them as IV
      * @param bytes the byte array, which must be at least 16 bytes long
+     * @return the extracted initialization vector
      */
     byte[] buildInitializationVector(byte[] bytes);
 

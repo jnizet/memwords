@@ -185,6 +185,7 @@ public class MwActionBeanContext extends ActionBeanContext {
     /**
      * Tests if the user is logged in, i.e. if a user information is in the
      * request
+     * @return <code>true</code> if the user is logged in, <code>false</code> otherwise
      */
     public boolean isLoggedIn() {
         return getUserInformation() != null;

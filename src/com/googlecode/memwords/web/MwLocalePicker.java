@@ -32,6 +32,9 @@ public class MwLocalePicker extends DefaultLocalePicker {
      */
     private static final Map<Locale, String> ENCODINGS;
 
+    /**
+     * The session attribute where the preferred locale is stored
+     */
     private static final String PREFERRED_LOCALE_SESSION_ATTRIBUTE =
         "com.googlecode.memwords.web.preferredLocale";
 
