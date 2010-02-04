@@ -13,7 +13,7 @@ $("document").ready(function() {
   $("#password").keyup(function() {
     displayPasswordStrength($("#password").val(), $("#strength"), "inline-block");
   });
-  displayPasswordStrength($("#oldPassword").val(), $("#strength"), "inline-block");
+  displayPasswordStrength($("#password").val(), $("#strength"), "inline-block");
   
   <c:if test="${actionBean.modification}">
     // since JavaScript is activated, the password field is populated, and there is 
