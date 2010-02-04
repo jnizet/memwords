@@ -132,7 +132,6 @@ public class Card implements Serializable {
 
     /**
      * Gets the URL of the web site, encrypted by the secret key of the account
-     * @return the encrypted name of the card
      * @return the encrypted URL of the card, or <code>null</code> if the card doesn't have one
      */
     public byte[] getUrl() {

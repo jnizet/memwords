@@ -22,6 +22,7 @@ public interface LoginHistoryService {
 
     /**
      * Gets the login history for the given user ID.
+     * @param userId the ID of the account for which the login history is requested
      * @return a list, containing the
      * {@link com.googlecode.memwords.domain.Account#MAX_HISTORIC_LOGIN_COUNT MAX_HISTORIC_LOGIN_COUNT}
      * latest logins of the user (latest first in the list)

@@ -249,6 +249,7 @@ public class Account implements Serializable {
      * historic login. The historic login is supposed to be new (i.e. not to
      * be attached to any account yet) and have a date bigger (more recent) than all the logins
      * of the list, in order to respect the order in the list.
+     * @param historicLogin the historic login to add
      * @return <code>true</code> if the number of logins after the
      * addition is larger than {@link #MAX_HISTORIC_LOGIN_COUNT MAX_HISTORIC_LOGIN_COUNT}
      */

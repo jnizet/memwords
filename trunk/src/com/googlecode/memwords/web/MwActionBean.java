@@ -21,6 +21,7 @@ public class MwActionBean implements ActionBean {
 
     /**
      * Sets the action bean context, which must be an instance of {@link MwActionBeanContext}
+     * @param context the context to set
      */
     @Override
     public void setContext(ActionBeanContext context) {

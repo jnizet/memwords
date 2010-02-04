@@ -110,8 +110,10 @@ public class CreateCardActionBean extends AbstractEditCardActionBean implements 
     }
 
     /**
-     * custom error handling method used to reload the cards list if AJAX is not used,
+     * Custom error handling method used to reload the cards list if AJAX is not used,
      * and return the appropriate resolution in case of an error when AJAX is used.
+     * @param errors the errors to handle
+     * @return the appropriate resolution
      */
     @Override
     public Resolution handleValidationErrors(ValidationErrors errors) {
