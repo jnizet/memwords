@@ -239,7 +239,7 @@
         </checkstyle>
         <xslt basedir="checkstyle/report/xml"
               destdir="checkstyle/report/html"
-              style="${checkstyle.dir}/contrib/checkstyle-noframes-sorted.xsl" /> 
+              style="checkstyle/checkstyle-noframes-sorted.xsl" /> 
     </target>
     
     <!-- generate a FindBugs report on the class files.
