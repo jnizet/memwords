@@ -17,18 +17,33 @@ import com.googlecode.memwords.web.util.ScopedLocalizableMessage;
  */
 public class DestroyAccountActionBean extends MwActionBean {
 
+    /**
+     * The account service
+     */
     private AccountService accountService;
 
+    /**
+     * Constructor
+     * @param accountService the account service
+     */
     @Inject
     public DestroyAccountActionBean(AccountService accountService) {
         this.accountService = accountService;
     }
 
+    /**
+     * Displays the destroy account page
+     * @return a forward resolution to the destroy account page
+     */
     @DefaultHandler
     public Resolution view() {
         return new ForwardResolution("/account/destroyAccount.jsp");
     }
 
+    /**
+     * Destroys the current account
+     * @return a redirect resolution to the welcome page, with a success message
+     */
     public Resolution destroy() {
         accountService.destroyAccount(getContext().getUserInformation().getUserId());
         getContext().getMessages().add(new ScopedLocalizableMessage(DestroyAccountActionBean.class,
@@ -37,6 +52,10 @@ public class DestroyAccountActionBean extends MwActionBean {
         return new RedirectResolution(IndexActionBean.class);
     }
 
+    /**
+     * Cancels the destruction
+     * @return a redirect resolution to the account page
+     */
     public Resolution cancel() {
         return new RedirectResolution(AccountActionBean.class);
     }

@@ -12,7 +12,7 @@ import com.google.inject.ImplementedBy;
 public interface CryptoEngine {
     /**
      * Encrypts the given data, using the given key. The algorithm used is AES, with a
-     * 128-bits key
+     * 128-bits (16 bytes) key
      * @param data the data to encrypt
      * @param key the key which must contain 16 bytes
      * @param iv the initialization vector which must contain 16 bytes
@@ -22,17 +22,17 @@ public interface CryptoEngine {
 
     /**
      * Decrypts the given data, using the given key. The algorithm used is AES, with a
-     * 256-bits key
+     * 128-bits (16 bytes) key
      * @param data the data to decrypt
      * @param key the key which must contain 16 bytes
      * @param iv the initialization vector which must contain 16 bytes
-     * @return the decrypted data or <code>null</code> if data is <code>null</code>
+     * @return the decrypted data, or <code>null</code> if data is <code>null</code>
      */
     byte[] decrypt(byte[] data, SecretKey key, byte[] iv);
 
     /**
      * Encrypts the given data, using the given key. The algorithm used is AES, with a
-     * 256-bits key
+     * 128-bits key
      * @param data the data to encrypt, as a String. It's transformed into a byte array
      * using the UTF-8 encoding
      * @param key the key which must contain 16 bytes
@@ -43,7 +43,7 @@ public interface CryptoEngine {
 
     /**
      * Decrypts the given data, using the given key. The algorithm used is AES, with a
-     * 256-bits key
+     * 128-bits (16 bytes) key
      * @param data the data to decrypt
      * @param key the key which must contain 16 bytes
      * @param iv the initialization vector which must contain 16 bytes
@@ -73,7 +73,7 @@ public interface CryptoEngine {
     SecretKey generateEncryptionKey();
 
     /**
-     * Generates a random initialization vector for the AES algorithm (128 bits - 16 bytes)
+     * Generates a random initialization vector for the AES (128 bits - 16 bytes) algorithm
      */
     byte[] generateInitializationVector();
 

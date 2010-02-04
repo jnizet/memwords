@@ -9,6 +9,11 @@ import net.sourceforge.stripes.action.Resolution;
  * @author JB
  */
 public class ScreenshotsActionBean extends MwActionBean {
+
+    /**
+     * Displays the screenshots page
+     * @return a forward resolution to the screenshots page
+     */
     @DefaultHandler
     public Resolution view() {
         return new ForwardResolution("/screenshots.jsp");

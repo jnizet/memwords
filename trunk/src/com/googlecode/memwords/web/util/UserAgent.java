@@ -1,7 +1,7 @@
 package com.googlecode.memwords.web.util;
 
 /**
- * IUtility class to extract information from a user agent string
+ * Utility class to extract information from a user agent string
  * @author JB
  */
 public final class UserAgent {
@@ -17,22 +17,46 @@ public final class UserAgent {
         OPERA("Opera", "/img/browser/opera.png"),
         UNKNOWN("Unknown", "/img/browser/unknown.png");
 
+        /**
+         * The name of the browser
+         */
         private String name;
+
+        /**
+         * The context-relative image URL for the browser
+         */
         private String imageUrl;
 
+        /**
+         * Constructor
+         * @param name the name of the browser
+         * @param imageUrl the context-relative image URL for the browser
+         */
         BrowserType(String name, String imageUrl) {
             this.name = name;
             this.imageUrl = imageUrl;
         }
 
+        /**
+         * Gets the context-relative image URL for the browser
+         * @return the context-relative image URL for the browser
+         */
         public String getImageUrl() {
             return this.imageUrl;
         }
 
+        /**
+         * Gets the name of the browser
+         * @return the name of the browser
+         */
         public String getName() {
             return this.name;
         }
 
+        /**
+         * Indicates if the browser is unknown
+         * @return <code>true</code> if the browser is unknown, <code>false</code> otherwise
+         */
         public boolean isUnknown() {
             return this == UNKNOWN;
         }
@@ -47,30 +71,62 @@ public final class UserAgent {
         LINUX("Linux", "/img/os/linux.png"),
         UNKNOWN("Unknwown", "/img/os/unknown.png");
 
+        /**
+         * The name of the OS
+         */
         private String name;
+
+        /**
+         * The context-relative image URL for the OS
+         */
         private String imageUrl;
 
+        /**
+         * Constructor
+         * @param name the name of the OS
+         * @param imageUrl the context-relative image URL for the OS
+         */
         OperatingSystem(String name, String imageUrl) {
             this.name = name;
             this.imageUrl = imageUrl;
         }
 
+        /**
+         * Gets the context-relative image URL for the OS
+         * @return the context-relative image URL for the OS
+         */
         public String getImageUrl() {
             return this.imageUrl;
         }
 
+        /**
+         * Gets the name of the OS
+         * @return the name of the OS
+         */
         public String getName() {
             return this.name;
         }
 
+        /**
+         * Indicates if the OS is unknown
+         * @return <code>true</code> if the OS is unknown, <code>false</code> otherwise
+         */
         public boolean isUnknown() {
             return this == UNKNOWN;
         }
     }
 
+    /**
+     * Constructor. Private to prevent unnecessary instantiation.
+     */
     private UserAgent() {
     }
 
+    /**
+     * Detects the browser type from a user agent string
+     * @param userAgentString the user agent string
+     * @return the detected browser type
+     */
     public static BrowserType detectBrowserType(String userAgentString) {
         BrowserType result = BrowserType.UNKNOWN;
         if (userAgentString.indexOf("Firefox") >= 0) {
@@ -91,6 +147,11 @@ public final class UserAgent {
         return result;
     }
 
+    /**
+     * Detects the operating system from a user agent string
+     * @param userAgentString the user agent string
+     * @return the detected operating system
+     */
     public static OperatingSystem detectOperatingSystem(String userAgentString) {
         OperatingSystem result = OperatingSystem.UNKNOWN;
         if (userAgentString.indexOf("Windows") >= 0) {

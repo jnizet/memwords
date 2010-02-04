@@ -18,8 +18,15 @@ import com.googlecode.memwords.domain.HistoricLogin;
 @Singleton
 public class LoginHistoryServiceImpl implements LoginHistoryService {
 
+    /**
+     * The entity manager, used to access the database
+     */
     private EntityManager em;
 
+    /**
+     * Constructor
+     * @param em the entity manager
+     */
     @Inject
     public LoginHistoryServiceImpl(EntityManager em) {
         this.em = em;

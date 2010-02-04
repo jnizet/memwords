@@ -12,11 +12,12 @@ import com.opensymphony.module.sitemesh.Page;
 import com.opensymphony.module.sitemesh.mapper.AbstractDecoratorMapper;
 
 /**
- * Decorator mapper which excludes Ajax requests 
+ * Sitemesh decorator mapper which excludes Ajax requests
  * @author JB
+ * @see AjaxUtils#isAjaxRequest(HttpServletRequest)
  */
 public class AjaxDecoratorMapper extends AbstractDecoratorMapper {
-    
+
     @Override
     public void init(Config config, Properties properties, DecoratorMapper parent) throws InstantiationException {
         super.init(config, properties, parent);

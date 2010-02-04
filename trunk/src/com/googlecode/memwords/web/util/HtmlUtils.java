@@ -13,6 +13,9 @@ import com.googlecode.memwords.domain.ShouldNeverHappenException;
  * @author JB
  */
 public final class HtmlUtils {
+    /**
+     * Constructor. Private to prevent unnecessary instantiation.
+     */
     private HtmlUtils() {
     }
 

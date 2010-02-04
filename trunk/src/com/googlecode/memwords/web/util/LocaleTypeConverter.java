@@ -11,9 +11,9 @@ import org.apache.commons.lang.LocaleUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Type converter which transforms strings into Locale instances
+ * Type converter which transforms strings into Locale instances. Note that the reverse
+ * operation is automatic, because the <code>Locale.toString()</code> method does the right thing.
  * @author JB
- *
  */
 public class LocaleTypeConverter implements TypeConverter<Locale> {
 

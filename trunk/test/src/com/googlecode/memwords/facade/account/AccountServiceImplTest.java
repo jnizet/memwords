@@ -181,10 +181,10 @@ public class AccountServiceImplTest extends GAETestCase {
         CardService cardService = new CardServiceImpl(em, new CryptoEngineImpl(), null, null);
         Card card =
             cardService.createCard(userId,
-                                   new CardDetails(null,
+                                   new CardDetails("id",
+                                                   "name",
                                                    "login",
                                                    "password",
-                                                   null,
                                                    null,
                                                    null,
                                                    null),

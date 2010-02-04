@@ -31,10 +31,27 @@ import com.googlecode.memwords.web.MwActionBean;
  */
 public class IntegrationTestsActionBean extends MwActionBean {
 
+    /**
+     * The entity manager
+     */
     private EntityManager em;
+
+    /**
+     * The account service
+     */
     private AccountService accountService;
+
+    /**
+     * The card service
+     */
     private CardService cardService;
 
+    /**
+     * Constructor
+     * @param em the entity manager
+     * @param accountService the account service
+     * @param cardService the card service
+     */
     @Inject
     public IntegrationTestsActionBean(EntityManager em,
                                       AccountService accountService,
@@ -44,6 +61,11 @@ public class IntegrationTestsActionBean extends MwActionBean {
         this.cardService = cardService;
     }
 
+    /**
+     * Interceptor method which checks that all requests to this action bean are
+     * done in a development environment, and returns an error resolution
+     * if it's not the case
+     */
     @Before(stages = LifecycleStage.BindingAndValidation)
     public Resolution checkRunningInDevelopmentEnvironment() {
         if (SystemProperty.environment.value() != SystemProperty.Environment.Value.Development) {
@@ -53,6 +75,10 @@ public class IntegrationTestsActionBean extends MwActionBean {
         return null;
     }
 
+    /**
+     * Dumps the cobertura data to the response, as a serialized object.
+     * It uses reflection so that the method compiles even if cobertura is not in the classpath
+     */
     @DefaultHandler
     public Resolution flushCobertura() throws ClassNotFoundException,
                                               SecurityException,
@@ -61,15 +87,12 @@ public class IntegrationTestsActionBean extends MwActionBean {
                                               IllegalAccessException,
                                               InvocationTargetException,
                                               IOException {
-        System.out.println("flushing cobertura...");
         String className = "net.sourceforge.cobertura.coveragedata.ProjectData";
         String methodName = "getGlobalProjectData";
         Class<?> projectDataClass = Class.forName(className);
         java.lang.reflect.Method getGlobalProjectDataMethod =
             projectDataClass.getDeclaredMethod(methodName, new Class[0]);
         Object globalProjectData = getGlobalProjectDataMethod.invoke(null, new Object[0]);
-
-        System.out.println("global project data obtained : " + globalProjectData);
 
         getContext().getResponse().setContentType("application/octet-stream");
         OutputStream out = getContext().getResponse().getOutputStream();
@@ -81,14 +104,12 @@ public class IntegrationTestsActionBean extends MwActionBean {
             oos.close();
         }
 
-        System.out.println("cobertura flushed");
         return null;
     }
 
     /**
-     * sets up the data necessary for integration tests : empties the database, then
+     * Sets up the data necessary for integration tests : empties the database, then
      * repopulates it with test data
-     * @throws IOException
      */
     @SuppressWarnings("unchecked")
     public Resolution setUp() throws IOException {

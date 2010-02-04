@@ -42,7 +42,5 @@ public class FavIconFinderImpl implements FavIconFinder {
         catch (IOException e) {
             throw new FavIconException(e);
         }
-
     }
-
 }

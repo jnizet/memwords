@@ -18,25 +18,55 @@ import com.googlecode.memwords.facade.loginhistory.LoginHistoryService;
 import com.googlecode.memwords.facade.util.CryptoEngine;
 
 /**
- * The subclass of ActionBeranContext used in this application
- *
+ * The subclass of <code>ActionBeanContext</code> used in the application
  * @author JB
  */
 public class MwActionBeanContext extends ActionBeanContext {
 
+    /**
+     * The session attribute used to store the user information (without secret key)
+     */
     public static final String USER_INFORMATION_SESSION_ATTRIBUTE = "userInformation";
+
+    /**
+     * The request attribute used to store the user information (with secret key)
+     */
     public static final String USER_INFORMATION_REQUEST_ATTRIBUTE = "userInformation";
+
+    /**
+     * The request attribute used to store the URL asked by the user, but intercepted by
+     * the authentication interceptor
+     */
     public static final String REQUESTED_URL_REQUEST_ATTRIBUTE = "requestedUrl";
+
+    /**
+     * The name of the cookie containing the secret key
+     */
     public static final String SECRET_KEY_COOKIE_NAME = "userInformation";
 
+    /**
+     * The cryptographic engine
+     */
     private CryptoEngine cryptoEngine;
+
+    /**
+     * The login history service
+     */
     private LoginHistoryService loginHistoryService;
 
+    /**
+     * Sets the cryptographic engine
+     * @param cryptoEngine the cryptographic engine
+     */
     @Inject
     public void setCryptoEngine(CryptoEngine cryptoEngine) {
         this.cryptoEngine = cryptoEngine;
     }
 
+    /**
+     * Sets the login history service
+     * @param loginHistoryService the login history service
+     */
     @Inject
     public void setLoginHistoryService(LoginHistoryService loginHistoryService) {
         this.loginHistoryService = loginHistoryService;
@@ -44,12 +74,10 @@ public class MwActionBeanContext extends ActionBeanContext {
 
     /**
      * Adds a login to the login history, then stores the user information
-     * without secret key in the request, the user information without secret
+     * with secret key in the request, the user information without secret
      * key in the session, and the secret key in a cookie. The secret key is not
      * stored in the session so that it's not written in database.
-     *
-     * @param userInformation
-     *            the user information, with the secret key
+     * @param userInformation the user information, with the secret key
      */
     public void login(UserInformation userInformation) {
         loginHistoryService.addLogin(userInformation.getUserId(), getUserAgent(), getRequest().getRemoteAddr());
@@ -80,10 +108,21 @@ public class MwActionBeanContext extends ActionBeanContext {
         getResponse().addCookie(cookie);
     }
 
+    /**
+     * Gets the user information stored in the request, with secret key
+     * @return the user information, with secret key
+     */
     public UserInformation getUserInformation() {
         return (UserInformation) getRequest().getAttribute(USER_INFORMATION_REQUEST_ATTRIBUTE);
     }
 
+    /**
+     * Sets the user information (after a login or a change in the preferences). It stores the user
+     * information with secret key in the request, the user information without secret key in the session,
+     * the locale in the session where the locale picker can find it, and the time zone in the session
+     * where the JSTL tags can find it
+     * @param info the new user information, with secret key
+     */
     public void setUserInformation(UserInformation info) {
         MwLocalePicker.setPreferredLocale(getRequest(), info.getPreferences().getLocale());
         getRequest().setAttribute(USER_INFORMATION_REQUEST_ATTRIBUTE, info);
@@ -125,10 +164,20 @@ public class MwActionBeanContext extends ActionBeanContext {
         }
     }
 
+    /**
+     * Method called by the authentication interceptor, when a GET URL is asked but
+     * needs an authentication before. The login action bean then finds the requested URL
+     * in the context and places it in a hidden field
+     * @param url the requested URL
+     */
     public void setRequestedUrl(String url) {
         getRequest().setAttribute(REQUESTED_URL_REQUEST_ATTRIBUTE, url);
     }
 
+    /**
+     * Gets the requested URL initialized by the authentication interceptor, if any.
+     * @return the requested URL initialized by the authentication interceptor.
+     */
     public String getRequestedUrl() {
         return (String) getRequest().getAttribute(REQUESTED_URL_REQUEST_ATTRIBUTE);
     }
@@ -141,10 +190,19 @@ public class MwActionBeanContext extends ActionBeanContext {
         return getUserInformation() != null;
     }
 
+    /**
+     * Gets the user agent of the current request.
+     * @return the user agent of the current request
+     */
     public String getUserAgent() {
         return getRequest().getHeader("User-Agent");
     }
 
+    /**
+     * Gets the locale to use for this request. If set in the user preferences, returns this one. Else,
+     * returns the default one.
+     * @return the locale to use for the current request
+     */
     @Override
     public Locale getLocale() {
         Locale result = getUserInformation().getPreferences().getLocale();
@@ -154,6 +212,11 @@ public class MwActionBeanContext extends ActionBeanContext {
         return result;
     }
 
+    /**
+     * Gets the time zone to use for this request. If set in the user preferences, returns this one.
+     * Else, returns GMT.
+     * @return the time zone to use for this request
+     */
     public TimeZone getTimeZone() {
         UserInformation userInformation = getUserInformation();
         if (userInformation != null && userInformation.getPreferences().getTimeZone() != null) {

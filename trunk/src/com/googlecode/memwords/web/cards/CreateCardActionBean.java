@@ -23,14 +23,25 @@ import com.googlecode.memwords.web.util.ScopedLocalizableMessage;
  */
 public class CreateCardActionBean extends AbstractEditCardActionBean implements ValidationErrorHandler {
 
+    /**
+     * Input field containing the password of the card
+     */
     @Validate(required = true)
     private String password;
 
+    /**
+     * Constructor
+     * @param cardService the card service
+     */
     @Inject
     public CreateCardActionBean(CardService cardService) {
         super(cardService);
     }
 
+    /**
+     * Displays the create card page
+     * @return a forward resolution to the create card page
+     */
     @DefaultHandler
     @DontValidate
     public Resolution view() {
@@ -38,22 +49,38 @@ public class CreateCardActionBean extends AbstractEditCardActionBean implements 
         return new ForwardResolution("/cards/createCard.jsp");
     }
 
+    /**
+     * Updates the card details of the source page with the card creation form, using AJAX
+     * @return a forward resolution which displays the create card form in the source page
+     */
     @DontValidate
     public Resolution ajaxView() {
         return new ForwardResolution("/cards/ajaxCreateCard.jsp");
     }
 
+    /**
+     * Creates the card
+     * @return a redirect resolution to the cards page, with a success message
+     */
     public Resolution createCard() {
         doCreateCard();
         return new RedirectResolution(CardsActionBean.class);
     }
 
+    /**
+     * Creates a card using AJAX
+     * @return a forward resolution which updates the source page with the new cards list
+     * and the default card details section in the source page, as well as a success message
+     */
     public Resolution ajaxCreateCard() {
         doCreateCard();
         loadCards();
         return new ForwardResolution("/cards/ajaxCards.jsp");
     }
 
+    /**
+     * Performs the card creation
+     */
     protected void doCreateCard() {
         loadFavIconUrlIfNecessary(null);
         CardDetails cardDetails = new CardDetails(null, name, login, password, url, iconUrl, note);
@@ -67,6 +94,10 @@ public class CreateCardActionBean extends AbstractEditCardActionBean implements 
                                          cardDetails.getName()));
     }
 
+    /**
+     * Custom validation method which checks that no card already exists with the same name
+     * @param errors the errors to update
+     */
     @ValidationMethod(on = {"createCard", "ajaxCreateCard"}, when = ValidationState.ALWAYS)
     public void validateNameDoesntExist(ValidationErrors errors) {
         if (!errors.containsKey("name")
@@ -78,6 +109,10 @@ public class CreateCardActionBean extends AbstractEditCardActionBean implements 
         }
     }
 
+    /**
+     * custom error handling method used to reload the cards list if AJAX is not used,
+     * and return the appropriate resolution in case of an error when AJAX is used.
+     */
     @Override
     public Resolution handleValidationErrors(ValidationErrors errors) {
         String eventName = getContext().getEventName();

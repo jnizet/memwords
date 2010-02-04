@@ -11,6 +11,12 @@ import com.googlecode.memwords.web.MwActionBean;
  * @author JB
  */
 public class AccountActionBean extends MwActionBean {
+
+    /**
+     * Displays the account page, containing links to the operations on the user's account
+     * (change master password, destroy account)
+     * @return a forward resolution to the account page
+     */
     @DefaultHandler
     public Resolution view() {
         return new ForwardResolution("/account/account.jsp");

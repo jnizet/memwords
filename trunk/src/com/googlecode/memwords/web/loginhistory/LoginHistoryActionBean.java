@@ -17,21 +17,39 @@ import com.googlecode.memwords.web.MwActionBean;
  */
 public class LoginHistoryActionBean extends MwActionBean {
 
-    private LoginHistoryService loginHistoryService;
-
+    /**
+     * The login history
+     */
     private List<HistoricLogin> history;
 
+    /**
+     * The login history service
+     */
+    private LoginHistoryService loginHistoryService;
+
+    /**
+     * Constructor
+     * @param loginHistoryService the login history service
+     */
     @Inject
     public LoginHistoryActionBean(LoginHistoryService loginHistoryService) {
         this.loginHistoryService = loginHistoryService;
     }
 
+    /**
+     * Displays the login history page
+     * @return a forward resolution to the login history page
+     */
     @DefaultHandler
     public Resolution view() {
         history = loginHistoryService.getLoginHistory(getContext().getUserInformation().getUserId());
         return new ForwardResolution("/loginhistory/loginHistory.jsp");
     }
 
+    /**
+     * Gets the login history
+     * @return the login history
+     */
     public List<HistoricLogin> getHistory() {
         return history;
     }

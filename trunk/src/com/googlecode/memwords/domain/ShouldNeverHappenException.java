@@ -3,7 +3,6 @@ package com.googlecode.memwords.domain;
 /**
  * Runtime exception used to signal something that should never happen. It's
  * often used to transform a checked exception into a runtime one.
- * 
  * @author JB
  */
 @SuppressWarnings("serial")

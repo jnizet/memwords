@@ -22,14 +22,34 @@ import com.googlecode.memwords.domain.ShouldNeverHappenException;
 @Singleton
 public class CryptoEngineImpl implements CryptoEngine {
 
+    /**
+     * The key size (in bytes) of the AES encryption algorithm
+     */
     public static final int KEY_SIZE = 16;
+
+    /**
+     * The initialization vector size (in bytes) of the AES encryption algorithm
+     */
     public static final int IV_SIZE = 16;
 
+    /**
+     * The key size, in bits, of the AES encryption algorithm
+     */
     private static final int KEY_SIZE_IN_BITS = KEY_SIZE * 8;
+
+    /**
+     * The name of the encryption algorithm
+     */
     private static final String ENCRYPTION_ALGORITHM = "AES";
 
+    /**
+     * The secure random used to generate secret keys
+     */
     private SecureRandom secureRandom;
 
+    /**
+     * Constructor
+     */
     public CryptoEngineImpl() {
         try {
             this.secureRandom = SecureRandom.getInstance("SHA1PRNG");
@@ -127,7 +147,15 @@ public class CryptoEngineImpl implements CryptoEngine {
         }
     }
 
-    protected byte[] crypt(byte[] data, SecretKey key, byte[] iv, int cryptMode) {
+    /**
+     * Performs an encryption or a decryption depending on the given mode.
+     * @param data the data to encrypt of decrypt
+     * @param key the key
+     * @param iv the initialization vector
+     * @param cryptMode the crypt mode (ENCRYPT or DECRYPT)
+     * @return the encrypted or decrypted data
+     */
+    private byte[] crypt(byte[] data, SecretKey key, byte[] iv, int cryptMode) {
         try {
             if (key == null) {
                 throw new IllegalArgumentException("key must not be null");
@@ -153,6 +181,11 @@ public class CryptoEngineImpl implements CryptoEngine {
         }
     }
 
+    /**
+     * Transforms a byte array into a string using the UTF-8 encoding
+     * @param bytes the bytes to transform
+     * @return the string, or <code>null</code> if the given byte array is <code>null</code>
+     */
     protected String bytesToString(byte[] bytes) {
         if (bytes == null) {
             return null;

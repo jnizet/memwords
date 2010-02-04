@@ -8,6 +8,9 @@ import java.util.Comparator;
  */
 public final class CardBasicInformationComparator implements Comparator<CardBasicInformation> {
 
+    /**
+     * A reusable instance of this class, which is thread-safe
+     */
     public static final CardBasicInformationComparator INSTANCE =
         new CardBasicInformationComparator();
 
