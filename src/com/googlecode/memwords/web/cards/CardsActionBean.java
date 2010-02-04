@@ -12,20 +12,23 @@ import com.googlecode.memwords.facade.cards.CardService;
  * @author JB
  */
 public class CardsActionBean extends BaseCardsActionBean {
-    
+
+    /**
+     * Constructor
+     * @param cardService the card service
+     */
     @Inject
     public CardsActionBean(CardService cardService) {
         super(cardService);
     }
-    
+
+    /**
+     * Displays the cards page
+     * @return a forward resolution to the cards page
+     */
     @DefaultHandler
     public Resolution view() {
         loadCards();
         return new ForwardResolution("/cards/cards.jsp");
-    }
-    
-    public Resolution ajaxView() {
-        loadCards();
-        return new ForwardResolution("/cards/ajaxCards.jsp");
     }
 }

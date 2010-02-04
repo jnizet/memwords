@@ -25,18 +25,35 @@ import com.googlecode.memwords.web.util.ScopedLocalizableMessage;
  */
 public class ChangePreferredTimeZoneActionBean extends MwActionBean {
 
+    /**
+     * Input field containing the ID of the preferred time zone
+     */
     @Validate(required = true)
     private String timeZoneId;
 
+    /**
+     * The list of selectable time zones
+     */
     private List<TimeZone> timeZones;
 
+    /**
+     * The account service
+     */
     private AccountService accountService;
 
+    /**
+     * Constructor
+     * @param accountService the account service
+     */
     @Inject
     public ChangePreferredTimeZoneActionBean(AccountService accountService) {
         this.accountService = accountService;
     }
 
+    /**
+     * Displays the change preferred time zone page
+     * @return a forward resolution to the change preferred time zone page
+     */
     @DefaultHandler
     @DontValidate
     public Resolution view() {
@@ -45,6 +62,11 @@ public class ChangePreferredTimeZoneActionBean extends MwActionBean {
         return new ForwardResolution("/preferences/changePreferredTimeZone.jsp");
     }
 
+    /**
+     * Displays the change preferred time zone section using AJAX
+     * @return a forward resolution which updates the preferences page with the
+     * change preferred time zone form
+     */
     @DontValidate
     public Resolution ajaxView() {
         loadTimeZones();
@@ -52,6 +74,9 @@ public class ChangePreferredTimeZoneActionBean extends MwActionBean {
         return new ForwardResolution("/preferences/ajaxChangePreferredTimeZone.jsp");
     }
 
+    /**
+     * Loads the selectable tie zones
+     */
     private void loadTimeZones() {
         String[] ids = TimeZone.getAvailableIDs();
         this.timeZones = new ArrayList<TimeZone>(ids.length);
@@ -60,20 +85,35 @@ public class ChangePreferredTimeZoneActionBean extends MwActionBean {
         }
     }
 
+    /**
+     * Loads the preferred (or default) time zone
+     */
     private void loadTimeZone() {
         this.timeZoneId = getContext().getTimeZone().getID();
     }
 
+    /**
+     * Changes the preferred time zone
+     * @return a redirect resolution to the preferences page, with a success message
+     */
     public Resolution change() {
         doChange();
         return new RedirectResolution(PreferencesActionBean.class);
     }
 
+    /**
+     * Changes the preferred time zone using AJAX
+     * @return a forward resolution which updates the preferences page with a success message
+     * and a clean preferences page
+     */
     public Resolution ajaxChange() {
         doChange();
         return new ForwardResolution("/preferences/ajaxPreferences.jsp");
     }
 
+    /**
+     * Performs the change
+     */
     private void doChange() {
         UserInformation userInformation = getContext().getUserInformation();
         Preferences preferences = userInformation.getPreferences();
@@ -86,19 +126,35 @@ public class ChangePreferredTimeZoneActionBean extends MwActionBean {
                                                                     "preferredTimeZoneChanged"));
     }
 
+    /**
+     * Cancels the change
+     * @return a redirect resolution to the preferences page
+     */
     @DontBind
     public Resolution cancel() {
         return new RedirectResolution(PreferencesActionBean.class);
     }
 
+    /**
+     * Gets the list of selectable time zones
+     * @return the list of selectable time zones
+     */
     public List<TimeZone> getTimeZones() {
         return timeZones;
     }
 
+    /**
+     * Gets the time zone ID
+     * @return the time zone ID
+     */
     public String getTimeZoneId() {
         return timeZoneId;
     }
 
+    /**
+     * Sets the time zone ID
+     * @param timeZoneId the new time zone ID
+     */
     public void setTimeZoneId(String timeZoneId) {
         this.timeZoneId = timeZoneId;
     }

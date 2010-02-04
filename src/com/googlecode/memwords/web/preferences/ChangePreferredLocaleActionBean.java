@@ -27,18 +27,35 @@ import com.googlecode.memwords.web.util.ScopedLocalizableMessage;
  */
 public class ChangePreferredLocaleActionBean extends MwActionBean {
 
+    /**
+     * Input field containing the selected locale (<code>null</code> if no locale selected)
+     */
     @Validate(converter = LocaleTypeConverter.class)
     private Locale locale;
 
+    /**
+     * The list of selectable locales
+     */
     private List<DisplayedLocale> supportedLocales;
 
+    /**
+     * The account service
+     */
     private AccountService accountService;
 
+    /**
+     * Constructor
+     * @param accountService the account service
+     */
     @Inject
     public ChangePreferredLocaleActionBean(AccountService accountService) {
         this.accountService = accountService;
     }
 
+    /**
+     * Displays the change preferred locale page
+     * @return a forward resolution to the change preferred locale page
+     */
     @DefaultHandler
     @DontValidate
     public Resolution view() {
@@ -47,6 +64,11 @@ public class ChangePreferredLocaleActionBean extends MwActionBean {
         return new ForwardResolution("/preferences/changePreferredLocale.jsp");
     }
 
+    /**
+     * Displays the change preferred locale section using AJAX
+     * @return a forward resolution which updates the preferences page with the
+     * change preferred locale form
+     */
     @DontValidate
     public Resolution ajaxView() {
         loadSupportedLocales();
@@ -54,6 +76,9 @@ public class ChangePreferredLocaleActionBean extends MwActionBean {
         return new ForwardResolution("/preferences/ajaxChangePreferredLocale.jsp");
     }
 
+    /**
+     * loads the supported locales
+     */
     private void loadSupportedLocales() {
         supportedLocales = new ArrayList<DisplayedLocale>(MwLocalePicker.SUPPORTED_LOCALES.size());
         for (Locale l : MwLocalePicker.SUPPORTED_LOCALES) {
@@ -61,10 +86,17 @@ public class ChangePreferredLocaleActionBean extends MwActionBean {
         }
     }
 
+    /**
+     * loads the preferred locale
+     */
     private void loadLocale() {
         this.locale = getContext().getUserInformation().getPreferences().getLocale();
     }
 
+    /**
+     * Changes the preferred locale
+     * @return a redirect resolution to the preferences page, with a success message
+     */
     public Resolution change() {
         UserInformation userInformation = getContext().getUserInformation();
         Preferences preferences = userInformation.getPreferences();
@@ -77,19 +109,35 @@ public class ChangePreferredLocaleActionBean extends MwActionBean {
         return new RedirectResolution(PreferencesActionBean.class);
     }
 
+    /**
+     * Cancels the change
+     * @return a redirect resolution to the preferences page
+     */
     @DontBind
     public Resolution cancel() {
         return new RedirectResolution(PreferencesActionBean.class);
     }
 
+    /**
+     * Gets the list of supported locales
+     * @return the list of supported locales
+     */
     public List<DisplayedLocale> getSupportedLocales() {
         return supportedLocales;
     }
 
+    /**
+     * Gets the locale
+     * @return the locale
+     */
     public Locale getLocale() {
         return locale;
     }
 
+    /**
+     * Sets the locale
+     * @param locale the new locale
+     */
     public void setLocale(Locale locale) {
         this.locale = locale;
     }

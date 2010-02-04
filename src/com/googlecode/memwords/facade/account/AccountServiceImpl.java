@@ -21,9 +21,22 @@ import com.googlecode.memwords.facade.util.CryptoEngine;
 @Singleton
 public class AccountServiceImpl implements AccountService {
 
+    /**
+     * The entity manager, used to access the database
+     */
     private EntityManager em;
+
+    /**
+     * The cryptographic engine, used to perform the cryptographic operations needed by the
+     * methods of this service implementation
+     */
     private CryptoEngine cryptoEngine;
 
+    /**
+     * Constructor
+     * @param em the entity manager
+     * @param cryptoEngine the cryptographic engine
+     */
     @Inject
     public AccountServiceImpl(EntityManager em, CryptoEngine cryptoEngine) {
         this.em = em;
@@ -166,6 +179,10 @@ public class AccountServiceImpl implements AccountService {
     /**
      * Builds the key used to encrypt the randomly generated encryption key associated to the
      * account
+     * @param userId the user ID of the account
+     * @param masterPassword the master password of the account
+     * @return the wrapping key, which consists in the hash of the concatenation
+     * of the user ID and master password
      */
     protected SecretKey buildWrappingKey(String userId, String masterPassword) {
         String s = userId + masterPassword;
@@ -177,12 +194,14 @@ public class AccountServiceImpl implements AccountService {
     /**
      * Builds the persistent password from the master password and the user ID (which
      * is used as salt in order to avoid having the same result with identical passwords)
+     * @param userId the user ID of the account
+     * @param masterPassword the master password of the account
+     * @return the persistent, which consists in the concatenation
+     * of the user ID and master password hashed twice
      */
     protected byte[] buildPersistentPassword(String userId, String masterPassword) {
         String s = userId + masterPassword;
         byte[] b = cryptoEngine.stringToBytes(s);
         return cryptoEngine.hash(cryptoEngine.hash(b));
     }
-
-
 }

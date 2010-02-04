@@ -26,6 +26,10 @@ public class MwLocalePicker extends DefaultLocalePicker {
      * The hard-coded, read-only list of supported locales
      */
     public static final List<Locale> SUPPORTED_LOCALES;
+
+    /**
+     * The map of encodings by locale
+     */
     private static final Map<Locale, String> ENCODINGS;
 
     private static final String PREFERRED_LOCALE_SESSION_ATTRIBUTE =
@@ -63,6 +67,12 @@ public class MwLocalePicker extends DefaultLocalePicker {
         return result;
     }
 
+    /**
+     * Sets the preferred locale in the session, so that it's picked up by this locale picker
+     * for subsequent requests
+     * @param request the current request
+     * @param preferredLocale the preferred locale
+     */
     public static void setPreferredLocale(HttpServletRequest request, Locale preferredLocale) {
         HttpSession session = request.getSession(true);
         session.setAttribute(PREFERRED_LOCALE_SESSION_ATTRIBUTE, preferredLocale);

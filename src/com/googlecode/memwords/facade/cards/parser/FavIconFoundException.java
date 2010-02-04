@@ -7,6 +7,10 @@ package com.googlecode.memwords.facade.cards.parser;
  */
 @SuppressWarnings("serial")
 public class FavIconFoundException extends RuntimeException {
+
+    /**
+     * Constructor
+     */
     public FavIconFoundException() {
     }
 }

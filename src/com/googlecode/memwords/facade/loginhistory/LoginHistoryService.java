@@ -6,7 +6,7 @@ import com.google.inject.ImplementedBy;
 import com.googlecode.memwords.domain.HistoricLogin;
 
 /**
- * Service to manage historic logins
+ * Facade services to manage historic logins
  * @author JB
  */
 @ImplementedBy(LoginHistoryServiceImpl.class)
@@ -32,7 +32,7 @@ public interface LoginHistoryService {
      * Gets the latest historic login which is not the current one (i.e. the second item
      * in the list of historic logins)
      * @param userId the user ID of the account
-     * @return the historic login, or <code>null</code> if it's the first one
+     * @return the historic login, or <code>null</code> if there is none
      */
     HistoricLogin getLatestHistoricLogin(String userId);
 }

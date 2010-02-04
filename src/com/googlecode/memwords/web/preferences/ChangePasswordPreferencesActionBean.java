@@ -14,44 +14,79 @@ import com.googlecode.memwords.web.MwActionBean;
 import com.googlecode.memwords.web.util.ScopedLocalizableMessage;
 
 /**
- * Action used to change preferences regarding passwords (masked by default or not)
+ * Action bean used to change preferences regarding passwords (masked by default or not)
  * @author JB
  */
 public class ChangePasswordPreferencesActionBean extends MwActionBean {
+
+    /**
+     * Input field containing the masking preference
+     */
     private boolean unmasked;
 
+    /**
+     * The account service
+     */
     private AccountService accountService;
 
+    /**
+     * Constructor
+     * @param accountService the account service
+     */
     @Inject
     public ChangePasswordPreferencesActionBean(AccountService accountService) {
         this.accountService = accountService;
     }
 
+    /**
+     * Displays the change password preferences page
+     * @return a forward resolution to the change password preferences page
+     */
     @DefaultHandler
     public Resolution view() {
         loadUnmasked();
         return new ForwardResolution("/preferences/changePasswordPreferences.jsp");
     }
 
+    /**
+     * Displays the change password preferences section using AJAX
+     * @return a forward resolution which updates the preferences page with the
+     * change password preferences form
+     */
     public Resolution ajaxView() {
         loadUnmasked();
         return new ForwardResolution("/preferences/ajaxChangePasswordPreferences.jsp");
     }
 
+    /**
+     * Loads the unmasked preference
+     */
     private void loadUnmasked() {
         this.unmasked = getContext().getUserInformation().getPreferences().isPasswordsUnmasked();
     }
 
+    /**
+     * Changes the password preferences
+     * @return a redirect resolution to the preferences page, with a success message
+     */
     public Resolution change() {
         doChange();
         return new RedirectResolution(PreferencesActionBean.class);
     }
 
+    /**
+     * Changes the password preferences using AJAX
+     * @return a forward resolution which updates the preferences page with a success message
+     * and a clean preferences page
+     */
     public Resolution ajaxChange() {
         doChange();
         return new ForwardResolution("/preferences/ajaxPreferences.jsp");
     }
 
+    /**
+     * Performs the change
+     */
     private void doChange() {
         UserInformation userInformation = getContext().getUserInformation();
         Preferences preferences = userInformation.getPreferences();
@@ -65,15 +100,27 @@ public class ChangePasswordPreferencesActionBean extends MwActionBean {
                                          "passwordPreferencesChanged"));
     }
 
+    /**
+     * Cancels the change
+     * @return a redirect resolution to the preferences page
+     */
     @DontBind
     public Resolution cancel() {
         return new RedirectResolution(PreferencesActionBean.class);
     }
 
+    /**
+     * Gets the unmasked preference
+     * @return the unmasked preference
+     */
     public boolean isUnmasked() {
         return unmasked;
     }
 
+    /**
+     * Sets the unmasked preference
+     * @param unmasked the new unmasked preference
+     */
     public void setUnmasked(boolean unmasked) {
         this.unmasked = unmasked;
     }

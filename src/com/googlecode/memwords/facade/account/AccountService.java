@@ -9,14 +9,14 @@ import com.googlecode.memwords.domain.UserInformation;
 
 
 /**
- * Facade service for accounts
+ * Facade services for accounts
  * @author JB
  */
 @ImplementedBy(AccountServiceImpl.class)
 public interface AccountService {
     /**
      * Gets the account with the given userId
-     * @param userId the userId for which the account must be returned
+     * @param userId the user ID for which the account must be returned
      * @return the account with the given user ID, or <code>null</code> if no
      * account exists for the given user ID
      */
@@ -31,11 +31,12 @@ public interface AccountService {
     UserInformation createAccount(String userId, String masterPassword);
 
     /**
-     * Verifies the master password for the given user ID, and returns the decrypted
-     * secret key associated to the account
+     * Verifies the master password for the given user ID, and returns the user information
+     * for the account, containing the encryption key.
      * @param userId the ID of the user to authenticate
      * @param masterPassword the master password associated to the account
-     * @return the user information, containing the secret key associated to the account
+     * @return the user information, containing the secret key associated to the account,
+     * or <code>null</code> if the account can't be found or if the master password is not correct
      */
     UserInformation login(String userId, String masterPassword);
 
@@ -57,20 +58,21 @@ public interface AccountService {
     void changePassword(String userId, String newPassword, SecretKey secretKey);
 
     /**
-     * Tests if an account with the given userId exists or not
+     * Tests if an account with the given user ID exists or not
+     * @param userId the user ID to verify
      */
     boolean accountExists(String userId);
 
     /**
      * Changes the preferences of the account with the given user ID
      * @param userId the user ID
-     * @param locale the new preferences
+     * @param preferences the new preferences
      */
     void changePreferences(String userId, Preferences preferences);
 
     /**
      * Destroys the account with the given user ID
-     * @param userId the user ID
+     * @param userId the user ID of the account to destroy
      */
     void destroyAccount(String userId);
 }

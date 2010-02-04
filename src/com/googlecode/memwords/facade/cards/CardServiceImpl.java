@@ -36,11 +36,33 @@ import com.googlecode.memwords.facade.util.CryptoEngine;
 @Singleton
 public class CardServiceImpl implements CardService {
 
+    /**
+     * The entity manager, used to access the database
+     */
     private EntityManager em;
+
+    /**
+     * The crypto engine, used to encrypt and decrypt information in the cards
+     */
     private CryptoEngine cryptoEngine;
+
+    /**
+     * The URL fetch service, used to fetch pages and icons for the URLs of the cards
+     */
     private URLFetchService urlFetchService;
+
+    /**
+     * The service used to find a fav icon in an HTML document
+     */
     private FavIconFinder favIconFinder;
 
+    /**
+     * Constructor
+     * @param em the entity manager
+     * @param cryptoEngine the cryptographic engine
+     * @param urlFetchService the URL fetch service
+     * @param favIconFinder the fav icon finder
+     */
     @Inject
     public CardServiceImpl(EntityManager em,
                            CryptoEngine cryptoEngine,
@@ -96,7 +118,7 @@ public class CardServiceImpl implements CardService {
             tx.begin();
             Card card = new Card();
             card.setInitializationVector(cryptoEngine.generateInitializationVector());
-            updateCard(cardDetails, encryptionKey, card, true);
+            updateCard(card, cardDetails, encryptionKey, true);
             Account account = em.find(Account.class, userId);
             account.addCard(card);
             em.persist(card);
@@ -110,9 +132,17 @@ public class CardServiceImpl implements CardService {
         }
     }
 
-    private void updateCard(CardDetails cardDetails,
+    /**
+     * Updates the given card with the details found in the given card details
+     * @param card the card to update
+     * @param cardDetails the new details of the card
+     * @param encryptionKey the encryption key used to encrypt information in the card
+     * @param modifyPassword if <code>true</code>, updates the password of the card
+     * with the one found in the card details. If <code>false</code>, the password isn't updated.
+     */
+    private void updateCard(Card card,
+                            CardDetails cardDetails,
                             SecretKey encryptionKey,
-                            Card card,
                             boolean modifyPassword) {
         card.setName(cryptoEngine.encryptString(cardDetails.getName(),
                                                 encryptionKey,
@@ -142,7 +172,7 @@ public class CardServiceImpl implements CardService {
         try {
             tx.begin();
             Card card = em.find(Card.class, cardDetails.getId());
-            updateCard(cardDetails, encryptionKey, card, modifyPassword);
+            updateCard(card, cardDetails, encryptionKey, modifyPassword);
             tx.commit();
             return card;
         }

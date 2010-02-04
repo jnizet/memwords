@@ -64,6 +64,7 @@
         <delete dir="war/WEB-INF/lib">
             <include name="cobertura*.jar"/>
         </delete>
+        <delete dir="doc"/>
     </target>
 
     <!-- compiles the source files (non test files) -->
@@ -369,5 +370,15 @@
     <!-- Clean, build, generate PMD, checkstyle and findbugs reports, build and run unit tests -->
     <target name="all"
             description="Clean, build, generate PMD, checkstyle and findbugs reports, build and run unit tests"
-            depends="rebuild, pmd, checkstyle, findbugs, unit-tests"/>     
+            depends="rebuild, pmd, checkstyle, findbugs, unit-tests"/>
+    
+    <target name="javadoc"
+            description="Generates the API documentation">
+        <mkdir dir="doc"/>
+        <javadoc destdir="doc"
+                 windowtitle="MemWords API documentation"
+                 classpathref="build.classpath">
+            <fileset dir="src" />
+        </javadoc>
+    </target>
 </project>

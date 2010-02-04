@@ -9,6 +9,11 @@ import net.sourceforge.stripes.action.Resolution;
  * @author JB
  */
 public class IndexActionBean extends MwActionBean {
+
+    /**
+     * Displays the welcome page
+     * @return a forward resolution to the welcome page
+     */
     @DefaultHandler
     public Resolution view() {
         return new ForwardResolution("/welcome.jsp");

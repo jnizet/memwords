@@ -1,7 +1,7 @@
 package com.googlecode.memwords.domain;
 
 /**
- * Class containing global constants
+ * Class containing global constants of the application
  * @author JB
  */
 public final class MwConstants {
@@ -16,6 +16,9 @@ public final class MwConstants {
      */
     public static final String GMT = "GMT";
 
+    /**
+     * Private constructor to prevent unnecessary instantiations
+     */
     private MwConstants() {
     }
 }

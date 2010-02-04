@@ -11,6 +11,11 @@ import com.googlecode.memwords.web.MwActionBean;
  * @author JB
  */
 public class PreferencesActionBean extends MwActionBean {
+
+    /**
+     * Displays the preferences page
+     * @return a forward resolution to the preferences page
+     */
     @DefaultHandler
     public Resolution view() {
         return new ForwardResolution("/preferences/preferences.jsp");
