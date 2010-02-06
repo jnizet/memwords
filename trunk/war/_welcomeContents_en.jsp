@@ -60,6 +60,13 @@
     depends on the strength of your master password. Choose a strong one, and keep it to yourself.
   </div>
   <div class="question">
+    What if I forget my master password?
+  </div>
+  <div class="answer">
+    Too bad. MemWords is designed to forbid anyone, even with access to the database, finding a master password.
+    Your account will thus live eternally, and nobody will ever be able to access it anymore.
+  </div>
+  <div class="question">
     Do you guarantee that my information won't ever be lost?
   </div>
   <div class="answer">

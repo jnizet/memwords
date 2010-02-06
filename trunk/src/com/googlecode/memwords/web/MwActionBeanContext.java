@@ -220,7 +220,7 @@ public class MwActionBeanContext extends ActionBeanContext {
      */
     public TimeZone getTimeZone() {
         UserInformation userInformation = getUserInformation();
-        if (userInformation != null && userInformation.getPreferences().getTimeZone() != null) {
+        if (userInformation != null) {
             return userInformation.getPreferences().getTimeZone();
         }
         else {

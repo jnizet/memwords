@@ -182,6 +182,34 @@ public class ModifyCardTest extends EditCardTestBase {
                             .getElementsByAttribute("div", "class", "card").size());
     }
 
+    @Test
+    public void testPasswordGeneration() throws Exception {
+        WebClient wc = startWebClient();
+        HtmlPage page = goToModifyPage(wc);
+        testPasswordGeneration(page, "modifyCardForm");
+    }
+
+    @Test
+    public void testPasswordGenerationOptionsForm() throws Exception {
+        WebClient wc = startWebClient(true);
+        HtmlPage page = goToModifyPage(wc);
+        testPasswordGenerationOptionsForm(page, "modifyCardForm");
+    }
+
+    @Test
+    public void testPasswordGenerationCancel() throws Exception {
+        WebClient wc = startWebClient(true);
+        HtmlPage page = goToModifyPage(wc);
+        testPasswordGenerationCancel(page, "modifyCardForm");
+    }
+
+    @Test
+    public void testPasswordGenerationSubmit() throws Exception {
+        WebClient wc = startWebClient(true);
+        HtmlPage page = goToModifyPage(wc);
+        testPasswordGenerationSubmit(page, "modifyCardForm");
+    }
+
     private HtmlPage goToModifyPage(WebClient wc) throws Exception {
         login(wc);
         HtmlPage page = wc.getPage(url("/cards/Cards.action"));

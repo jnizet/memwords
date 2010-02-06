@@ -2,6 +2,7 @@ package com.googlecode.memwords.web.cards;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.HttpCache;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.validation.Validate;
 
@@ -13,6 +14,7 @@ import com.googlecode.memwords.facade.cards.CardService;
  * Action bean used to display the details of a card
  * @author JB
  */
+@HttpCache(allow = false)
 public class DisplayCardActionBean extends BaseCardsActionBean {
 
     /**

@@ -25,4 +25,11 @@
       <fmt:message key="preferences._preferences.changePasswordPreferences"/></stripes:link>
   </div>
   <div id="passwordPreferencesDiv" style="display: none;"></div>
+  <div>
+    <stripes:link beanclass="com.googlecode.memwords.web.preferences.ChangePasswordGenerationPreferencesActionBean" 
+                  id="changePasswordGenerationPreferencesLink">
+      <img class="icon" alt="" src="<c:url value="/img/generation.png"/>"/>
+      <fmt:message key="preferences._preferences.changePasswordGenerationPreferences"/></stripes:link>
+  </div>
+  <div id="passwordGenerationPreferencesDiv" style="display: none;"></div>
 </div>

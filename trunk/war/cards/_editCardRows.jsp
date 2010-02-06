@@ -17,7 +17,7 @@
   </td>
 </tr>
 <tr>
-  <th><label class="required"><fmt:message key="cards._editCardRows.passwordLabel"/></label></th>
+  <th class="topText"><label class="required"><fmt:message key="cards._editCardRows.passwordLabel"/></label></th>
   <td>
     <c:if test="${actionBean.modification}">
       <span id="changePasswordSpan">
@@ -27,6 +27,12 @@
     <stripes-d:password name="password" autocomplete="off" repopulate="${!actionBean.modification || (actionBean.modification && actionBean.changePassword)}" id="password"/>
     <tags:help key="cards._editCardRows.passwordHelp"/>
     <div class="strength" id="strength" title="<fmt:message key="main.passwordStrength"/>"></div>
+    <div id="generatePasswordLinksDiv" style="display: none;">
+      <a href="#" id="generatePasswordLink"><fmt:message key="cards._editCardRows.generatePasswordLink"/></a>
+      <span style="padding-left: 8px; padding-right: 8px;">-</span>
+      <a href="#" id="generatePasswordWithOptionsLink"><fmt:message key="cards._editCardRows.generatePasswordWithOptionsLink"/></a>
+    </div>
+    <div style="display: none;" id="generatePasswordDiv"></div>
   </td>
 </tr>
 <tr>

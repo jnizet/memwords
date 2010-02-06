@@ -3,6 +3,7 @@ package com.googlecode.memwords.web.account;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.HttpCache;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.validation.LocalizableError;
@@ -22,6 +23,7 @@ import com.googlecode.memwords.web.cards.CardsActionBean;
  * Action bean used to handle the creation of an account
  * @author JB
  */
+@HttpCache(allow = false)
 public class CreateAccountActionBean extends MwActionBean {
 
     /**
