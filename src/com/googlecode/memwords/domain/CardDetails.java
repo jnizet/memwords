@@ -131,4 +131,12 @@ public final class CardDetails implements Serializable {
     public String getNote() {
         return note;
     }
+
+    /**
+     * Gets the absolutized URL.
+     * @see UrlUtils#absolutizeUrl(String)
+     */
+    public String getAbsolutizedUrl() {
+        return UrlUtils.absolutizeUrl(this.url);
+    }
 }

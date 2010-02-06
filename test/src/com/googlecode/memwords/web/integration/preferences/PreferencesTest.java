@@ -45,13 +45,26 @@ public class PreferencesTest {
         wc.waitForBackgroundJavaScript(10000L);
         WebAssert.assertElementNotPresent(page, "changePreferredLocaleForm");
         WebAssert.assertElementPresent(page, "changePreferredTimeZoneForm");
+        WebAssert.assertElementNotPresent(page, "changePasswordPreferencesForm");
+        WebAssert.assertElementNotPresent(page, "changePasswordGenerationPreferencesForm");
         testBasics(page);
 
         HtmlAnchor changePasswordPreferencesLink = page.getAnchorByText("Password preferences");
         changePasswordPreferencesLink.click();
         wc.waitForBackgroundJavaScript(10000L);
+        WebAssert.assertElementNotPresent(page, "changePreferredLocaleForm");
         WebAssert.assertElementNotPresent(page, "changePreferredTimeZoneForm");
         WebAssert.assertElementPresent(page, "changePasswordPreferencesForm");
+        WebAssert.assertElementNotPresent(page, "changePasswordGenerationPreferencesForm");
+        testBasics(page);
+
+        HtmlAnchor changePasswordGenerationPreferencesLink = page.getAnchorByText("Random password generation preferences");
+        changePasswordGenerationPreferencesLink.click();
+        wc.waitForBackgroundJavaScript(10000L);
+        WebAssert.assertElementNotPresent(page, "changePreferredLocaleForm");
+        WebAssert.assertElementNotPresent(page, "changePreferredTimeZoneForm");
+        WebAssert.assertElementNotPresent(page, "changePasswordPreferencesForm");
+        WebAssert.assertElementPresent(page, "changePasswordGenerationPreferencesForm");
         testBasics(page);
     }
 
@@ -72,5 +85,9 @@ public class PreferencesTest {
         HtmlAnchor changePasswordPreferencesLink = page.getAnchorByText("Password preferences");
         HtmlPage changePasswordPreferencesPage = changePasswordPreferencesLink.click();
         testTitle(changePasswordPreferencesPage, "Password preferences");
+
+        HtmlAnchor changePasswordGenerationPreferencesLink = page.getAnchorByText("Random password generation preferences");
+        HtmlPage changePasswordGenerationPreferencesPage = changePasswordGenerationPreferencesLink.click();
+        testTitle(changePasswordGenerationPreferencesPage, "Random password generation preferences");
     }
 }

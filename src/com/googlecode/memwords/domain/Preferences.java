@@ -16,7 +16,7 @@ public class Preferences implements Serializable {
     private Locale locale;
 
     /**
-     * The preferred time zone (nullable)
+     * The preferred time zone (not nullable)
      */
     private TimeZone timeZone;
 
@@ -26,15 +26,31 @@ public class Preferences implements Serializable {
     private boolean passwordsUnmasked;
 
     /**
+     * The password generation preferences (not nullable)
+     */
+    private PasswordGenerationPreferences passwordGenerationPreferences;
+
+    /**
      * Constructor
      * @param locale the preferred locale (nullable)
-     * @param timeZone the preferred time zone (nullable)
+     * @param timeZone the preferred time zone (not nullable)
      * @param passwordsUnmasked flag indicating if passwords must be unmasked by default
+     * @param passwordGenerationPreferences the password generation preferences
      */
-    public Preferences(Locale locale, TimeZone timeZone, boolean passwordsUnmasked) {
+    public Preferences(Locale locale,
+                       TimeZone timeZone,
+                       boolean passwordsUnmasked,
+                       PasswordGenerationPreferences passwordGenerationPreferences) {
+        if (timeZone == null) {
+            throw new IllegalArgumentException("The time zone may not be null");
+        }
+        if (passwordGenerationPreferences == null) {
+            throw new IllegalArgumentException("The password generation preferences may not be null");
+        }
         this.locale = locale;
         this.timeZone = timeZone;
         this.passwordsUnmasked = passwordsUnmasked;
+        this.passwordGenerationPreferences = passwordGenerationPreferences;
     }
 
     /**
@@ -62,21 +78,35 @@ public class Preferences implements Serializable {
     }
 
     /**
+     * Gets the password generation preferences
+     * @return the password generation preferences
+     */
+    public PasswordGenerationPreferences getPasswordGenerationPreferences() {
+        return passwordGenerationPreferences;
+    }
+
+    /**
      * Creates a copy of this object with a different locale
      * @param locale the different locale (nullable)
      * @return the copy of this instance, with the given locale
      */
     public Preferences withLocale(Locale locale) {
-        return new Preferences(locale, this.timeZone, this.passwordsUnmasked);
+        return new Preferences(locale,
+                               this.timeZone,
+                               this.passwordsUnmasked,
+                               this.passwordGenerationPreferences);
     }
 
     /**
      * Creates a copy of this object with a different time zone
-     * @param timeZone the different time zone (nullable)
+     * @param timeZone the different time zone (not nullable)
      * @return the copy of this instance, with the given time zone
      */
     public Preferences withTimeZone(TimeZone timeZone) {
-        return new Preferences(this.locale, timeZone, this.passwordsUnmasked);
+        return new Preferences(this.locale,
+                               timeZone,
+                               this.passwordsUnmasked,
+                               this.passwordGenerationPreferences);
     }
 
     /**
@@ -85,6 +115,21 @@ public class Preferences implements Serializable {
      * @return the copy of this instance, with the given preference
      */
     public Preferences withPasswordsUnmasked(boolean passwordsUnmasked) {
-        return new Preferences(this.locale, this.timeZone, passwordsUnmasked);
+        return new Preferences(this.locale,
+                               this.timeZone,
+                               passwordsUnmasked,
+                               this.passwordGenerationPreferences);
+    }
+
+    /**
+     * Creates a copy of this object with different password generation preferences
+     * @param preferences the different preferences (not nullable)
+     * @return the copy of this instance, with the given preferences
+     */
+    public Preferences withPasswordGenerationPreferences(PasswordGenerationPreferences preferences) {
+        return new Preferences(this.locale,
+                               this.timeZone,
+                               this.passwordsUnmasked,
+                               preferences);
     }
 }

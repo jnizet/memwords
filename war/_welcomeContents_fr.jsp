@@ -56,8 +56,16 @@
     Que se passe-t-il si mon mot de passe principal est compromis&nbsp;?
   </div>
   <div class="answer">
-    Pas de chance. Vous pouvez toujours le changer avant qu'il soit trop tard, ou détruire votre compte. La sécurité de votre compte
+    Pas de chance. Vous pouvez toujours le changer avant qu'il ne soit trop tard, ou détruire votre compte. La sécurité de votre compte
     dépend de la force de votre mot de passe principal. Choisissez-en un compliqué, et gardez-le pour vous.
+  </div>
+  <div class="question">
+    Que se passe-t-il si j'oublie mon mot de passe principal&nbsp;?
+  </div>
+  <div class="answer">
+    Pas de chance. MemWords est conçu afin que personne ne puisse, même en ayant accès à la base de données,
+    retrouver un mot de passe principal. A moins que vous ne retrouviez votre mot de passe principal,
+    votre compte est donc destiné à vivre éternellement, sans que personne ne puisse jamais y accéder.
   </div>
   <div class="question">
     Garantissez-vous que mes informations ne seront jamais perdues&nbsp;?

@@ -3,6 +3,7 @@ package com.googlecode.memwords.web.cards;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.HttpCache;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.validation.LocalizableError;
@@ -21,6 +22,7 @@ import com.googlecode.memwords.web.util.ScopedLocalizableMessage;
  * Action bean used to create a new card
  * @author JB
  */
+@HttpCache(allow = false)
 public class CreateCardActionBean extends AbstractEditCardActionBean implements ValidationErrorHandler {
 
     /**

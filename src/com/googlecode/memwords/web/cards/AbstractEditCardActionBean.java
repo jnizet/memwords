@@ -10,6 +10,8 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import com.google.inject.Inject;
 import com.googlecode.memwords.domain.CardDetails;
+import com.googlecode.memwords.domain.PasswordGenerationPreferences;
+import com.googlecode.memwords.domain.UrlUtils;
 import com.googlecode.memwords.facade.cards.CardService;
 import com.googlecode.memwords.facade.cards.FavIconException;
 
@@ -69,7 +71,7 @@ public abstract class AbstractEditCardActionBean extends BaseCardsActionBean {
     @DontValidate
     public Resolution ajaxGetIcon() {
         try {
-            this.iconUrl = cardService.findFavIconUrl(this.url);
+            this.iconUrl = cardService.findFavIconUrl(UrlUtils.absolutizeUrl(this.url));
             if (this.iconUrl == null) {
                 getContext().getValidationErrors().addGlobalError(
                     new ScopedLocalizableError(AbstractEditCardActionBean.class.getName(),
@@ -82,6 +84,16 @@ public abstract class AbstractEditCardActionBean extends BaseCardsActionBean {
                                            "errorWhileFetchingIcon"));
         }
         return new ForwardResolution("/cards/_icon.jsp");
+    }
+
+    /**
+     * Loads the password generation form, using AJAX.
+     * @return a forward resolution which dynamically updates the source page with the password
+     * generation form
+     */
+    @DontValidate
+    public Resolution ajaxGetPasswordGenerationForm() {
+        return new ForwardResolution("/cards/ajaxGeneratePassword.jsp");
     }
 
     /**
@@ -234,7 +246,7 @@ public abstract class AbstractEditCardActionBean extends BaseCardsActionBean {
                         this.iconUrl = null;
                     }
                     else {
-                        this.iconUrl = cardService.findFavIconUrl(this.url);
+                        this.iconUrl = cardService.findFavIconUrl(UrlUtils.absolutizeUrl(this.url));
                     }
                 }
                 catch (FavIconException e) {
@@ -242,6 +254,13 @@ public abstract class AbstractEditCardActionBean extends BaseCardsActionBean {
                 }
             }
         }
+    }
+
+    /**
+     * Gets the password generation preferences
+     */
+    public PasswordGenerationPreferences getPasswordGenerationPreferences() {
+        return getContext().getUserInformation().getPreferences().getPasswordGenerationPreferences();
     }
 
     /**

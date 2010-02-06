@@ -69,7 +69,8 @@ public class AccountServiceImpl implements AccountService {
                                        secretKey,
                                        new Preferences(account.getPreferredLocale(),
                                                        account.getPreferredTimeZone(),
-                                                       account.isPasswordsUnmasked()));
+                                                       account.isPasswordsUnmasked(),
+                                                       account.getPasswordGenerationPreferences()));
         }
         finally {
             if (tx.isActive()) {
@@ -98,7 +99,8 @@ public class AccountServiceImpl implements AccountService {
                                    secretKey,
                                    new Preferences(account.getPreferredLocale(),
                                                    account.getPreferredTimeZone(),
-                                                   account.isPasswordsUnmasked()));
+                                                   account.isPasswordsUnmasked(),
+                                                   account.getPasswordGenerationPreferences()));
     }
 
     @Override
@@ -146,6 +148,7 @@ public class AccountServiceImpl implements AccountService {
             account.setPreferredLocale(preferences.getLocale());
             account.setPreferredTimeZone(preferences.getTimeZone());
             account.setPasswordsUnmasked(preferences.isPasswordsUnmasked());
+            account.setPasswordGenerationPreferences(preferences.getPasswordGenerationPreferences());
             tx.commit();
         }
         finally {

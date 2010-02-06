@@ -18,6 +18,8 @@ import org.junit.Test;
 import com.googlecode.memwords.domain.Account;
 import com.googlecode.memwords.domain.Card;
 import com.googlecode.memwords.domain.CardDetails;
+import com.googlecode.memwords.domain.MwConstants;
+import com.googlecode.memwords.domain.PasswordGenerationPreferences;
 import com.googlecode.memwords.domain.Preferences;
 import com.googlecode.memwords.domain.UserInformation;
 import com.googlecode.memwords.facade.cards.CardService;
@@ -161,16 +163,25 @@ public class AccountServiceImplTest extends GAETestCase {
         String userId = "userId";
         UserInformation userInfoBeforeChange = implWithRealCryptoEngine.createAccount(userId, "masterPassword");
         assertNull(userInfoBeforeChange.getPreferences().getLocale());
-        assertNull(userInfoBeforeChange.getPreferences().getTimeZone());
+        assertEquals(TimeZone.getTimeZone(MwConstants.GMT), userInfoBeforeChange.getPreferences().getTimeZone());
         assertFalse(userInfoBeforeChange.getPreferences().isPasswordsUnmasked());
         Locale newLocale = new Locale("fr", "FR");
         TimeZone newTimeZone = TimeZone.getTimeZone("Europe/Paris");
-        implWithRealCryptoEngine.changePreferences(userId, new Preferences(newLocale, newTimeZone, true));
+        implWithRealCryptoEngine.changePreferences(userId,
+                                                   new Preferences(newLocale,
+                                                                   newTimeZone,
+                                                                   true,
+                                                                   new PasswordGenerationPreferences(4, false, true, false, true)));
         UserInformation userInfoAfterChange =
             implWithRealCryptoEngine.login(userId, "masterPassword");
         assertEquals(newLocale, userInfoAfterChange.getPreferences().getLocale());
         assertEquals(newTimeZone, userInfoAfterChange.getPreferences().getTimeZone());
         assertTrue(userInfoAfterChange.getPreferences().isPasswordsUnmasked());
+        assertEquals(4, userInfoAfterChange.getPreferences().getPasswordGenerationPreferences().getLength());
+        assertFalse(userInfoAfterChange.getPreferences().getPasswordGenerationPreferences().isLowerCaseLettersIncluded());
+        assertTrue(userInfoAfterChange.getPreferences().getPasswordGenerationPreferences().isUpperCaseLettersIncluded());
+        assertFalse(userInfoAfterChange.getPreferences().getPasswordGenerationPreferences().isDigitsIncluded());
+        assertTrue(userInfoAfterChange.getPreferences().getPasswordGenerationPreferences().isSpecialCharactersIncluded());
     }
 
     @Test

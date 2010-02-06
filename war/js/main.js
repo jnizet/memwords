@@ -80,12 +80,16 @@ function ajaxifyForm(form) {
  * Executes an ajax call to the given URL, and calls <code>htmlMultiple</code> with the
  * response when the call succeeds
  * @param url the URL to call
+ * @param callback an optional callback function called after everything is loaded
  */
-function loadMultiple(url) {
+function loadMultiple(url, callback) {
     $.ajax({
       url: url,
       success : function(responseText){
           htmlMultiple(responseText, true);
+          if (callback != null) {
+              callback.call();
+          }
       }
     });
 }
@@ -315,3 +319,65 @@ function displayPasswordStrength(password, barDiv, display) {
     return false;
 }
 
+/**
+ * Generates a semi-random password. The algorithm tries to include two symbols of each kind,
+ * starting with the ones with the biggest population. Then the symbols are chosen randomly
+ * across the whole population. Finally, the result is shuffled.
+ * @param size the size of the password
+ * @param includeLowerCaseLetters indicates if the password may contain lower case letters
+ * @param includeUpperCaseLetters indicates if the password may contain uppercase case letters
+ * @param includeDigits indicates if the password may contain digits
+ * @param includeSpecial indicates if the password may contain special characters
+ * @return the generated password
+ */
+function generatePassword(size, includeLowerCaseLetters, includeUpperCaseLetters, includeDigits, includeSpecial) {
+    var lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
+    var upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var digits = "0123456789";
+    var special = "&\"#'{([-|_\\@)]=+}$%*!:/;.,?<>";
+    
+    var blocks = new Array();
+    if (includeLowerCaseLetters) {
+        blocks.push(lowerCaseLetters);
+    }
+    if (includeUpperCaseLetters) {
+        blocks.push(upperCaseLetters);
+    }
+    if (includeSpecial) {
+        blocks.push(special);
+    }
+    if (includeDigits) {
+        blocks.push(digits);
+    }
+    
+    if (blocks.length == 0) {
+        return "";
+    }
+    
+    var chars = "";
+    var i = 0;
+    while (i < size && i < blocks.length * 2) {
+       var block = blocks[i % blocks.length];
+       chars += block.charAt(randomInt(block.length));
+       i++;
+    }
+    var all = "";
+    for (var j = 0; j < blocks.length; j++) {
+        all += blocks[j];
+    }
+    while (i < size) {
+        chars += all.charAt(randomInt(all.length))
+        i++;
+    }
+    var result = "";
+    for (i = 0; i < size; i++) {
+        var index = randomInt(chars.length);
+        result += chars.charAt(index);
+        chars = chars.substring(0, index) + chars.substring(index + 1);
+    }
+    return result;
+}
+
+function randomInt(limit) {
+    return Math.floor(Math.random() * limit);
+}

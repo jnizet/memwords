@@ -76,7 +76,8 @@ function closeCardDetails() {
  */
 function loadCardIcon() {
     var cardUrl = $("#urlTextField").val();
-    if (isUrlValid(cardUrl)) {
+    var absolutizedCardUrl = absolutizeUrl($("#urlTextField").val());
+    if (isUrlValid(absolutizedCardUrl)) {
         $("#iconUrlHiddenField").val("");
         $("#iconUrlSpan").hide();
         $("#defaultIconUrlSpan").hide();
@@ -115,8 +116,8 @@ function loadCardIcon() {
  * URL is valid
  */
 function changeTestUrlVisibility() {
-    var cardUrl = $("#urlTextField").val();
-    if (isUrlValid(cardUrl)) {
+    var absolutizedCardUrl = absolutizeUrl($("#urlTextField").val());
+    if (absolutizedCardUrl != null) {
         $("#testUrlLink").show();
     } 
     else {
@@ -130,7 +131,21 @@ function changeTestUrlVisibility() {
  * @return <code>true</code> if valid, <code>false</code> otherwise
  */
 function isUrlValid(u) {
-    return (u.indexOf("http://") == 0) || (u.indexOf("https://") == 0);
+    return (u != null) && (u.indexOf("http://") == 0) || (u.indexOf("https://") == 0);
+}
+
+/**
+ * Make a URL absolute, as defined by the method com.googlecode.memwords.domain.UrlUtils.absolutizeUrl()
+ */
+function absolutizeUrl(u) {
+    var s = $.trim(u);
+    if (s.length == 0) {
+        return null;
+    }
+    if (s.indexOf("://") >= 0) {
+        return s;
+    }
+    return "http://" + s;
 }
 
 /**
@@ -149,4 +164,43 @@ function bindCardsListEvents(cardIds) {
             return deleteCard(event.data.cardId);
         });
     }
+}
+
+/**
+ * Binds the events on the generate password form
+ */
+function bindGeneratePasswordFormEvents() {
+    var generatePasswordEnabledHandler = function() {
+        var enabled = ($("#includeLowerCaseLetters").attr("checked")
+                       || $("#includeUpperCaseLetters").attr("checked")
+                       || $("#includeDigits").attr("checked") 
+                       || $("#includeSpecial").attr("checked"));
+        $("#generatePasswordButton").attr("disabled", !enabled);
+    }
+    $("#includeLowerCaseLetters").change(generatePasswordEnabledHandler);
+    $("#includeUpperCaseLetters").change(generatePasswordEnabledHandler);
+    $("#includeDigits").change(generatePasswordEnabledHandler);
+    $("#includeSpecial").change(generatePasswordEnabledHandler);
+
+    $("#generatePasswordButton").click(
+        function() {
+            var generatedPassword = 
+                generatePassword($("#passwordLength").val(), 
+                                 $("#includeLowerCaseLetters").attr("checked"),
+                                 $("#includeUpperCaseLetters").attr("checked"), 
+                                 $("#includeDigits").attr("checked"), 
+                                 $("#includeSpecial").attr("checked"));
+            $("#password").val(generatedPassword);
+            displayPasswordStrength(generatedPassword, $("#strength"), "inline-block");
+            $("#generatePasswordDiv").slideUp(function() {
+                $("#generatePasswordDiv").html("");
+            });
+            return false;
+        });
+    $("#cancelPasswordGenerationButton").click(function() {
+        $("#generatePasswordDiv").slideUp(function() {
+            $("#generatePasswordDiv").html("");
+        });
+        return false; 
+    });
 }

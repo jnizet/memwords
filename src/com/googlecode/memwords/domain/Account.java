@@ -73,7 +73,36 @@ public class Account implements Serializable {
     private Boolean passwordsUnmasked = false;
 
     /**
-     * The authentication infos linked to this account
+     * Preferred length for generated passwords
+     */
+    private Integer generatedPasswordsLength;
+
+    /**
+     * Preference regarding password generation: include lower-case letters
+     * (nullable for easy schema migration)
+     */
+    private Boolean lowerCaseLettersIncludedInGeneratedPasswords;
+
+    /**
+     * Preference regarding password generation: include upper-case letters
+     * (nullable for easy schema migration)
+     */
+    private Boolean upperCaseLettersIncludedInGeneratedPasswords;
+
+    /**
+     * Preference regarding password generation: include digits
+     * (nullable for easy schema migration)
+     */
+    private Boolean digitsIncludedInGeneratedPasswords;
+
+    /**
+     * Preference regarding password generation: include special characters
+     * (nullable for easy schema migration)
+     */
+    private Boolean specialCharactersIncludedInGeneratedPasswords;
+
+    /**
+     * The cards linked to this account
      */
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Card> cards = new LinkedList<Card>();
@@ -172,28 +201,21 @@ public class Account implements Serializable {
 
     /**
      * Gets the preferred time zone of the account.
-     * @return the preferred time zone, or <code>null</code> if the account doesn't have one
-     * (in which case the default time zone should be used)
+     * @return the preferred time zone, or <code>GMT</code> if the account doesn't have one
      */
     public TimeZone getPreferredTimeZone() {
         if (this.preferredTimeZone == null) {
-            return null;
+            return TimeZone.getTimeZone(MwConstants.GMT);
         }
         return TimeZone.getTimeZone(this.preferredTimeZone);
     }
 
     /**
      * Sets the preferred time zone of the account
-     * @param timeZone the new time zone, or <code>null</code> if the default time zone
-     * should be used.
+     * @param timeZone the new time zone
      */
     public void setPreferredTimeZone(TimeZone timeZone) {
-        if (timeZone == null) {
-            this.preferredTimeZone = null;
-        }
-        else {
-            this.preferredTimeZone = timeZone.getID();
-        }
+        this.preferredTimeZone = timeZone.getID();
     }
 
     /**
@@ -267,5 +289,37 @@ public class Account implements Serializable {
         while (historicLogins.size() > MAX_HISTORIC_LOGIN_COUNT) {
             historicLogins.remove(historicLogins.size() - 1);
         }
+    }
+
+    /**
+     * Gets the password generation preferences
+     * @return the stored password generation preferences if any, or the default ones if no
+     * preference is stored
+     */
+    public PasswordGenerationPreferences getPasswordGenerationPreferences() {
+        if (this.generatedPasswordsLength == null
+            || this.lowerCaseLettersIncludedInGeneratedPasswords == null
+            || this.upperCaseLettersIncludedInGeneratedPasswords == null
+            || this.digitsIncludedInGeneratedPasswords == null
+            || this.specialCharactersIncludedInGeneratedPasswords == null) {
+            return MwConstants.DEFAULT_PASSWORD_GENERATION_PREFERENCES;
+        }
+        return new PasswordGenerationPreferences(this.generatedPasswordsLength,
+                                                 this.lowerCaseLettersIncludedInGeneratedPasswords,
+                                                 this.upperCaseLettersIncludedInGeneratedPasswords,
+                                                 this.digitsIncludedInGeneratedPasswords,
+                                                 this.specialCharactersIncludedInGeneratedPasswords);
+    }
+
+    /**
+     * Sets the password generation preferences
+     * @param preferences the new password generation preferences (not nullable)
+     */
+    public void setPasswordGenerationPreferences(PasswordGenerationPreferences preferences) {
+        this.generatedPasswordsLength = preferences.getLength();
+        this.lowerCaseLettersIncludedInGeneratedPasswords = preferences.isLowerCaseLettersIncluded();
+        this.upperCaseLettersIncludedInGeneratedPasswords = preferences.isUpperCaseLettersIncluded();
+        this.digitsIncludedInGeneratedPasswords = preferences.isDigitsIncluded();
+        this.specialCharactersIncludedInGeneratedPasswords = preferences.isSpecialCharactersIncluded();
     }
 }

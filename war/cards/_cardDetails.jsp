@@ -50,9 +50,14 @@
     <tr>
       <th><fmt:message key="cards._cardDetails.urlLabel"/></th>
       <td>
-        <c:if test="${!empty card.url}">
-          <a class="external" target="_blank" href="<c:out value="${card.url}"/>"><c:out value="${card.url}" /></a>
-        </c:if>
+        <c:choose>
+          <c:when test="${!empty card.absolutizedUrl}">
+            <a class="external" target="_blank" href="<c:out value="${absolutizedUrl}"/>"><c:out value="${card.url}"/></a>
+          </c:when>
+          <c:otherwise>
+            <c:out value="${card.url}"/>
+          </c:otherwise>
+        </c:choose>
       </td>
     </tr>
     <tr>

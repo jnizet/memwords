@@ -7,6 +7,7 @@ import java.util.TimeZone;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.HttpCache;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.validation.LocalizableError;
@@ -26,6 +27,7 @@ import com.googlecode.memwords.web.util.ScopedLocalizableMessage;
  * Action bean used to handle the login and logout
  * @author JB
  */
+@HttpCache(allow = false)
 public class LoginActionBean extends MwActionBean {
 
     /**

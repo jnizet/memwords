@@ -17,6 +17,12 @@ public final class MwConstants {
     public static final String GMT = "GMT";
 
     /**
+     * The default password generation preferences
+     */
+    public static final PasswordGenerationPreferences DEFAULT_PASSWORD_GENERATION_PREFERENCES =
+        new PasswordGenerationPreferences(8, true, true, true, true);
+
+    /**
      * Private constructor to prevent unnecessary instantiations
      */
     private MwConstants() {

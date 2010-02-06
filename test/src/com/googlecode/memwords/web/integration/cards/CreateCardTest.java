@@ -30,17 +30,22 @@ public class CreateCardTest extends EditCardTestBase {
     @Test
     public void testPage() throws Exception {
         WebClient wc = startWebClient();
-        login(wc);
-        HtmlPage page = wc.getPage(url("/cards/CreateCard.action"));
+        HtmlPage page = goToCreatePage(wc);
+        testBasics(page);
+        testTitle(page, "Cards");
+
+        wc = startWebClient();
+        wc.setJavaScriptEnabled(false);
+        page = goToCreatePage(wc);
         testBasics(page);
         testTitle(page, "Create a card");
+        assertEquals(3, page.getHtmlElementById("cards").getElementsByAttribute("div", "class", "card").size());
     }
 
     @Test
     public void testIconUrlLoading() throws Exception {
         WebClient wc = startWebClient();
-        login(wc);
-        HtmlPage page = wc.getPage(url("/cards/CreateCard.action"));
+        HtmlPage page = goToCreatePage(wc);
 
         HtmlForm form = page.getHtmlElementById("createCardForm");
         assertEquals("", form.getInputByName("iconUrl").getValueAttribute());
@@ -67,18 +72,7 @@ public class CreateCardTest extends EditCardTestBase {
     @Test
     public void testValidation() throws Exception {
         WebClient wc = startWebClient();
-        login(wc);
-        HtmlPage page = wc.getPage(url("/cards/CreateCard.action"));
-
-        testValidation(page);
-    }
-
-    @Test
-    public void testValidationWhenComingFromCards() throws Exception {
-        WebClient wc = startWebClient();
-        login(wc);
-        HtmlPage page = wc.getPage(url("/cards/Cards.action"));
-        getFirstLinkByText(page.getHtmlElementById("cardDetails"), "Create a new card").click();
+        HtmlPage page = goToCreatePage(wc);
 
         testValidation(page);
     }
@@ -86,8 +80,7 @@ public class CreateCardTest extends EditCardTestBase {
     @Test
     public void testCancel() throws Exception {
         WebClient wc = startWebClient();
-        login(wc);
-        HtmlPage page = wc.getPage(url("/cards/CreateCard.action"));
+        HtmlPage page = goToCreatePage(wc);
 
         HtmlForm form = page.getHtmlElementById("createCardForm");
         form.getInputByValue("Cancel").click();
@@ -100,8 +93,7 @@ public class CreateCardTest extends EditCardTestBase {
     @Test
     public void testFormSubmission() throws Exception {
         WebClient wc = startWebClient();
-        login(wc);
-        HtmlPage page = wc.getPage(url("/cards/CreateCard.action"));
+        HtmlPage page = goToCreatePage(wc);
 
         HtmlForm form = page.getHtmlElementById("createCardForm");
         form.getInputByName("name").type("card4");
@@ -119,24 +111,16 @@ public class CreateCardTest extends EditCardTestBase {
     public void testValidationWithoutJavascript() throws Exception {
         WebClient wc = startWebClient();
         wc.setJavaScriptEnabled(false);
-        login(wc);
-        HtmlPage page = wc.getPage(url("/cards/CreateCard.action"));
+        HtmlPage page = goToCreatePage(wc);
 
-        HtmlForm form = page.getHtmlElementById("createCardForm");
-        page = form.getInputByValue("Create card").click();
-        testTitle(page, "Create a card");
-        testErrorExists(page, "Name of the card is a required field");
-        HtmlDivision cardsDiv = page.getHtmlElementById("cards");
-        List<HtmlDivision> cardDivs = cardsDiv.getElementsByAttribute("div", "class", "card");
-        assertEquals(3, cardDivs.size());
+        testValidation(page);
     }
 
     @Test
     public void testCancelWithoutJavascript() throws Exception {
         WebClient wc = startWebClient();
         wc.setJavaScriptEnabled(false);
-        login(wc);
-        HtmlPage page = wc.getPage(url("/cards/CreateCard.action"));
+        HtmlPage page = goToCreatePage(wc);
 
         HtmlForm form = page.getHtmlElementById("createCardForm");
         HtmlPage cardsPage = form.getInputByValue("Cancel").click();
@@ -147,8 +131,7 @@ public class CreateCardTest extends EditCardTestBase {
     public void testFormSubmissionWithoutJavascript() throws Exception {
         WebClient wc = startWebClient();
         wc.setJavaScriptEnabled(false);
-        login(wc);
-        HtmlPage page = wc.getPage(url("/cards/CreateCard.action"));
+        HtmlPage page = goToCreatePage(wc);
 
         HtmlForm form = page.getHtmlElementById("createCardForm");
         form.getInputByName("name").type("card4");
@@ -167,9 +150,37 @@ public class CreateCardTest extends EditCardTestBase {
         assertTrue(card4DetailsLink.getElementsByTagName("img").get(0).asXml().contains("google"));
     }
 
+    @Test
+    public void testPasswordGeneration() throws Exception {
+        WebClient wc = startWebClient();
+        HtmlPage page = goToCreatePage(wc);
+        testPasswordGeneration(page, "createCardForm");
+    }
+
+    @Test
+    public void testPasswordGenerationOptionsForm() throws Exception {
+        WebClient wc = startWebClient(true);
+        HtmlPage page = goToCreatePage(wc);
+        testPasswordGenerationOptionsForm(page, "createCardForm");
+    }
+
+    @Test
+    public void testPasswordGenerationCancel() throws Exception {
+        WebClient wc = startWebClient(true);
+        HtmlPage page = goToCreatePage(wc);
+        testPasswordGenerationCancel(page, "createCardForm");
+    }
+
+    @Test
+    public void testPasswordGenerationSubmit() throws Exception {
+        WebClient wc = startWebClient(true);
+        HtmlPage page = goToCreatePage(wc);
+        testPasswordGenerationSubmit(page, "createCardForm");
+    }
+
     private void testValidation(HtmlPage page) throws IOException {
         HtmlForm form = page.getHtmlElementById("createCardForm");
-        form.getInputByValue("Create card").click();
+        page = form.getInputByValue("Create card").click();
 
         testErrorExists(page, "Name of the card is a required field");
         testErrorExists(page, "Login is a required field");
@@ -177,8 +188,15 @@ public class CreateCardTest extends EditCardTestBase {
 
         form = page.getHtmlElementById("createCardForm");
         form.getInputByName("name").type("card1");
-        form.getInputByValue("Create card").click();
+        page = form.getInputByValue("Create card").click();
 
         testErrorExists(page, "You already have a card with the name \"card1\".");
+    }
+
+    private HtmlPage goToCreatePage(WebClient wc) throws Exception {
+        login(wc);
+        HtmlPage page = wc.getPage(url("/cards/Cards.action"));
+        HtmlAnchor createLink = getFirstLinkByText(page.getHtmlElementById("cardDetails"), "Create a new card");
+        return createLink.click();
     }
 }

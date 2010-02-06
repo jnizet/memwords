@@ -4,6 +4,7 @@ import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontBind;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.HttpCache;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.validation.LocalizableError;
@@ -22,6 +23,7 @@ import com.googlecode.memwords.web.util.ScopedLocalizableMessage;
  * Action bean used to change the master password of the user's account
  * @author JB
  */
+@HttpCache(allow = false)
 public class ChangeMasterPasswordActionBean extends MwActionBean {
 
     /**
