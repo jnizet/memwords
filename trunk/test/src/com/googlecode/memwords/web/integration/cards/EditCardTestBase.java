@@ -50,18 +50,18 @@ public class EditCardTestBase {
         testBasics(page);
 
         assertEquals("8", page.getHtmlElementById("passwordLength").asText());
-        assertTrue(((HtmlCheckBoxInput) page.getHtmlElementById("includeLowerCaseLetters")).isChecked());
-        assertTrue(((HtmlCheckBoxInput) page.getHtmlElementById("includeUpperCaseLetters")).isChecked());
-        assertTrue(((HtmlCheckBoxInput) page.getHtmlElementById("includeDigits")).isChecked());
-        assertTrue(((HtmlCheckBoxInput) page.getHtmlElementById("includeSpecial")).isChecked());
+        assertTrue(((HtmlCheckBoxInput) page.getHtmlElementById("lowerCaseLettersIncluded")).isChecked());
+        assertTrue(((HtmlCheckBoxInput) page.getHtmlElementById("upperCaseLettersIncluded")).isChecked());
+        assertTrue(((HtmlCheckBoxInput) page.getHtmlElementById("digitsIncluded")).isChecked());
+        assertTrue(((HtmlCheckBoxInput) page.getHtmlElementById("specialCharactersIncluded")).isChecked());
         assertTrue(StringUtils.isEmpty(page.getHtmlElementById("generatePasswordButton").getAttribute("disabled")));
 
-        ((HtmlCheckBoxInput) page.getHtmlElementById("includeLowerCaseLetters")).setChecked(false);
-        ((HtmlCheckBoxInput) page.getHtmlElementById("includeUpperCaseLetters")).setChecked(false);
-        ((HtmlCheckBoxInput) page.getHtmlElementById("includeDigits")).setChecked(false);
-        ((HtmlCheckBoxInput) page.getHtmlElementById("includeSpecial")).setChecked(false);
+        ((HtmlCheckBoxInput) page.getHtmlElementById("lowerCaseLettersIncluded")).setChecked(false);
+        ((HtmlCheckBoxInput) page.getHtmlElementById("upperCaseLettersIncluded")).setChecked(false);
+        ((HtmlCheckBoxInput) page.getHtmlElementById("digitsIncluded")).setChecked(false);
+        ((HtmlCheckBoxInput) page.getHtmlElementById("specialCharactersIncluded")).setChecked(false);
         assertEquals("disabled", page.getHtmlElementById("generatePasswordButton").getAttribute("disabled"));
-        ((HtmlCheckBoxInput) page.getHtmlElementById("includeLowerCaseLetters")).setChecked(true);
+        ((HtmlCheckBoxInput) page.getHtmlElementById("lowerCaseLettersIncluded")).setChecked(true);
         assertTrue(StringUtils.isEmpty(page.getHtmlElementById("generatePasswordButton").getAttribute("disabled")));
     }
 

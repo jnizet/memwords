@@ -39,6 +39,10 @@ public class IndexTest {
         HtmlAnchor createAccountLink = getSideBarLink(page, "Create account");
         HtmlPage createAccountPage = createAccountLink.click();
         testTitle(createAccountPage, "Create an account");
+
+        HtmlAnchor toolsLink = getSideBarLink(page, "Tools");
+        HtmlPage toolsPage = toolsLink.click();
+        testTitle(toolsPage, "Tools");
     }
 
     @Test
