@@ -167,29 +167,93 @@ function bindCardsListEvents(cardIds) {
 }
 
 /**
+ * Binds the events for the create and modify card sections
+ * @param modification true if it's a modification, false if it's a creation
+ * @param password the current password, which must populate the password field
+ * @param preferredPasswordLength the preferred password length to use when generating a password
+ * @param includeLowerCaseLetters whether to include lower-case letters in generated passwords
+ * @param includeUpperCaseLetters whether to include upper-case letters in generated passwords
+ * @param includeDigits whether to include digits in generated passwords
+ * @param includeSpecial whether to include special characters in generated passwords
+ */
+function bindEditCardEvents(modification, 
+                            password,
+                            preferredPasswordLength, 
+                            includeLowerCaseLetters, 
+                            includeUpperCaseLetters,
+                            includeDigits,
+                            includeSpecial) {
+    $("#urlTextField").change(function() {
+        changeTestUrlVisibility(); 
+        loadCardIcon();
+    });
+    $("#testUrlLink").click(function() {
+        window.open(absolutizeUrl($("#urlTextField").val()));
+        return false;
+      });
+    // in IE, password fields are not auto-populated. We populate is with JavaScript
+    $("#password").val(password);
+      
+    $("#password").keyup(function() {
+        displayPasswordStrength($("#password").val(), $("#strength"), "inline-block");
+    });
+    displayPasswordStrength($("#password").val(), $("#strength"), "inline-block");
+      
+    $("#generatePasswordLink").click(function() {
+        var generatedPassword = 
+            generatePassword(preferredPasswordLength,
+                             includeLowerCaseLetters,
+                             includeUpperCaseLetters,
+                             includeDigits,
+                             includeSpecial);
+        $("#password").val(generatedPassword);
+        displayPasswordStrength(generatedPassword, $("#strength"), "inline-block");
+        return false;
+    });
+    $("#generatePasswordWithOptionsLink").click(function() {
+        $("#generatePasswordDiv").load(url("/cards/CreateCard.action?ajaxGetPasswordGenerationForm"),
+                                       function() {
+                                           $("#generatePasswordDiv").slideDown();
+                                       });
+    });
+    $("#generatePasswordLinksDiv").show();
+    
+    $("#cancelButton").click(function() {
+        return closeCardDetails();
+    });
+    
+    if (modification) {
+        // since JavaScript is activated, the password field is populated, and there is 
+        // no need to display the change password div anymore. We check the checkbox and hide the div
+        $("#changePasswordCheckBox").attr("checked", true);
+        $("#changePasswordSpan").hide();
+    }
+}
+
+/**
  * Binds the events on the generate password form
  */
 function bindGeneratePasswordFormEvents() {
     var generatePasswordEnabledHandler = function() {
-        var enabled = ($("#includeLowerCaseLetters").attr("checked")
-                       || $("#includeUpperCaseLetters").attr("checked")
-                       || $("#includeDigits").attr("checked") 
-                       || $("#includeSpecial").attr("checked"));
+        var enabled = ($("#lowerCaseLettersIncluded").attr("checked")
+                       || $("#upperCaseLettersIncluded").attr("checked")
+                       || $("#digitsIncluded").attr("checked") 
+                       || $("#specialCharactersIncluded").attr("checked"));
         $("#generatePasswordButton").attr("disabled", !enabled);
     }
-    $("#includeLowerCaseLetters").change(generatePasswordEnabledHandler);
-    $("#includeUpperCaseLetters").change(generatePasswordEnabledHandler);
-    $("#includeDigits").change(generatePasswordEnabledHandler);
-    $("#includeSpecial").change(generatePasswordEnabledHandler);
+    $("#lowerCaseLettersIncluded").change(generatePasswordEnabledHandler);
+    $("#upperCaseLettersIncluded").change(generatePasswordEnabledHandler);
+    $("#digitsIncluded").change(generatePasswordEnabledHandler);
+    $("#specialCharactersIncluded").change(generatePasswordEnabledHandler);
 
     $("#generatePasswordButton").click(
         function() {
             var generatedPassword = 
                 generatePassword($("#passwordLength").val(), 
-                                 $("#includeLowerCaseLetters").attr("checked"),
-                                 $("#includeUpperCaseLetters").attr("checked"), 
-                                 $("#includeDigits").attr("checked"), 
-                                 $("#includeSpecial").attr("checked"));
+                                 $("#lowerCaseLettersIncluded").attr("checked"),
+                                 $("#upperCaseLettersIncluded").attr("checked"), 
+                                 $("#digitsIncluded").attr("checked"), 
+                                 $("#specialCharactersIncluded").attr("checked"));
             $("#password").val(generatedPassword);
             displayPasswordStrength(generatedPassword, $("#strength"), "inline-block");
             $("#generatePasswordDiv").slideUp(function() {

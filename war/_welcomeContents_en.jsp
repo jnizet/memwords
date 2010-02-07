@@ -9,13 +9,14 @@
 <div id="features">
   <h2>Features</h2>
   <ul>
-    <li>Completely free, as in beer, and as in speech</li>
-    <li>Create any number of accounts you wish, and add any number of cards to each account</li>
-    <li>Traffic secured by SSL</li>
-    <li>All sensitive information encrypted in database</li>
-    <li>Icons of your web sites automatically found and retrieved</li>
-    <li>Translated in various languages (English and French are currently supported)</li>
-    <li>Uses Javascript and AJAX for a better user experience, but degrades nicely without Javascript support</li>
+    <li>Completely free, as in beer, and as in speech.</li>
+    <li>Create any number of accounts you wish, and add any number of cards to each account.</li>
+    <li>Traffic secured by SSL.</li>
+    <li>All sensitive information encrypted in database.</li>
+    <li>Icons of your web sites automatically found and retrieved.</li>
+    <li>Random generation of passwords, with custom preferences.</li>
+    <li>Translated in various languages (English and French are currently supported).</li>
+    <li>Uses JavaScript and AJAX for a better user experience, but degrades nicely without JavaScript support.</li>
   </ul>
 </div>
 <div id="faq">

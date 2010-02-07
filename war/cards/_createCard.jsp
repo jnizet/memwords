@@ -1,15 +1,18 @@
 <%@ taglib prefix="stripes-d" uri="http://stripes.sourceforge.net/stripes-dynattr.tld" %>
 <div id="cardDetails">
   <script type="text/javascript">
-    <%@ include file="_editCardJs.jsp" %>
     $("document").ready(function() {
-      var form = $("#createCardForm")
-      changeFormEvent(form, "createCard", "ajaxCreateCard");
-      ajaxifyForm(form);
-      $("#cancelButton").click(function() {
-        return closeCardDetails();
-      });
-      $("#nameInput").focus();
+        bindEditCardEvents(false, 
+                           "${actionBean.javaScriptEscapedPassword}",
+                           ${actionBean.passwordGenerationPreferences.length},
+                           ${actionBean.passwordGenerationPreferences.lowerCaseLettersIncluded},
+                           ${actionBean.passwordGenerationPreferences.upperCaseLettersIncluded},
+                           ${actionBean.passwordGenerationPreferences.digitsIncluded},
+                           ${actionBean.passwordGenerationPreferences.specialCharactersIncluded});
+        var form = $("#createCardForm")
+        changeFormEvent(form, "createCard", "ajaxCreateCard");
+        ajaxifyForm(form);
+        $("#nameInput").focus();
     });
   </script>
   <h2><fmt:message key="cards._createCard.h2"/></h2>

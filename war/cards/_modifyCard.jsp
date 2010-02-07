@@ -1,14 +1,17 @@
 <%@ taglib prefix="stripes-d" uri="http://stripes.sourceforge.net/stripes-dynattr.tld" %>
 <div id="cardDetails">
   <script type="text/javascript">
-    <%@ include file="_editCardJs.jsp" %>
     $("document").ready(function() {
+      bindEditCardEvents(true,
+                         "${actionBean.javaScriptEscapedPassword}",
+                         ${actionBean.passwordGenerationPreferences.length},
+                         ${actionBean.passwordGenerationPreferences.lowerCaseLettersIncluded},
+                         ${actionBean.passwordGenerationPreferences.upperCaseLettersIncluded},
+                         ${actionBean.passwordGenerationPreferences.digitsIncluded},
+                         ${actionBean.passwordGenerationPreferences.specialCharactersIncluded});
       var form = $("#modifyCardForm")
       changeFormEvent(form, "modifyCard", "ajaxModifyCard");
       ajaxifyForm(form);
-      $("#cancelButton").click(function() {
-        return closeCardDetails();
-      });
       $("#nameInput").focus();
     });
   </script>

@@ -14,6 +14,7 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 
 import com.googlecode.memwords.web.account.CreateAccountActionBean;
 import com.googlecode.memwords.web.account.LoginActionBean;
+import com.googlecode.memwords.web.tools.ToolsActionBean;
 import com.googlecode.memwords.web.util.AjaxUtils;
 import com.googlecode.memwords.web.util.IntegrationTestsActionBean;
 
@@ -88,6 +89,7 @@ public class AuthenticationInterceptor implements Interceptor {
                || actionBeanClass.equals(LoginActionBean.class)
                || actionBeanClass.equals(CreateAccountActionBean.class)
                || actionBeanClass.equals(IntegrationTestsActionBean.class)
-               || actionBeanClass.equals(ScreenshotsActionBean.class);
+               || actionBeanClass.equals(ScreenshotsActionBean.class)
+               || actionBeanClass.equals(ToolsActionBean.class);
     }
 }

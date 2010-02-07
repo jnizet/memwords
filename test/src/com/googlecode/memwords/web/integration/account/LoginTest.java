@@ -59,6 +59,15 @@ public class LoginTest {
         HtmlAnchor cardsLink = getSideBarLink(page, "Cards");
         HtmlPage cardsPage = cardsLink.click();
         testTitle(cardsPage, "Cards");
+
+        HtmlAnchor toolsLink = getSideBarLink(page, "Tools");
+        HtmlPage toolsPage = toolsLink.click();
+        testTitle(toolsPage, "Tools");
+
+        HtmlAnchor accountLink = getSideBarLink(page, "Account");
+        HtmlPage accountPage = accountLink.click();
+        testTitle(accountPage, "Account");
+
         HtmlAnchor logoutLink = getSideBarLink(page, "Log out");
         HtmlPage indexPage = logoutLink.click();
         testTitle(indexPage, "Remembers your passwords");
