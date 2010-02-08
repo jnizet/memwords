@@ -73,12 +73,12 @@ public class CardDetailsTest {
 
         // the details div content has been replaced by the create card form
         getFirstLinkByText(page.getHtmlElementById("cards"), "card1").click();
-        HtmlAnchor modifyLink = getFirstLinkByTitle(detailsDiv, "Modify this card");
+        HtmlAnchor modifyLink = getFirstLinkByText(detailsDiv, "Modify this card");
         modifyLink.click();
         assertNotNull(page.getHtmlElementById("modifyCardForm"));
 
         getFirstLinkByText(page.getHtmlElementById("cards"), "card1").click();
-        HtmlAnchor deleteLink = getFirstLinkByTitle(detailsDiv, "Delete this card");
+        HtmlAnchor deleteLink = getFirstLinkByText(detailsDiv, "Delete this card");
         deleteLink.click();
         assertNotNull(page.getHtmlElementById("deleteCardForm"));
     }
@@ -104,11 +104,11 @@ public class CardDetailsTest {
         HtmlPage createPage = createLink.click();
         testTitle(createPage, "Create a card");
 
-        HtmlAnchor modifyLink = getFirstLinkByTitle(detailsDiv, "Modify this card");
+        HtmlAnchor modifyLink = getFirstLinkByText(detailsDiv, "Modify this card");
         HtmlPage modifyPage = modifyLink.click();
         testTitle(modifyPage, "Modify a card");
 
-        HtmlAnchor deleteLink = getFirstLinkByTitle(detailsDiv, "Delete this card");
+        HtmlAnchor deleteLink = getFirstLinkByText(detailsDiv, "Delete this card");
         HtmlPage deletePage = deleteLink.click();
         testTitle(deletePage, "Delete a card");
     }

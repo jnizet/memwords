@@ -14,16 +14,15 @@
     });
   </script>
   <c:forEach var="card" items="${cards}" varStatus="varStatus">
-    <c:if test="${varStatus.index mod 2 == 0}">
-      <div class="spacer">&nbsp;</div>
-    </c:if>
     <div class="card">
-      <a href="<stripes:url beanclass="com.googlecode.memwords.web.cards.DisplayCardActionBean">
-                 <stripes:param name="cardId" value="${card.id}"/>
-               </stripes:url>" id="displayCardLink_${card.id}" title="<fmt:message key="tags.cardsList.displayCardLinkTitle"/>">
-        <tags:cardIcon card="${card}"/>
-        <c:out value="${card.name}"/>
-      </a>
+      <div class="cardName">
+        <a href="<stripes:url beanclass="com.googlecode.memwords.web.cards.DisplayCardActionBean">
+                   <stripes:param name="cardId" value="${card.id}"/>
+                 </stripes:url>" id="displayCardLink_${card.id}" title="<fmt:message key="tags.cardsList.displayCardLinkTitle"/>">
+          <tags:cardIcon card="${card}"/>
+          <c:out value="${card.name}"/>
+        </a>
+      </div>
       <div class="cardLinks">
         <fmt:message key="tags.cardsList.modifyCardLinkTitle" var="modifyCardLinkTitle"/>
         <fmt:message key="tags.cardsList.modifyCardAltPattern" var="modifyCardAlt">

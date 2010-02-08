@@ -75,23 +75,20 @@
     </tr>
   </table>
   <div id="cardDetailsLinks">
-    <div style="float: left;">
-      <stripes:link beanclass="com.googlecode.memwords.web.cards.CreateCardActionBean" 
-                    id="createCardLink"><img src="<c:url value="/img/add.png"/>" class="cardIcon" alt="<fmt:message key="cards._cardDetails.createCardLink"/>" /><fmt:message key="cards._cardDetails.createCardLink"/></stripes:link>
-    </div>
-    <div style="float: right;">
-      <fmt:message key="cards._cardDetails.modifyCardLinkTitle" var="modifyCardLinkTitle"/>
+      <fmt:message key="cards._cardDetails.modifyCardLink" var="modifyCardLink"/>
       <stripes:link beanclass="com.googlecode.memwords.web.cards.ModifyCardActionBean"
-                    id="modifyCardLink" 
-                    title="${modifyCardLinkTitle}"><img src="<c:url value="/img/modify.png"/>" class="cardIcon" alt="${modifyCardLinkTitle}" />
+                    id="modifyCardLink"><img src="<c:url value="/img/modify.png"/>" class="cardIcon" alt="${modifyCardLink}" />${modifyCardLink}
         <stripes:param name="cardId" value="${card.id}" />
       </stripes:link>
-      <fmt:message key="cards._cardDetails.deleteCardLinkTitle" var="deleteCardLinkTitle"/>
+      <br/>
+      <fmt:message key="cards._cardDetails.deleteCardLink" var="deleteCardLink"/>
       <stripes:link beanclass="com.googlecode.memwords.web.cards.DeleteCardActionBean"
-                    id="deleteCardLink" 
-                    title="${deleteCardLinkTitle}"><img src="<c:url value="/img/delete.png"/>" class="cardIcon" alt="${deleteCardLinkTitle}" />
+                    id="deleteCardLink"><img src="<c:url value="/img/delete.png"/>" class="cardIcon" alt="${deleteCardLink}" />${deleteCardLink}
         <stripes:param name="cardId" value="${card.id}" />
       </stripes:link>
-    </div>
+      <br/>
+      <fmt:message key="cards._cardDetails.createCardLink" var="createCardLink"/>
+      <stripes:link beanclass="com.googlecode.memwords.web.cards.CreateCardActionBean" 
+                    id="createCardLink"><img src="<c:url value="/img/add.png"/>" class="cardIcon" alt="${createCardLink}"/>${createCardLink}</stripes:link>
   </div>
 </div>
