@@ -381,4 +381,10 @@
             <fileset dir="src" />
         </javadoc>
     </target>
+    
+    <target name="deploy" 
+            depends="build"
+            description="Uploads the application to App Engine.">
+        <appcfg action="update" war="war" />
+    </target>
 </project>
