@@ -32,7 +32,7 @@
     <form id="evalPasswordStrengthForm">
       <table>
         <tr>
-          <th><fmt:message key="tools.tools.passwordToEvalLabel"/></th>
+          <th><label for="passwordToEval"><fmt:message key="tools.tools.passwordToEvalLabel"/></label></th>
           <td>
             <input type="password" id="passwordToEval" autocomplete="off"/>
             <div id="passwordToEvalStrength" class="strength"></div>
@@ -46,7 +46,7 @@
     <stripes:form beanclass="com.googlecode.memwords.web.tools.ToolsActionBean" id="generatePasswordForm">
       <table>
         <tr>
-          <th><fmt:message key="tools.tools.lengthLabel"/></th>
+          <th><label for="length"><fmt:message key="tools.tools.lengthLabel"/></label></th>
           <td colspan="2">
             <stripes:select name="passwordGenerationPreferences.length" id="length">
               <c:forEach var="length" begin="4" end="20">

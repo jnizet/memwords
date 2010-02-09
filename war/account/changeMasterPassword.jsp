@@ -33,19 +33,19 @@
                 id="changeMasterPasswordForm">
     <table>
       <tr>
-        <th><label class="required"><fmt:message key="account.changeMasterPassword.currentPasswordLabel"/></label></th>
+        <th><label class="required" for="<fmt:message key="main.loadingMessage"/>"><fmt:message key="account.changeMasterPassword.currentPasswordLabel"/></label></th>
         <td><stripes:password name="currentPassword" id="currentPassword" repopulate="false"/></td>
       </tr>
       <tr>
-        <th><label class="required"><fmt:message key="account.changeMasterPassword.newPasswordLabel"/></label></th>
+        <th><label class="required" for="newPassword"><fmt:message key="account.changeMasterPassword.newPasswordLabel"/></label></th>
         <td>
           <stripes:password name="newPassword" repopulate="false" id="newPassword"/>
           <div id="strength" class="strength" title="<fmt:message key="main.passwordStrength"/>"></div>
         </td>
       </tr>
       <tr>
-        <th><label class="required"><fmt:message key="account.changeMasterPassword.newPasswordConfirmationLabel"/></label></th>
-        <td><stripes:password name="newPasswordConfirmation" repopulate="false"/></td>
+        <th><label class="required" for="newPasswordConfirmation"><fmt:message key="account.changeMasterPassword.newPasswordConfirmationLabel"/></label></th>
+        <td><stripes:password name="newPasswordConfirmation" repopulate="false" id="newPasswordConfirmation"/></td>
       </tr>
       <tr>
         <td colspan="2">

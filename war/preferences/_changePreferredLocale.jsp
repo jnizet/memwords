@@ -4,7 +4,7 @@
               id="changePreferredLocaleForm">
   <table>
     <tr>
-      <th><fmt:message key="preferences._changePreferredLocale.localeLabel"/></th>
+      <th><label for="locale"><fmt:message key="preferences._changePreferredLocale.localeLabel"/></label></th>
       <td>
         <stripes:select name="locale" id="locale">
           <stripes:option value=""><fmt:message key="preferences._changePreferredLocale.noLocaleOption"/></stripes:option>

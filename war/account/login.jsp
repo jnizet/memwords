@@ -14,7 +14,7 @@
 <script type="text/javascript" src="<c:url value="/js/account.js"/>"></script>
 <script type="text/javascript">
   $("document").ready(function() {
-    $("#userIdInput").focus();
+    $("#userId").focus();
   });
 </script>
 </head>
@@ -27,12 +27,12 @@
     <stripes:hidden name="requestedUrl" />
     <table>
       <tr>
-        <th><label class="required"><fmt:message key="account.login.userIdLabel"/></label></th>
-        <td><stripes:text name="userId" id="userIdInput"/></td>
+        <th><label class="required" for="userId"><fmt:message key="account.login.userIdLabel"/></label></th>
+        <td><stripes:text name="userId" id="userId"/></td>
       </tr>
       <tr>
-        <th><label class="required"><fmt:message key="account.login.masterPasswordLabel"/></label></th>
-        <td><stripes:password name="masterPassword" repopulate="false" /></td>
+        <th><label class="required" for="masterPassword"><fmt:message key="account.login.masterPasswordLabel"/></label></th>
+        <td><stripes:password name="masterPassword" id="masterPassword" repopulate="false" /></td>
       </tr>
       <tr>
         <td colspan="2"><stripes:submit name="login"><fmt:message key="account.login.loginButton"/></stripes:submit></td>

@@ -1,23 +1,20 @@
 <tr>
-  <th><label class="required"><fmt:message key="cards._editCardRows.nameLabel"/></label></th>
+  <th><label class="required" for="nameInput"><fmt:message key="cards._editCardRows.nameLabel"/></label></th>
   <td>
-    <%-- fake name && password field in order to avoid autocomplete and "autoclear" of password field --%>
-    <input type="text" name="" style="display: none;"/>
-    <input type="password" name="" style="display: none;"/>
     <stripes:text name="name" id="nameInput"/>
     <tags:help key="cards._editCardRows.nameHelp"/>
   </td>
 </tr>
 <tr>
   <fmt:message key="cards._editCardRows.loginTitle" var="loginTitle"/>
-  <th><label class="required"><fmt:message key="cards._editCardRows.loginLabel"/></label></th>
+  <th><label class="required" for="login"><fmt:message key="cards._editCardRows.loginLabel"/></label></th>
   <td>
-    <stripes:text name="login"/>
+    <stripes:text name="login" id="login"/>
     <tags:help key="cards._editCardRows.loginHelp"/>
   </td>
 </tr>
 <tr>
-  <th class="topText"><label class="required"><fmt:message key="cards._editCardRows.passwordLabel"/></label></th>
+  <th class="topText"><label class="required" for="password"><fmt:message key="cards._editCardRows.passwordLabel"/></label></th>
   <td>
     <c:if test="${actionBean.modification}">
       <span id="changePasswordSpan">
@@ -36,7 +33,7 @@
   </td>
 </tr>
 <tr>
-  <th><fmt:message key="cards._editCardRows.urlLabel"/></th>
+  <th><label for="urlTextField"><fmt:message key="cards._editCardRows.urlLabel"/></label></th>
   <td>
      <stripes:text name="url" id="urlTextField" size="30" title="${urlTitle}"/>
      <tags:help key="cards._editCardRows.urlHelp"/>
@@ -59,9 +56,9 @@
   </td>
 </tr>
 <tr>
-  <th class="top"><fmt:message key="cards._editCardRows.noteLabel"/></th>
+  <th class="top"><label for="note"><fmt:message key="cards._editCardRows.noteLabel"/></label></th>
   <td>
-     <stripes:textarea name="note" cols="45" rows="3"/>
+     <stripes:textarea name="note" cols="45" rows="3" id="note"/>
      <tags:help key="cards._editCardRows.noteHelp"/>
   </td>
 </tr>

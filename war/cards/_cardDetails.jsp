@@ -67,7 +67,7 @@
     <tr>
       <td colspan="2">
         <stripes:form beanclass="com.googlecode.memwords.web.cards.DisplayCardActionBean"
-          id="cardDetailsForm">
+                      id="cardDetailsForm">
           <stripes:url var="cardsUrl" beanclass="com.googlecode.memwords.web.cards.CardsActionBean" />
           <stripes:submit name="cancel" id="cancelButton"><fmt:message key="cards._cardDetails.closeButton"/></stripes:submit>
         </stripes:form>

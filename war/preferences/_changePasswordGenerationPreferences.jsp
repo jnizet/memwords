@@ -4,7 +4,7 @@
               id="changePasswordGenerationPreferencesForm">
   <table>
     <tr>
-      <th><fmt:message key="preferences._changePasswordGenerationPreferences.lengthLabel"/></th>
+      <th><label for="length"><fmt:message key="preferences._changePasswordGenerationPreferences.lengthLabel"/></label></th>
       <td colspan="2">
         <stripes:select name="length" id="length">
           <c:forEach var="length" begin="4" end="20">

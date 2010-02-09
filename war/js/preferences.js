@@ -102,6 +102,6 @@ function bindChangePasswordGenerationPreferencesEvents() {
     $("#length").change(changeHandler);
     
     $("#strengthSection").show();
-    strengthHandler.call();
+    changeHandler.call();
     $("#length").focus();
 }
