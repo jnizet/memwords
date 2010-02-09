@@ -4,7 +4,7 @@
               id="changePreferredTimeZoneForm">
   <table>
     <tr>
-      <th><fmt:message key="preferences._changePreferredTimeZone.timeZoneLabel"/></th>
+      <th><label for="timeZone"><fmt:message key="preferences._changePreferredTimeZone.timeZoneLabel"/></label></th>
       <td>
         <stripes:select name="timeZoneId" id="timeZone">
           <stripes:options-collection collection="${actionBean.timeZones}"

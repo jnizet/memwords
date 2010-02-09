@@ -14,7 +14,7 @@
 <table>
   <tr>
     <td colspan="2">
-      <fmt:message key="cards.ajaxGeneratePassword.length"/>
+      <label for="passwordLength"><fmt:message key="cards.ajaxGeneratePassword.length"/></label>
       <stripes:select name="passwordGenerationPreferences.length" id="passwordLength">
         <c:forEach var="length" begin="4" end="20">
           <stripes:option value="${length}">${length}</stripes:option>

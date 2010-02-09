@@ -34,19 +34,19 @@
                 id="createAccountForm">
     <table>
       <tr>
-        <th><label class="required"><fmt:message key="account.createAccount.userIdLabel"/></label></th>
+        <th><label class="required" for="userId"><fmt:message key="account.createAccount.userIdLabel"/></label></th>
         <td><stripes:text name="userId" id="userId" /><span id="userIdAvailability"></span></td>
       </tr>
       <tr>
-        <th class="topText"><label class="required"><fmt:message key="account.createAccount.masterPasswordLabel"/></label></th>
+        <th class="topText"><label class="required" for="masterPassword"><fmt:message key="account.createAccount.masterPasswordLabel"/></label></th>
         <td>
           <stripes:password name="masterPassword" id="masterPassword"/>
           <div class="strength" id="strength" title="<fmt:message key="main.passwordStrength"/>"></div>
         </td>
       </tr>
       <tr>
-        <th><label class="required"><fmt:message key="account.createAccount.masterPasswordConfirmationLabel"/></label></th>
-        <td><stripes:password name="masterPassword2" /></td>
+        <th><label class="required" for="masterPassword2"><fmt:message key="account.createAccount.masterPasswordConfirmationLabel"/></label></th>
+        <td><stripes:password name="masterPassword2" id="masterPassword2"/></td>
       </tr>
       <tr>
         <td colspan="2"><stripes:submit name="createAccount"><fmt:message key="account.createAccount.createAccountButton"/></stripes:submit></td>

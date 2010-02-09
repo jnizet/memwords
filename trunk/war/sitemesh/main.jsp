@@ -7,9 +7,10 @@
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="${pageContext.request.locale.language}">
   <head>
     <title><fmt:message key="main.titlePrefix"/><decorator:title default="" /></title>
+    <meta http-equiv="Content-Language" content="${pageContext.request.locale.language}"/>    
     <link rel="shortcut icon" href="<c:url value="/img/mw.png"/>" type="image/png"/>
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>"/>
     <!--[if IE]>
@@ -29,7 +30,7 @@
   <body>
     <div id="header">
       <a href="<c:url value="/Index.action"/>"><fmt:message key="main.header.appNameAndVersion"/></a>
-      <div id="loading"><img src="<c:url value="/img/busy_big.gif"/>" alt="" title="<fmt:message key="main.loadingMessage"/>"/></div>
+      <div id="loading"><img src="<c:url value="/img/busy_big.gif"/>" alt="<fmt:message key="main.loadingMessage"/>" title="<fmt:message key="main.loadingMessage"/>"/></div>
     </div>
     <div id="container">
       <div id="content">
