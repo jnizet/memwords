@@ -18,7 +18,7 @@
     <![endif]-->
     <script type="text/javascript" src="<c:url value="/js/jquery-1.3.2.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/js/jquery-ui-1.7.2.custom.min.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="/js/jquery.form.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/js/jquery.form.min.js" />"></script>
     <script type="text/javascript">
       var baseUrl = '${request.contextPath}';
       <c:if test="${header.ajaxSync == true}">$.ajaxSetup({ async: false });</c:if>
@@ -30,7 +30,7 @@
   <body>
     <div id="header">
       <a href="<c:url value="/Index.action"/>"><fmt:message key="main.header.appNameAndVersion"/></a>
-      <div id="loading"><img src="<c:url value="/img/busy_big.gif"/>" alt="<fmt:message key="main.loadingMessage"/>" title="<fmt:message key="main.loadingMessage"/>"/></div>
+      <div id="loading"><img src="<c:url value="/img/busy_big.gif"/>" width="32" height="32" alt="<fmt:message key="main.loadingMessage"/>" title="<fmt:message key="main.loadingMessage"/>"/></div>
     </div>
     <div id="container">
       <div id="content">
