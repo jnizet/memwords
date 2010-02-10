@@ -1,0 +1,390 @@
+<project basedir=".." default="all">
+
+    <!-- the properties which must be customized depending on the environment -->
+    <property file="ant/ant.properties"/>
+    
+    <!-- the location of the cobertura datafile used by unit tests -->
+    <property name="cobertura.unit.datafile" location="cobertura/report/cobertura-unit.ser"/>
+    
+    <!-- the location of the cobertura datafile used by integration tests -->
+    <property name="cobertura.integration.datafile" location="cobertura/report/cobertura-integration.ser"/>
+    
+    <!-- the location of the merged cobertura datafile -->
+    <property name="cobertura.datafile" location="cobertura/report/cobertura.ser"/>
+    
+    <!-- macros of Google App Engine -->
+    <import file="${gae-sdk.dir}/config/user/ant-macros.xml" />
+
+    <!-- the classpath used to build source files (non test files) -->
+    <path id="build.classpath">
+        <pathelement path="war/WEB-INF/classes" />
+        <fileset dir="war/WEB-INF/lib">
+            <include name="**/*.jar" />
+        </fileset>
+        <fileset dir="lib">
+            <include name="**/*.jar" />
+        </fileset>
+        <fileset dir="${gae-sdk.dir}/lib">
+            <include name="shared/**/*.jar" />
+        </fileset>
+    </path>
+
+    <!-- the classpath used to build test files (unit and integration) -->
+    <path id="test.classpath">
+        <path refid="build.classpath" />
+        <pathelement path="test/classes" />
+        <fileset dir="test/lib">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
+
+    <!-- the additional jars needed for cobertura 
+         they are copioed from the cobertura installation and renames coberturaXXX.jar
+         in order to be able to copy and delete them before and after running integration
+         tests
+    -->
+    <path id="cobertura.classpath">
+        <fileset dir="cobertura/lib">
+            <include name="*.jar" />
+        </fileset>
+    </path>
+    
+    <!-- cleans up everything -->
+    <target name="clean"
+            description="cleans up everything">
+        <delete dir="war/WEB-INF/classes"/>
+        <delete dir="test/classes"/>
+        <delete dir="test/report"/>
+        <delete dir="test/integration-report"/>
+        <delete dir="test/temp"/>
+        <delete dir="pmd/report"/>
+        <delete dir="checkstyle/report"/>
+        <delete dir="findbugs/report"/>
+        <delete dir="cobertura/report"/>
+        <delete dir="war/WEB-INF/lib">
+            <include name="cobertura*.jar"/>
+        </delete>
+        <delete dir="doc"/>
+    </target>
+
+    <!-- compiles the source files (non test files) -->
+    <target name="compile" 
+            description="compiles the source files (non test files)">
+        <mkdir dir="war/WEB-INF/classes" />
+        <copy todir="war/WEB-INF/classes">
+            <fileset dir="src">
+                <exclude name="**/*.java" />
+            </fileset>
+        </copy>
+        <javac srcdir="src" 
+               destdir="war/WEB-INF/classes" 
+               classpathref="build.classpath" 
+               debug="on" />
+    </target>
+
+    <!-- build non test files : compiles then enhance theclass files for GAE persistence -->
+    <target name="build" 
+            depends="compile" 
+            description="build non test files : compiles then enhance theclass files for GAE persistence">
+        <enhance_war war="war" />
+    </target>
+
+    <!-- clean, the build -->
+    <target name="rebuild"
+            description="clean, then build"
+            depends="clean, build"/>
+
+    <!-- build the source test files (unit and integration) -->
+    <target name="build-tests"
+            description="build the source test files (unit and integration)">
+        <mkdir dir="test/classes" />
+        <copy todir="test/classes">
+            <fileset dir="test/src">
+                <exclude name="**/*.java" />
+            </fileset>
+        </copy>
+        <javac srcdir="test/src" 
+               destdir="test/classes" 
+               classpathref="test.classpath" 
+               debug="on" />
+    </target>
+
+    <!-- run the unit tests (non integration tests) and generates an html report -->
+    <target name="run-unit-tests"
+            description="run the unit tests (non integration tests) and generates an html report">
+        <mkdir dir="test/report"/>
+        <mkdir dir="test/report/xml"/>
+        <junit fork="true"
+               forkmode="perBatch"
+               dir="${basedir}">
+            <sysproperty key="net.sourceforge.cobertura.datafile"
+                         file="${cobertura.unit.datafile}" />
+            <classpath refid="test.classpath"/>
+            <classpath refid="cobertura.classpath" />
+            <formatter type="xml"/>
+            <batchtest todir="test/report/xml">
+                <fileset dir="test/src">
+                    <include name="**/*Test.java"/>
+                    <exclude name="**/integration/**/*Test.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+
+        <mkdir dir="test/report/html"/>
+        <junitreport todir="test/report">
+            <fileset dir="test/report/xml" >
+                <include name="*.xml"/>
+            </fileset>
+            <report todir="test/report/html"/>
+        </junitreport>
+    </target>
+
+    <!-- run the integration tests (non unit tests) and generates an html report. 
+         The server must be started before launching this target
+    -->
+    <target name="run-integration-tests"
+            description="run the integration tests (non unit tests) and generates an html report">
+        <mkdir dir="test/integration-report"/>
+        <mkdir dir="test/integration-report/xml"/>
+        
+        <junit fork="true"
+                 forkmode="perBatch"
+                 dir="${basedir}">
+            <classpath refid="test.classpath"/>
+            <classpath refid="cobertura.classpath" />
+            <formatter type="xml"/>
+            <batchtest todir="test/integration-report/xml">
+                <fileset dir="test/src">
+                    <include name="**/integration/**/*Test.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+          
+        <mkdir dir="test/integration-report/html"/>
+        <junitreport todir="test/integration-report">
+            <fileset dir="test/integration-report/xml" >
+                <include name="*.xml"/>
+            </fileset>
+            <report todir="test/integration-report/html"/>
+        </junitreport>
+    </target>
+    
+    <!-- build, then run unit tests (non integration tests) -->
+    <target name="unit-tests"
+            description="build, then run unit tests (non integration tests)"
+            depends="build-tests, run-unit-tests"/>
+    
+    <!-- build, then run integration tests (non unit tests).
+         The server must be started before launching this target -->
+    <target name="integration-tests"
+            description="build and run integration tests"
+            depends="build-tests, run-integration-tests"/>
+
+    <!-- build, then run the unit and integration tests.
+         The server must be started before launching this target -->
+    <target name="tests"
+            description="build, then run the unit and integration tests"
+            depends="build-tests, run-unit-tests, run-integration-tests"/>
+
+    <!-- generate a PMD report on the source files -->
+    <target name="pmd"
+            description="generate a PMD report on the source files">
+        <taskdef name="pmd" 
+                 classname="net.sourceforge.pmd.ant.PMDTask">
+            <classpath>
+                <fileset dir="${pmd.dir}/lib">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+        </taskdef>
+        
+        <mkdir dir="pmd/report"/>
+        <mkdir dir="pmd/report/xml"/>
+        <mkdir dir="pmd/report/html"/>
+        
+        <pmd shortFilenames="true"
+             targetjdk="1.6"
+             rulesetfiles="pmd/ruleset.xml">
+            <formatter type="xml" toFile="pmd/report/xml/pmd_report.xml"/>
+            <fileset dir="src/">
+                <include name="**/*.java" />
+            </fileset>
+        </pmd>
+        <copy todir="pmd/report/html">
+            <fileset dir="${pmd.dir}/etc/xslt/">
+              <exclude name="*.xslt"/>
+            </fileset>
+        </copy>
+        <xslt in="pmd/report/xml/pmd_report.xml" 
+              style="${pmd.dir}/etc/xslt/corley-pmd-report.xslt" 
+              out="pmd/report/html/report_pmd.html" />
+    </target>
+    
+    <!-- generate a Checkstyle report on the source files -->
+    <target name="checkstyle"
+            description="generate a Checkstyle report on the source files">
+        <taskdef resource="checkstyletask.properties"
+                 classpath="${checkstyle.dir}/checkstyle-all-5.0.jar"/>
+        <mkdir dir="checkstyle/report"/>
+        <mkdir dir="checkstyle/report/xml"/>
+        <mkdir dir="checkstyle/report/html"/>
+        
+        <checkstyle config="checkstyle/checkstyle-config.xml"
+                    classpathref="build.classpath"
+                    failonviolation="false">
+            <fileset dir="src">
+                <include name="**/*.java"/>
+            </fileset>
+            <formatter type="xml" toFile="checkstyle/report/xml/checkstyle-report.xml"/>
+        </checkstyle>
+        <xslt basedir="checkstyle/report/xml"
+              destdir="checkstyle/report/html"
+              style="checkstyle/checkstyle-noframes-sorted.xsl" /> 
+    </target>
+    
+    <!-- generate a FindBugs report on the class files.
+         Build must have been run to execute this target -->
+    <target name="findbugs"
+            description="generate a FindBugs report on the class files">
+        <mkdir dir="findbugs/report"/>
+        <mkdir dir="findbugs/report/xml"/>
+        <mkdir dir="findbugs/report/html"/>
+
+        <property name="auxClasspath" refid="build.classpath"></property>
+        
+        <!-- the findbugs ant task does the same thing, but hangs when called after other
+             targets -->
+        <java classpath="${findbugs.dir}/lib/findbugs.jar" 
+              classname="edu.umd.cs.findbugs.FindBugs2"
+              fork="true">
+            <jvmarg line="-Duser.language=en"/>
+            <jvmarg line="-Dfindbugs.home=${findbugs.dir}"/>
+            <arg value="-sortByClass"/>
+            <arg value="-timestampNow"/>
+            <arg value="-xml:withMessages"/>
+            <arg value="-exclude"/>
+            <arg value="${basedir}/findbugs/findbugs-exclude.xml"/>
+            <arg value="-auxclasspath"/>
+            <arg value="${auxClasspath}"/>
+            <arg value="-sourcepath"/>
+            <arg value="src"/>
+            <arg value="-outputFile"/>
+            <arg value="${basedir}/findbugs/report/xml/findbugs-report.xml"/>
+            <arg value="-exitcode"/>
+            <arg value="${basedir}/war/WEB-INF/classes"/>
+        </java>
+        <xslt basedir="findbugs/report/xml"
+              destdir="findbugs/report/html"
+              style="${findbugs.dir}/src/xsl/default.xsl" /> 
+    </target>
+    
+    <!-- Inits cobertura (used by other targets) -->
+    <target name="cobertura-init">
+        <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
+    </target>
+        
+    <!-- Instruments the class files for cobertura (used by other targets) -->
+    <target name="cobertura-instrument" depends="cobertura-init">
+        <mkdir dir="cobertura/report"/>
+        <cobertura-instrument datafile="${cobertura.datafile}"
+                              todir="war/WEB-INF/classes">
+            <fileset dir="war/WEB-INF/classes">
+                <include name="**/*.class" />
+            </fileset>
+        </cobertura-instrument>
+        <copy file="${cobertura.datafile}" tofile="${cobertura.unit.datafile}"/>
+        <copy file="${cobertura.datafile}" tofile="${cobertura.integration.datafile}"/>
+    </target>
+    
+    <!-- merge the cobertura datafiles of unit and integration tests,
+         and generate a report from the merged datafile -->
+    <target name="cobertura-report" depends="cobertura-init">
+        <cobertura-merge datafile="${cobertura.datafile}">
+            <fileset dir="cobertura/report">
+                <include name="cobertura-*.ser"/>
+            </fileset>
+        </cobertura-merge>
+
+        <mkdir dir="cobertura/report/html"/>
+        <cobertura-report datafile="${cobertura.datafile}"
+                          format="html" 
+                          destdir="cobertura/report/html" 
+                          srcdir="src" />
+    </target>
+    
+    <!-- prepare the cobertura execution by instrumenting the class files
+         and copying the cobertura jars to the war.
+         Must be run before starting the server and running cobertura -->
+    <target name="cobertura-prepare" 
+            depends="build, cobertura-instrument"
+            description="prepare the cobertura execution by instrumenting the class files
+                         and copying the cobertura jars to the war.
+                         Must be run before starting the server and running cobertura">
+        <copy todir="war/WEB-INF/lib">
+            <fileset dir="cobertura/lib">
+                <include name="cobertura*.jar"/>
+            </fileset>
+        </copy>
+        <echo>You may now start the server, then run cobertura</echo>
+    </target>
+    
+    <!-- launch a class wich downloads the serialized cobertura datafile from the server
+         and save it to the cobertura integration datafile -->
+    <target name="cobertura-save-integration-datafile">
+        <java fork="true"
+              dir="${basedir}"
+              classname="com.googlecode.memwords.web.integration.util.CoberturaFlusher">
+            <classpath refid="test.classpath"/>
+        </java>
+    </target>
+    
+    <!-- run the unit and integration tests, save and merge the cobertura datafiles,
+         and generate the cobertura report. cobertura-prepare must have been run and 
+         server must be started before launching this target-->
+    <target name="cobertura"
+            depends="cobertura-init"
+            description="run the unit and integration tests, save and merge the cobertura datafiles,
+                         and generate the cobertura report. cobertura-prepare must have been run and 
+                         server must be started before launching this target">
+        <echo>Have you run cobertura-prepare and started the server before running this target?</echo>
+        <antcall target="unit-tests" />
+        <antcall target="integration-tests"/>
+        <antcall target="cobertura-save-integration-datafile"/>
+        
+        <cobertura-merge datafile="${cobertura.datafile}">
+            <fileset dir="cobertura/report">
+                <include name="cobertura-*.ser"/>
+            </fileset>
+        </cobertura-merge>
+        
+        <antcall target="cobertura-report"/>
+        <echo>Make sure to kill the server, then clean</echo>
+    </target>
+    
+    <target name="runserver" 
+            depends="build" 
+            description="Starts the development server.">
+        <dev_appserver war="war" port="8888" />
+    </target>
+    
+    <!-- Clean, build, generate PMD, checkstyle and findbugs reports, build and run unit tests -->
+    <target name="all"
+            description="Clean, build, generate PMD, checkstyle and findbugs reports, build and run unit tests"
+            depends="rebuild, pmd, checkstyle, findbugs, unit-tests"/>
+    
+    <target name="javadoc"
+            description="Generates the API documentation">
+        <mkdir dir="doc"/>
+        <javadoc destdir="doc"
+                 windowtitle="MemWords API documentation"
+                 classpathref="build.classpath">
+            <fileset dir="src" />
+        </javadoc>
+    </target>
+    
+    <target name="deploy" 
+            depends="build"
+            description="Uploads the application to App Engine.">
+        <appcfg action="update" war="war" />
+    </target>
+</project>
