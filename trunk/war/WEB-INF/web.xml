@@ -4,7 +4,7 @@ xmlns="http://java.sun.com/xml/ns/javaee"
 xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
-	
+    
     <context-param>
         <param-name>
             javax.servlet.jsp.jstl.fmt.localizationContext
@@ -25,17 +25,17 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
             <param-value>com.googlecode.memwords.web.MwActionBeanContext</param-value>
         </init-param>
         <init-param>
-		    <param-name>Interceptor.Classes</param-name>
-		    <param-value>
-		        com.googlecode.stripesguicer.GuiceInterceptor,
-		        com.googlecode.memwords.web.AuthenticationInterceptor
-		    </param-value>
-		</init-param>
+            <param-name>Interceptor.Classes</param-name>
+            <param-value>
+                com.googlecode.stripesguicer.GuiceInterceptor,
+                com.googlecode.memwords.web.AuthenticationInterceptor
+            </param-value>
+        </init-param>
         <init-param>
             <param-name>LocalePicker.Class</param-name>
             <param-value>com.googlecode.memwords.web.MwLocalePicker</param-value>
         </init-param>
-		
+        
         <!-- For Guice -->
         <init-param>
             <param-name>ActionResolver.Class</param-name>
@@ -88,7 +88,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
         <servlet-name>StripesDispatcher</servlet-name>
         <url-pattern>*.action</url-pattern>
     </servlet-mapping>
-	
+    
     <servlet>
         <servlet-name>_ah_sessioncleanup</servlet-name>
         <servlet-class>com.google.apphosting.utils.servlet.SessionCleanupServlet</servlet-class>
@@ -99,22 +99,35 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
         <url-pattern>/_ah/sessioncleanup</url-pattern>
     </servlet-mapping> 
   
-	<welcome-file-list>
-	    <welcome-file>index.html</welcome-file>
-	    <welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
-	
-	<security-constraint>
-	    <web-resource-collection>
-	        <web-resource-name>https-protected URLs</web-resource-name>
-	        <url-pattern>/*</url-pattern>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>https-protected URLs</web-resource-name>
+            <url-pattern>*.action</url-pattern>
+            <url-pattern>*.jsp</url-pattern>
+            <url-pattern>*.html</url-pattern>
+            <url-pattern>*.js</url-pattern>
         </web-resource-collection>
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
     
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>non https-protected URLs</web-resource-name>
+            <url-pattern>/_ah/sessioncleanup</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    
     <session-config>
-        <session-timeout>30</session-timeout>
+        <session-timeout>2</session-timeout>
     </session-config> 
 </web-app>

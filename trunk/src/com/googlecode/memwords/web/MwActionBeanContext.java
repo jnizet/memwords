@@ -11,6 +11,7 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 
 import org.apache.commons.codec.binary.Base64;
 
+import com.google.appengine.api.utils.SystemProperty;
 import com.google.inject.Inject;
 import com.googlecode.memwords.domain.MwConstants;
 import com.googlecode.memwords.domain.UserInformation;
@@ -104,6 +105,9 @@ public class MwActionBeanContext extends ActionBeanContext {
                                    base64.encodeToString(encryptedSecretKey));
         cookie.setMaxAge(-1);
         cookie.setPath(getRequest().getContextPath() + "/");
+        if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
+            cookie.setSecure(true);
+        }
         getRequest().getSession().setAttribute(USER_INFORMATION_SESSION_ATTRIBUTE, userInformation.withoutSecretKey());
         getResponse().addCookie(cookie);
     }
