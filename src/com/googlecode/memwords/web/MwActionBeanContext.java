@@ -45,6 +45,12 @@ public class MwActionBeanContext extends ActionBeanContext {
     public static final String SECRET_KEY_COOKIE_NAME = "userInformation";
 
     /**
+     * The session attribute containing the temporary key used to encrypt the user's secret key
+     * in the cookie
+     */
+    public static final String COOKIE_ENCRYPTION_KEY_SESSION_ATTRIBUTE = "cookieEncryptionKey";
+
+    /**
      * The cryptographic engine
      */
     private CryptoEngine cryptoEngine;
@@ -83,12 +89,19 @@ public class MwActionBeanContext extends ActionBeanContext {
         loginHistoryService.addLogin(userInformation.getUserId(), getUserAgent(), getRequest().getRemoteAddr());
         setUserInformation(userInformation);
 
+        SecretKey cookieEncryptionKey = cryptoEngine.generateEncryptionKey();
+        getRequest().getSession().setAttribute(COOKIE_ENCRYPTION_KEY_SESSION_ATTRIBUTE,
+                                               cookieEncryptionKey.getEncoded());
+        byte[] encryptedSecretKey =
+            cryptoEngine.encrypt(userInformation.getEncryptionKey().getEncoded(),
+                                 cookieEncryptionKey,
+                                 cryptoEngine.buildInitializationVector(cookieEncryptionKey.getEncoded()));
+
         // important : no end of line, else the cookie contains control
-        // characters,
-        // and it doesn't work
+        // characters, and it doesn't work
         Base64 base64 = new Base64(-1);
-        Cookie cookie = new Cookie(SECRET_KEY_COOKIE_NAME, base64.encodeToString(userInformation.getEncryptionKey()
-            .getEncoded()));
+        Cookie cookie = new Cookie(SECRET_KEY_COOKIE_NAME,
+                                   base64.encodeToString(encryptedSecretKey));
         cookie.setMaxAge(-1);
         cookie.setPath(getRequest().getContextPath() + "/");
         getRequest().getSession().setAttribute(USER_INFORMATION_SESSION_ATTRIBUTE, userInformation.withoutSecretKey());
@@ -156,7 +169,15 @@ public class MwActionBeanContext extends ActionBeanContext {
                 // characters,
                 // and it doesn't work
                 Base64 base64 = new Base64(-1);
-                byte[] secretKeyAsBytes = base64.decode(secretKeyCookie.getValue());
+                byte[] encryptedSecretKey = base64.decode(secretKeyCookie.getValue());
+
+                byte[] cookieEncryptionKeyAsBytes =
+                    (byte[]) getRequest().getSession().getAttribute(COOKIE_ENCRYPTION_KEY_SESSION_ATTRIBUTE);
+                SecretKey cookieEncryptionKey = cryptoEngine.bytesToSecretKey(cookieEncryptionKeyAsBytes);
+                byte[] secretKeyAsBytes =
+                    cryptoEngine.decrypt(encryptedSecretKey,
+                                         cookieEncryptionKey,
+                                         cryptoEngine.buildInitializationVector(cookieEncryptionKeyAsBytes));
                 SecretKey secretKey = cryptoEngine.bytesToSecretKey(secretKeyAsBytes);
                 UserInformation userInformation = infoWithoutSecretKey.withSecretKey(secretKey);
                 setUserInformation(userInformation);
