@@ -1,14 +1,14 @@
 #labels Featured
-= Security in MemWords =
+= Security in !MemWords =
 
 == Challenges ==
 
-Here are the security challenges of MemWords:
+Here are the security challenges of !MemWords:
   * The traffic must be encrypted, else a cracker could sniff the network traffic and find out a user's passwords.
   * The passwords in the database must be encrypted, else I (or a cracker gaining access to the database) could find out all the users password.
   * Most of the other information in the database must be encrypted as well, else I (or a cracker gaining access to the database) would discover that user John Doe has an account at the online sex toy shop. Privacy is important. This is why URLs, icon URLs, and notes are also encrypted.
   * The encryption key can't be stored as is in the database, else I (or a cracker gaining access to the database) would of course be able to decrypt anything.
-  * The encryption key can't be hard-coded in the source code, because MemWords is open-source, and anybody could discover it.
+  * The encryption key can't be hard-coded in the source code, because !MemWords is open-source, and anybody could discover it.
   * passwords, encryption keys, etc. may not be stored in the session, because sessions are stored in the database by Google App Engine.
 
 == How it works ==
@@ -26,11 +26,11 @@ Hashing functions take any binary data, and transform it into a fixed-size (for 
 
 Symmetric encryption consists in using a small binary array (16 bytes, for example), and applying an algorithm to any amount of data to produce an encrypted version of the data. Using the same key, the same algorithm can be used to find back the original, unencrypted data. The whole security of the system depends on the key, which must be kept secret.
 
-=== Application in MemWords ===
+=== Application in !MemWords ===
 
 Here's how it goes.
 
-When a user creates an account, he chooses a user ID and an master password.
+When a user creates an account, he chooses a user ID and n master password.
 
 First of all, a secure random algorithm is used to generate a random symmetric encryption key (that we'll call _K_). This key (_K_) will be used to encrypt all the information of the account in the database.
 
@@ -43,5 +43,7 @@ It's impossible to find back _WK_ from _H_ (since hashing functions are one-way)
 When the user logs in, its user ID and password are concatenated, then hashed twice. If the resulting hash is the same as the one stored in the database (_H_), then the password is the right one. We can recompute _WK_ by hashing the user ID and password once, then we can decrypt _EK_ using _WK_ as a key, and find back _K_, to decrypt the account information in the database.
 
 Once logged in, we can't store _K_, nor the master password, in the session, because Google App Engine stores the session data in the database. We thus use a session cookie which is kept in memory by the user's web browser, and sent back to the server at each request, until the user logs out or the browser is closed.
+
+This, however, makes the secret key accessible to someone who would have access to the user's browser during an open session. To make things even more secure, the secret key in the cookie is encrypted with a random key stored in the user's session.
 
 [http://memwords.googlecode.com/svn/wiki/security.png]
