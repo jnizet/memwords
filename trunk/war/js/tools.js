@@ -53,7 +53,7 @@ function bindToolsEvents(passwordsUnmasked) {
                        || $("#digitsIncluded").attr("checked") 
                        || $("#specialCharactersIncluded").attr("checked"));
         $("#generatePasswordButton").attr("disabled", !enabled);
-    }
+    };
     $("#lowerCaseLettersIncluded").change(generatePasswordEnabledHandler);
     $("#upperCaseLettersIncluded").change(generatePasswordEnabledHandler);
     $("#digitsIncluded").change(generatePasswordEnabledHandler);

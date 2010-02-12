@@ -1,6 +1,6 @@
 function loadUserIdAvailability() {
     var userId = $.trim($("#userId").val());
-    if (userId.length == 0) {
+    if (userId.length === 0) {
         $("#userIdAvailability").html("");
     } 
     else {
