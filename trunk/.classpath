@@ -36,5 +36,6 @@
 	<classpathentry kind="lib" path="test/lib/easymock/easymock-2.5.2.jar"/>
 	<classpathentry kind="lib" path="lib/repackaged-appengine-jakarta-jstl-1.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/repackaged-appengine-jakarta-standard-1.1.2.jar"/>
+	<classpathentry kind="lib" path="test/lib/appengine/appengine-testing.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

@@ -2,6 +2,8 @@ package com.googlecode.memwords.test.util;
 
 import javax.persistence.EntityManager;
 
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.memwords.guice.MainModule;
 
 /**
@@ -10,12 +12,19 @@ import com.googlecode.memwords.guice.MainModule;
  * @author JB
  */
 public class GAETestCase {
+
+    private LocalServiceTestHelper testHelper;
+
     public void setUp() throws Exception {
-        TestEnvironment.install();
+        LocalDatastoreServiceTestConfig datastoreTestConfig = new LocalDatastoreServiceTestConfig();
+        datastoreTestConfig.setBackingStoreLocation("test/temp");
+        datastoreTestConfig.setNoStorage(true);
+        this.testHelper = new LocalServiceTestHelper(datastoreTestConfig);
+        testHelper.setUp();
     }
 
     public void tearDown() throws Exception {
-        TestEnvironment.uninstall();
+        testHelper.tearDown();
     }
 
     protected EntityManager createEntityManager() {

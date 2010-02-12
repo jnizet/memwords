@@ -39,7 +39,7 @@
     </path>
 
     <!-- the additional jars needed for cobertura 
-         they are copioed from the cobertura installation and renames coberturaXXX.jar
+         they are copied from the cobertura installation and renames coberturaXXX.jar
          in order to be able to copy and delete them before and after running integration
          tests
     -->
@@ -57,6 +57,7 @@
         <delete dir="test/report"/>
         <delete dir="test/integration-report"/>
         <delete dir="test/temp"/>
+        <delete dir="WEB-INF"/>
         <delete dir="pmd/report"/>
         <delete dir="checkstyle/report"/>
         <delete dir="findbugs/report"/>
