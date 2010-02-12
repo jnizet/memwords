@@ -128,6 +128,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
     </security-constraint>
     
     <session-config>
-        <session-timeout>2</session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config> 
 </web-app>

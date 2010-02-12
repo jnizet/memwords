@@ -236,6 +236,9 @@ public class CardServiceImpl implements CardService {
 
         try {
             URL url = new URL(urlAsString);
+            if (url.getHost() == null) {
+                throw new FavIconException("The URL must at least contain a host");
+            }
             try {
                 HTTPResponse response = urlFetchService.fetch(url);
                 if (response != null) {

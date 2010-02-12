@@ -247,6 +247,12 @@ public class CardServiceImplTest extends GAETestCase {
         impl.findFavIconUrl(urlAsString);
     }
 
+    @Test(expected = FavIconException.class)
+    public void testFindFavIconUrlWhenNoHost() throws Exception {
+        String urlAsString = "http://";
+        impl.findFavIconUrl(urlAsString);
+    }
+
     @Test
     public void testFindFavIconUrlWhenNoDefaultFavIcon() throws Exception {
         String html = "html";

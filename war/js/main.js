@@ -1,22 +1,4 @@
 /**
- * Initializes the message panel and its control links (visible or hidden depending on
- * the presence of messages)
- */
-function initMessages() {
-    $("#messagesContainer").hide();
-    $("#messages").hide();
-    $("#messagesControl").hide();
-    
-    var messagesHtml = jQuery.trim($("#messages").html());
-    
-    if (messagesHtml.length > 0) {
-        $("#messagesContainer").show();
-        $("#messagesControl").show();
-        showMessagePanel();
-    }
-}
-
-/**
  * Shows the message panel with a sliding effect, and adapts the visibility of the message
  * panel control links
  * @return <code>false</code>
@@ -39,6 +21,24 @@ function hideMessagePanel() {
     $("#hideMessagesLink").hide();
     $("#messages").slideUp();
     return false;
+}
+
+/**
+ * Initializes the message panel and its control links (visible or hidden depending on
+ * the presence of messages)
+ */
+function initMessages() {
+    $("#messagesContainer").hide();
+    $("#messages").hide();
+    $("#messagesControl").hide();
+    
+    var messagesHtml = $.trim($("#messages").html());
+    
+    if (messagesHtml.length > 0) {
+        $("#messagesContainer").show();
+        $("#messagesControl").show();
+        showMessagePanel();
+    }
 }
 
 /**
@@ -66,14 +66,25 @@ function changeFormEvent(form, oldEvent, newEvent) {
 }
 
 /**
- * ajaxifies a form, so that its submission results in an ajax call. When the ajax call
- * succeeds, <code>htmlMultiple</code> is called with the response
- * @param form the form (JQuery object)
+ * iterates through each child element of the root element (typically a body element)
+ * of <code>responseText</code> and, if the child element has an ID, replaces the content
+ * of the element of the current document which has this ID with the content of the child
+ * element in the response. This allows updating multiple HTML elements at once.
+ * @param responseText the response of an ajax call
+ * @param initMessagesAfterUpdate if <code>true</code> or <code>undefined</code>, then initializes
+ * the message panel after the multiple update, as if the page had been completely reloaded
  */
-function ajaxifyForm(form) {
-    form.ajaxForm(
-        { success: function(responseText) {htmlMultiple(responseText, true)}
-        });
+function htmlMultiple(responseText, initMessagesAfterUpdate) {
+    var dom = $(responseText);
+    dom.each(function(index) { 
+        var idAttr = $(this).attr("id");
+        if (idAttr && idAttr.length > 0) {
+            $("#" + idAttr).html($(this).html());
+        }
+    });
+    if (initMessagesAfterUpdate === undefined || initMessagesAfterUpdate) {
+        initMessages();
+    }
 }
 
 /**
@@ -87,7 +98,7 @@ function loadMultiple(url, callback) {
       url: url,
       success : function(responseText){
           htmlMultiple(responseText, true);
-          if (callback != null) {
+          if (callback) {
               callback.call();
           }
       }
@@ -95,25 +106,14 @@ function loadMultiple(url, callback) {
 }
 
 /**
- * iterates through each child element of the root element (typically a body element)
- * of <code>responseText</code> and, if the child element has an ID, replaces the content
- * of the element of the current document which has this ID with the content of the child
- * element in the response. This allows updating multiple HTML elements at once.
- * @param responseText the response of an ajax call
- * @param initMessagesAfterUpdate if <code>true</code> or <code>null</code>, then initializes
- * the message panel after the multiple update, as if the page had been completely reloaded
+ * ajaxifies a form, so that its submission results in an ajax call. When the ajax call
+ * succeeds, <code>htmlMultiple</code> is called with the response
+ * @param form the form (JQuery object)
  */
-function htmlMultiple(responseText, initMessagesAfterUpdate) {
-    var dom = $(responseText);
-    dom.each(function(index) { 
-        var idAttr = $(this).attr("id");
-        if (idAttr != null && idAttr.length > 0) {
-            $("#" + idAttr).html($(this).html())
-        }
-    });
-    if (initMessagesAfterUpdate == null || initMessagesAfterUpdate) {
-        initMessages();
-    }
+function ajaxifyForm(form) {
+    form.ajaxForm(
+        { success: function(responseText) {htmlMultiple(responseText, true);}
+        });
 }
 
 /**
@@ -184,12 +184,25 @@ $(document).ready(function () {
 });
 
 /**
+ * Counts the number of chars from password which are in the given chars
+ */
+function countContain(password, chars) {
+    var count = 0;
+    for (var i = 0; i < password.length; i++) {
+        if (chars.indexOf(password.charAt(i)) >= 0) {
+            count++;
+        }
+    }
+    return count; 
+} 
+
+/**
  * Computes the strength (0 to 100) of a password
  * @param password the password
  * @return the strength (from 0 to 100)
  */
-function comptePasswordStrength(password) {
-    if (password == null) {
+function computePasswordStrength(password) {
+    if (!password) {
         password = "";
     }
     var upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -210,13 +223,13 @@ function comptePasswordStrength(password) {
     var upperCount = countContain(password, upperCaseLetters);
     var lowerCount = countContain(password, lowerCaseLetters);
     var letterCount = upperCount + lowerCount;
-    if (upperCount == 0 && lowerCount != 0) {
+    if (upperCount === 0 && lowerCount !== 0) {
         score += 10;
     }
-    else if (upperCount != 0 && lowerCount == 0) {
+    else if (upperCount !== 0 && lowerCount === 0) {
         score += 10;
     }
-    else if (upperCount != 0 && lowerCount != 0) {
+    else if (upperCount !== 0 && lowerCount !== 0) {
         score += 20;
     }
 
@@ -236,32 +249,18 @@ function comptePasswordStrength(password) {
         score += 25;
     }
 
-    if (digitCount != 0 && letterCount != 0) {
+    if (digitCount !== 0 && letterCount !== 0) {
         score += 2;
     }
-    if (digitCount != 0 && letterCount != 0 && specialCharCount != 0) {
+    if (digitCount !== 0 && letterCount !== 0 && specialCharCount !== 0) {
         score += 3;
     }
-    if (digitCount != 0 && upperCount != 0 && lowerCount != 0
-            && specialCharCount != 0) {
+    if (digitCount !== 0 && upperCount !== 0 && lowerCount !== 0 && specialCharCount !== 0) {
         score += 5;
     }
 
     return score;
 }
-
-/**
- * Counts the number of chars from password which are in the given chars
- */
-function countContain(password, chars) {
-    var count = 0;
-    for (var i = 0; i < password.length; i++) {
-        if (chars.indexOf(password.charAt(i)) >= 0) {
-            count++;
-        }
-    }
-    return count; 
-} 
 
 /**
  * Computes the strength of the given password, initialized the bar div if not done yet,
@@ -270,14 +269,14 @@ function countContain(password, chars) {
  * By default, the display of the div is set to block. Use the display parameter to set it to another value.
  */
 function displayPasswordStrength(password, barDiv, display) {
-    if ($.trim(barDiv.html()).length == 0) {
+    if ($.trim(barDiv.html()).length === 0) {
         barDiv.html('<div class="bar"><div></div></div><div class="score"></div>');
     }
-    if (display == null) {
+    if (!display) {
         display = "block";
     }
     barDiv.css("display", display);
-    var score = comptePasswordStrength(password);
+    var score = computePasswordStrength(password);
     if (score > 100) {
         score = 100;
     }
@@ -320,6 +319,15 @@ function displayPasswordStrength(password, barDiv, display) {
 }
 
 /**
+ * Generates a random integer between 0 (inclusive) and limit (exclusive)
+ * @param limit the limit of the random integer
+ * @return the generated integer
+ */
+function randomInt(limit) {
+    return Math.floor(Math.random() * limit);
+}
+
+/**
  * Generates a semi-random password. The algorithm tries to include two symbols of each kind,
  * starting with the ones with the biggest population. Then the symbols are chosen randomly
  * across the whole population. Finally, the result is shuffled.
@@ -336,7 +344,7 @@ function generatePassword(size, includeLowerCaseLetters, includeUpperCaseLetters
     var digits = "0123456789";
     var special = "&\"#'{([-|_\\@)]=+}$%*!:/;.,?<>";
     
-    var blocks = new Array();
+    var blocks = [];
     if (includeLowerCaseLetters) {
         blocks.push(lowerCaseLetters);
     }
@@ -350,7 +358,7 @@ function generatePassword(size, includeLowerCaseLetters, includeUpperCaseLetters
         blocks.push(digits);
     }
     
-    if (blocks.length == 0) {
+    if (blocks.length === 0) {
         return "";
     }
     
@@ -366,7 +374,7 @@ function generatePassword(size, includeLowerCaseLetters, includeUpperCaseLetters
         all += blocks[j];
     }
     while (i < size) {
-        chars += all.charAt(randomInt(all.length))
+        chars += all.charAt(randomInt(all.length));
         i++;
     }
     var result = "";
@@ -376,8 +384,4 @@ function generatePassword(size, includeLowerCaseLetters, includeUpperCaseLetters
         chars = chars.substring(0, index) + chars.substring(index + 1);
     }
     return result;
-}
-
-function randomInt(limit) {
-    return Math.floor(Math.random() * limit);
 }

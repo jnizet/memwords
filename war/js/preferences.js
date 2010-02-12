@@ -6,21 +6,6 @@ function closePreferencesDiv(divToClose) {
     return false;
 }
 
-function initPreferencesLinks() {
-    $("#changePreferredLocaleLink").click(function() {
-        return changePreferredLocale();
-    });
-    $("#changePreferredTimeZoneLink").click(function() {
-        return changePreferredTimeZone();
-    });
-    $("#changePasswordPreferencesLink").click(function() {
-        return changePasswordPreferences();
-    });
-    $("#changePasswordGenerationPreferencesLink").click(function() {
-        return changePasswordGenerationPreferences();
-    });
-}
-
 function changePreferredLocale() {
     closePreferencesDiv($("#preferredTimeZoneDiv"));
     closePreferencesDiv($("#passwordPreferencesDiv"));
@@ -72,6 +57,21 @@ function changePasswordGenerationPreferences() {
     return false;
 }
 
+function initPreferencesLinks() {
+    $("#changePreferredLocaleLink").click(function() {
+        return changePreferredLocale();
+    });
+    $("#changePreferredTimeZoneLink").click(function() {
+        return changePreferredTimeZone();
+    });
+    $("#changePasswordPreferencesLink").click(function() {
+        return changePasswordPreferences();
+    });
+    $("#changePasswordGenerationPreferencesLink").click(function() {
+        return changePasswordGenerationPreferences();
+    });
+}
+
 function bindChangePasswordGenerationPreferencesEvents() {
     changeFormEvent($("#changePasswordGenerationPreferencesForm"), "change", "ajaxChange");
     ajaxifyForm($("#changePasswordGenerationPreferencesForm"));
@@ -81,10 +81,10 @@ function bindChangePasswordGenerationPreferencesEvents() {
     });
     
     var changeHandler = function() {
-        var enabled = ($("#lowerCaseLettersIncluded").attr("checked")
-                         || $("#upperCaseLettersIncluded").attr("checked")
-                         || $("#digitsIncluded").attr("checked") 
-                         || $("#specialCharactersIncluded").attr("checked"));
+        var enabled = ($("#lowerCaseLettersIncluded").attr("checked") || 
+                       $("#upperCaseLettersIncluded").attr("checked") || 
+                       $("#digitsIncluded").attr("checked") || 
+                       $("#specialCharactersIncluded").attr("checked"));
         $("#submitButton").attr("disabled", !enabled);
         var generatedPassword = 
             generatePassword($("#length").val(), 
@@ -93,7 +93,7 @@ function bindChangePasswordGenerationPreferencesEvents() {
                              $("#digitsIncluded").attr("checked"), 
                              $("#specialCharactersIncluded").attr("checked"));
         displayPasswordStrength(generatedPassword, $("#strength"), "inline-block");
-    }
+    };
     
     $("#lowerCaseLettersIncluded").change(changeHandler);
     $("#upperCaseLettersIncluded").change(changeHandler);

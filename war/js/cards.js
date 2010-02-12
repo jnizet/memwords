@@ -70,6 +70,31 @@ function closeCardDetails() {
 }
 
 /**
+ * Make a URL absolute, as defined by the method com.googlecode.memwords.domain.UrlUtils.absolutizeUrl()
+ */
+function absolutizeUrl(u) {
+    var s = $.trim(u);
+    if (s.length === 0) {
+        return null;
+    }
+    if (s.indexOf("://") >= 0) {
+        return s;
+    }
+    return "http://" + s;
+}
+
+/**
+ * Tests if an URL is valid (starts with http:// or https://)
+ * @param u the URL to test
+ * @return <code>true</code> if valid, <code>false</code> otherwise
+ */
+function isUrlValid(u) {
+    return u && 
+           (((u.indexOf("http://") === 0) && (u.length > 7)) || 
+            ((u.indexOf("https://") === 0) && (u.length > 8)));
+}
+
+/**
  * Loads the icon associated to the URL entered in the URL text field of the create or modify
  * card form. A loading icon is displayed during the operation, and the submit button is
  * disabled. The hidden field is also updated by this function.
@@ -117,35 +142,12 @@ function loadCardIcon() {
  */
 function changeTestUrlVisibility() {
     var absolutizedCardUrl = absolutizeUrl($("#urlTextField").val());
-    if (absolutizedCardUrl != null) {
+    if (absolutizedCardUrl !== null && isUrlValid(absolutizedCardUrl)) {
         $("#testUrlLink").show();
     } 
     else {
         $("#testUrlLink").hide();
     }
-}
-
-/**
- * Tests if an URL is valid (starts with http:// or https://)
- * @param u the URL to test
- * @return <code>true</code> if valid, <code>false</code> otherwise
- */
-function isUrlValid(u) {
-    return (u != null) && (u.indexOf("http://") == 0) || (u.indexOf("https://") == 0);
-}
-
-/**
- * Make a URL absolute, as defined by the method com.googlecode.memwords.domain.UrlUtils.absolutizeUrl()
- */
-function absolutizeUrl(u) {
-    var s = $.trim(u);
-    if (s.length == 0) {
-        return null;
-    }
-    if (s.indexOf("://") >= 0) {
-        return s;
-    }
-    return "http://" + s;
 }
 
 /**
@@ -235,12 +237,12 @@ function bindEditCardEvents(modification,
  */
 function bindGeneratePasswordFormEvents() {
     var generatePasswordEnabledHandler = function() {
-        var enabled = ($("#lowerCaseLettersIncluded").attr("checked")
-                       || $("#upperCaseLettersIncluded").attr("checked")
-                       || $("#digitsIncluded").attr("checked") 
-                       || $("#specialCharactersIncluded").attr("checked"));
+        var enabled = ($("#lowerCaseLettersIncluded").attr("checked") || 
+                       $("#upperCaseLettersIncluded").attr("checked") || 
+                       $("#digitsIncluded").attr("checked") || 
+                       $("#specialCharactersIncluded").attr("checked"));
         $("#generatePasswordButton").attr("disabled", !enabled);
-    }
+    };
     $("#lowerCaseLettersIncluded").change(generatePasswordEnabledHandler);
     $("#upperCaseLettersIncluded").change(generatePasswordEnabledHandler);
     $("#digitsIncluded").change(generatePasswordEnabledHandler);
