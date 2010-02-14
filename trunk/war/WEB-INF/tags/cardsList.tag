@@ -10,7 +10,7 @@
   <script type="text/javascript">
     $("document").ready(function() {
       var cardsList = [<c:forEach var="card" items="${cards}">"${card.id}", </c:forEach>];
-      bindCardsListEvents(cardsList);
+      m.cards.initCardsList(cardsList);
     });
   </script>
   <c:forEach var="card" items="${cards}" varStatus="varStatus">

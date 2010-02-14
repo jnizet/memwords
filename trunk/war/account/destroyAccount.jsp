@@ -14,7 +14,7 @@
 <script type="text/javascript">
   $("document").ready(function() {
     $("#cancelButton").click(function() {
-      window.location = url("/account/Account.action");
+      window.location = m.url("/account/Account.action");
       return false;
     });
   });

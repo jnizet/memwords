@@ -8,13 +8,7 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-    changeFormEvent($("#changePreferredTimeZoneForm"), "change", "ajaxChange");
-    ajaxifyForm($("#changePreferredTimeZoneForm"));
-    $("#cancelButton").unbind();
-    $("#cancelButton").click(function() {
-      return closePreferencesDiv($("#preferredTimeZoneDiv"));
-    });
-    $("#timeZone").focus();
+    m.preferences.initChangePreferredTimeZone();
   });
 </script>
 <%@ include file="_changePreferredTimeZone.jsp" %>

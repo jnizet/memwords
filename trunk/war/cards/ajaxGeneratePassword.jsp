@@ -7,7 +7,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
 <script type="text/javascript">
   $("document").ready(function() {
-      bindGeneratePasswordFormEvents();
+      m.cards.initGeneratePasswordForm();
   });
 </script>
 <stripes:form partial="true" beanclass="com.googlecode.memwords.web.cards.CreateCardActionBean">

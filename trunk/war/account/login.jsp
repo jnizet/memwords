@@ -11,7 +11,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title><fmt:message key="account.login.title"/></title>
-<script type="text/javascript" src="<c:url value="/js/account.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/account.min.js"/>"></script>
 <script type="text/javascript">
   $("document").ready(function() {
     $("#userId").focus();

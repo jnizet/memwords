@@ -1,9 +1,7 @@
 <div id="cardDetails">
   <script type="text/javascript">
     $("document").ready(function() {
-      $("#createCardLink").click(function() {
-        return createCard();
-      });
+      m.cards.initEmptyCardDetails();
     });
   </script>
   <h2>

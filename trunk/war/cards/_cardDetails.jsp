@@ -2,30 +2,7 @@
   <c:set var="card" value="${actionBean.card}" />
   <script type="text/javascript">
     $(document).ready(function() {
-      <c:if test="${actionBean.passwordsUnmasked}">
-        $("#maskPasswordLink").show();
-      </c:if>
-      <c:if test="${!actionBean.passwordsUnmasked}">
-        $("#unmaskPasswordLink").show();
-      </c:if>
-      $("#unmaskPasswordLink").click(function() {
-        return unmaskPassword();
-      }); 
-      $("#maskPasswordLink").click(function() {
-        return maskPassword();
-      });
-      $("#cancelButton").click(function() {
-        return closeCardDetails();
-      });
-      $("#createCardLink").click(function() {
-        return createCard();
-      });
-      $("#modifyCardLink").click(function() {
-        return modifyCard("${card.id}");
-      });
-      $("#deleteCardLink").click(function() {
-        return deleteCard("${card.id}");
-      });
+      m.cards.initCardDetails(${actionBean.passwordsUnmasked}, "${card.id}");
     });
   </script> 
   <h2><tags:cardIcon card="${card}" /> <c:out value="${card.name}" /></h2>

@@ -11,7 +11,7 @@
   <div id="passwordGenerationPreferencesDiv">
     <script type="text/javascript">
       $(document).ready(function () {
-        bindChangePasswordGenerationPreferencesEvents();
+        m.preferences.initChangePasswordGenerationPreferences();
       });
     </script>
     <%@ include file="_changePasswordGenerationPreferences.jsp" %>

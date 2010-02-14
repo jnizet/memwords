@@ -14,12 +14,12 @@
 <script type="text/javascript">
   $(document).ready(function () {
     $("#cancelButton").click(function() {
-      window.location = url("/account/Account.action");
+      window.location = m.url("/account/Account.action");
     });
     $("#newPassword").keyup(function() {
-      displayPasswordStrength($("#newPassword").val(), $("#strength"), "inline-block");
+      m.displayPasswordStrength($("#newPassword").val(), $("#strength"), "inline-block");
     });
-    displayPasswordStrength($("#newPassword").val(), $("#strength"), "inline-block");
+    m.displayPasswordStrength($("#newPassword").val(), $("#strength"), "inline-block");
     $("#currentPassword").focus();
   });
 </script>

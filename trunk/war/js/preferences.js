@@ -1,3 +1,7 @@
+/*jslint browser: true */
+/*global memwords: true, $: true */
+(function(m) {
+
 function closePreferencesDiv(divToClose) {
     divToClose.slideUp(function() {
         divToClose.html("");
@@ -10,9 +14,9 @@ function changePreferredLocale() {
     closePreferencesDiv($("#preferredTimeZoneDiv"));
     closePreferencesDiv($("#passwordPreferencesDiv"));
     closePreferencesDiv($("#passwordGenerationPreferencesDiv"));
-    clearMessagePanel();
+    m.clearMessagePanel();
     $("#preferredLocaleDiv").load(
-        url("/preferences/ChangePreferredLocale.action?ajaxView="),
+        m.url("/preferences/ChangePreferredLocale.action?ajaxView="),
         function() {
             $("#preferredLocaleDiv").slideDown();
         });
@@ -23,9 +27,9 @@ function changePreferredTimeZone() {
     closePreferencesDiv($("#preferredLocaleDiv"));
     closePreferencesDiv($("#passwordPreferencesDiv"));
     closePreferencesDiv($("#passwordGenerationPreferencesDiv"));
-    clearMessagePanel();
+    m.clearMessagePanel();
     $("#preferredTimeZoneDiv").load(
-        url("/preferences/ChangePreferredTimeZone.action?ajaxView="),
+        m.url("/preferences/ChangePreferredTimeZone.action?ajaxView="),
         function() {
             $("#preferredTimeZoneDiv").slideDown();
         });
@@ -36,9 +40,9 @@ function changePasswordPreferences() {
     closePreferencesDiv($("#preferredLocaleDiv"));
     closePreferencesDiv($("#preferredTimeZoneDiv"));
     closePreferencesDiv($("#passwordGenerationPreferencesDiv"));
-    clearMessagePanel();
+    m.clearMessagePanel();
     $("#passwordPreferencesDiv").load(
-        url("/preferences/ChangePasswordPreferences.action?ajaxView="),
+        m.url("/preferences/ChangePasswordPreferences.action?ajaxView="),
         function() {
             $("#passwordPreferencesDiv").slideDown();
         });
@@ -49,15 +53,17 @@ function changePasswordGenerationPreferences() {
     closePreferencesDiv($("#preferredLocaleDiv"));
     closePreferencesDiv($("#preferredTimeZoneDiv"));
     closePreferencesDiv($("#passwordPreferencesDiv"));
-    clearMessagePanel();
-    loadMultiple(url("/preferences/ChangePasswordGenerationPreferences.action?ajaxView="),
-                 function() {
-                     $("#passwordGenerationPreferencesDiv").slideDown();
-                 });
+    m.clearMessagePanel();
+    m.loadMultiple(m.url("/preferences/ChangePasswordGenerationPreferences.action?ajaxView="),
+                   function() {
+                       $("#passwordGenerationPreferencesDiv").slideDown();
+                   });
     return false;
 }
+    
+var p = {};
 
-function initPreferencesLinks() {
+p.initPreferencesLinks = function() {
     $("#changePreferredLocaleLink").click(function() {
         return changePreferredLocale();
     });
@@ -70,11 +76,38 @@ function initPreferencesLinks() {
     $("#changePasswordGenerationPreferencesLink").click(function() {
         return changePasswordGenerationPreferences();
     });
-}
+};
 
-function bindChangePasswordGenerationPreferencesEvents() {
-    changeFormEvent($("#changePasswordGenerationPreferencesForm"), "change", "ajaxChange");
-    ajaxifyForm($("#changePasswordGenerationPreferencesForm"));
+p.initChangePreferredLocale = function() {
+    $("#cancelButton").click(function() {
+        return closePreferencesDiv($("#preferredLocaleDiv"));
+    });
+    $("#locale").focus();
+};
+
+p.initChangePreferredTimeZone = function() {
+    m.changeFormEvent($("#changePreferredTimeZoneForm"), "change", "ajaxChange");
+    m.ajaxifyForm($("#changePreferredTimeZoneForm"));
+    $("#cancelButton").unbind();
+    $("#cancelButton").click(function() {
+        return closePreferencesDiv($("#preferredTimeZoneDiv"));
+    });
+    $("#timeZone").focus();
+};
+
+p.initChangePasswordPreferences = function() {
+    m.changeFormEvent($("#changePasswordPreferencesForm"), "change", "ajaxChange");
+    m.ajaxifyForm($("#changePasswordPreferencesForm"));
+    $("#cancelButton").unbind();
+    $("#cancelButton").click(function() {
+        return closePreferencesDiv($("#passwordPreferencesDiv"));
+    });
+    $("#masked").focus();
+};
+
+p.initChangePasswordGenerationPreferences = function() {
+    m.changeFormEvent($("#changePasswordGenerationPreferencesForm"), "change", "ajaxChange");
+    m.ajaxifyForm($("#changePasswordGenerationPreferencesForm"));
     $("#cancelButton").unbind();
     $("#cancelButton").click(function() {
         return closePreferencesDiv($("#passwordGenerationPreferencesDiv"));
@@ -87,12 +120,12 @@ function bindChangePasswordGenerationPreferencesEvents() {
                        $("#specialCharactersIncluded").attr("checked"));
         $("#submitButton").attr("disabled", !enabled);
         var generatedPassword = 
-            generatePassword($("#length").val(), 
-                             $("#lowerCaseLettersIncluded").attr("checked"),
-                             $("#upperCaseLettersIncluded").attr("checked"), 
-                             $("#digitsIncluded").attr("checked"), 
-                             $("#specialCharactersIncluded").attr("checked"));
-        displayPasswordStrength(generatedPassword, $("#strength"), "inline-block");
+            m.generatePassword($("#length").val(), 
+                               $("#lowerCaseLettersIncluded").attr("checked"),
+                               $("#upperCaseLettersIncluded").attr("checked"), 
+                               $("#digitsIncluded").attr("checked"), 
+                               $("#specialCharactersIncluded").attr("checked"));
+        m.displayPasswordStrength(generatedPassword, $("#strength"), "inline-block");
     };
     
     $("#lowerCaseLettersIncluded").change(changeHandler);
@@ -104,4 +137,8 @@ function bindChangePasswordGenerationPreferencesEvents() {
     $("#strengthSection").show();
     changeHandler.call();
     $("#length").focus();
+};
+
+m.preferences = p;
 }
+)(memwords);

@@ -11,7 +11,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title><fmt:message key="preferences.preferences.title"/></title>
-<script type="text/javascript" src="<c:url value="/js/preferences.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/preferences.min.js"/>"></script>
 </head>
 <body>
   <h1><fmt:message key="preferences.preferences.h1"/></h1>
