@@ -1,4 +1,9 @@
-function bindToolsEvents(passwordsUnmasked) {
+/*jslint browser: true */
+/*global memwords: true, $: true */
+(function(m) {
+var t = {};
+
+t.initTools = function(passwordsUnmasked) {
     $("#noScript").hide();
     $("#tools").show();
 
@@ -9,9 +14,9 @@ function bindToolsEvents(passwordsUnmasked) {
         return false;
     });
     $("#passwordToEval").keyup(function() {
-        displayPasswordStrength($("#passwordToEval").val(), $("#passwordToEvalStrength"), "inline-block");
+        m.displayPasswordStrength($("#passwordToEval").val(), $("#passwordToEvalStrength"), "inline-block");
     });
-    displayPasswordStrength($("#passwordToEval").val(), $("#passwordToEvalStrength"), "inline-block");
+    m.displayPasswordStrength($("#passwordToEval").val(), $("#passwordToEvalStrength"), "inline-block");
 
     if (passwordsUnmasked) {
         $("#maskPasswordLink").show();
@@ -36,26 +41,32 @@ function bindToolsEvents(passwordsUnmasked) {
     });
     $("#generatePasswordButton").click(function() {
         var generatedPassword = 
-            generatePassword(
+            m.generatePassword(
                 $("#length").val(), 
                 $("#lowerCaseLettersIncluded").attr("checked"),
                 $("#upperCaseLettersIncluded").attr("checked"), 
                 $("#digitsIncluded").attr("checked"), 
                 $("#specialCharactersIncluded").attr("checked"));
-        displayPasswordStrength(generatedPassword, $("#generatedPasswordStrength"));
+        m.displayPasswordStrength(generatedPassword, $("#generatedPasswordStrength"));
         $("#generatedPassword").text(generatedPassword);
         $("#generatedPasswordDiv").slideDown();
     });
     
     var generatePasswordEnabledHandler = function() {
-        var enabled = ($("#lowerCaseLettersIncluded").attr("checked")
-                       || $("#upperCaseLettersIncluded").attr("checked")
-                       || $("#digitsIncluded").attr("checked") 
-                       || $("#specialCharactersIncluded").attr("checked"));
+        var enabled = ($("#lowerCaseLettersIncluded").attr("checked") || 
+                       $("#upperCaseLettersIncluded").attr("checked") || 
+                       $("#digitsIncluded").attr("checked") || 
+                       $("#specialCharactersIncluded").attr("checked"));
         $("#generatePasswordButton").attr("disabled", !enabled);
     };
     $("#lowerCaseLettersIncluded").change(generatePasswordEnabledHandler);
     $("#upperCaseLettersIncluded").change(generatePasswordEnabledHandler);
     $("#digitsIncluded").change(generatePasswordEnabledHandler);
     $("#specialCharactersIncluded").change(generatePasswordEnabledHandler);
+    
+    $("#passwordToEval").focus();
+};
+
+m.tools = t;
 }
+)(memwords);

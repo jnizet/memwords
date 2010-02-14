@@ -82,10 +82,34 @@
                classpathref="build.classpath" 
                debug="on" />
     </target>
+    
+    <!-- compiles (minifies) the javascript source files -->
+        <target name="compileJs" 
+                description="compiles the javascript source files (non test files)">
+            <macrodef name="compileJsFile">
+                <attribute name="file" />
+                <attribute name="dest" />
+                <sequential>
+                    <echo>compiling @{file} to @{dest}</echo>
+                    <java jar="closure/compiler.jar" fork="true">
+                        <arg value="--js"/>
+                        <arg file="@{file}"/>
+                        <arg value="--js_output_file"/>
+                        <arg file="@{dest}"/>
+                    </java>
+                </sequential>
+            </macrodef>
+            
+            <compileJsFile file="war/js/main.js" dest="war/js/main.min.js"/>
+            <compileJsFile file="war/js/account.js" dest="war/js/account.min.js"/>
+            <compileJsFile file="war/js/cards.js" dest="war/js/cards.min.js"/>
+            <compileJsFile file="war/js/preferences.js" dest="war/js/preferences.min.js"/>
+            <compileJsFile file="war/js/tools.js" dest="war/js/tools.min.js"/>
+        </target>
 
     <!-- build non test files : compiles then enhance theclass files for GAE persistence -->
     <target name="build" 
-            depends="compile" 
+            depends="compile, compileJs" 
             description="build non test files : compiles then enhance theclass files for GAE persistence">
         <enhance_war war="war" />
     </target>

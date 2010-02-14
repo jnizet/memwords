@@ -8,13 +8,7 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-    changeFormEvent($("#changePasswordPreferencesForm"), "change", "ajaxChange");
-    ajaxifyForm($("#changePasswordPreferencesForm"));
-    $("#cancelButton").unbind();
-    $("#cancelButton").click(function() {
-      return closePreferencesDiv($("#passwordPreferencesDiv"));
-    });
-    $("#masked").focus();
+    m.preferences.initChangePasswordPreferences();
   });
 </script>
 <%@ include file="_changePasswordPreferences.jsp" %>

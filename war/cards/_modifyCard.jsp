@@ -2,17 +2,12 @@
 <div id="cardDetails">
   <script type="text/javascript">
     $("document").ready(function() {
-      bindEditCardEvents(true,
-                         "${actionBean.javaScriptEscapedPassword}",
-                         ${actionBean.passwordGenerationPreferences.length},
-                         ${actionBean.passwordGenerationPreferences.lowerCaseLettersIncluded},
-                         ${actionBean.passwordGenerationPreferences.upperCaseLettersIncluded},
-                         ${actionBean.passwordGenerationPreferences.digitsIncluded},
-                         ${actionBean.passwordGenerationPreferences.specialCharactersIncluded});
-      var form = $("#modifyCardForm")
-      changeFormEvent(form, "modifyCard", "ajaxModifyCard");
-      ajaxifyForm(form);
-      $("#nameInput").focus();
+      m.cards.initModifyCard("${actionBean.javaScriptEscapedPassword}",
+                             ${actionBean.passwordGenerationPreferences.length},
+                             ${actionBean.passwordGenerationPreferences.lowerCaseLettersIncluded},
+                             ${actionBean.passwordGenerationPreferences.upperCaseLettersIncluded},
+                             ${actionBean.passwordGenerationPreferences.digitsIncluded},
+                             ${actionBean.passwordGenerationPreferences.specialCharactersIncluded});
     });
   </script>
   <h2><fmt:message key="cards._modifyCard.h2"/></h2>

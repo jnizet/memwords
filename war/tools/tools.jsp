@@ -11,11 +11,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title><fmt:message key="tools.tools.title"/></title>
-<script type="text/javascript" src="<c:url value="/js/tools.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/tools.min.js"/>"></script>
 <script type="text/javascript">
   $("document").ready(function() {
-    bindToolsEvents(${actionBean.passwordsUnmasked});
-    $("#passwordToEval").focus();
+    m.tools.initTools(${actionBean.passwordsUnmasked});
   });
 </script>
 </head>

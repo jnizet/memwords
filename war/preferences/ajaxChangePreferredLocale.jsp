@@ -8,10 +8,7 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-    $("#cancelButton").click(function() {
-      return closePreferencesDiv($("#preferredLocaleDiv"));
-    });
-    $("#locale").focus();
+    m.preferences.initChangePreferredLocale();
   });
 </script>
 <%@ include file="_changePreferredLocale.jsp" %>

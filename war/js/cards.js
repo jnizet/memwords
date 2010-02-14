@@ -1,74 +1,7 @@
-/**
- * displays the create card form in the card details section, using ajax
- * @return false
- */
-function createCard() {
-    loadMultiple(url("/cards/CreateCard.action?ajaxView="));
-    return false;
-}
-
-/**
- * displays the card details in the card details section, using ajax
- * @return false
- */
-function displayCard(cardId) {
-    loadMultiple(url("/cards/DisplayCard.action?ajaxView=&cardId=" + cardId));
-    return false;
-}
-
-/**
- * displays the modify card form in the card details section, using ajax
- * @return false
- */
-function modifyCard(cardId) {
-    loadMultiple(url("/cards/ModifyCard.action?ajaxView=&cardId=" + cardId));
-    return false;
-}
-
-/**
- * displays the delete card form in the card details section, using ajax
- * @return false
- */
-function deleteCard(cardId) {
-    loadMultiple(url("/cards/DeleteCard.action?ajaxView=&cardId=" + cardId));
-    return false;
-}
-
-/**
- * unmasks the password, hides the unmask link, and shows the mask link.
- * Used in the card details and delete card pages.
- * @return false
- */
-function unmaskPassword() {
-    $("#passwordDiv").attr("class", "unmasked");
-    $("#passwordHelp").hide();
-    $("#maskPasswordLink").show();
-    $("#unmaskPasswordLink").hide();
-    return false;
-} 
-
-/**
- * masks a password, hides the mask link, and shows the unmask link.
- * Used in the card details and delete card pages.
- * @return false
- */
-function maskPassword() {
-    $("#passwordDiv").attr("class", "masked");
-    $("#passwordHelp").show();
-    $("#unmaskPasswordLink").show();
-    $("#maskPasswordLink").hide();
-    return false;
-} 
-
-/**
- * displays the big create cards link in the card details section, using ajax
- * @return
- */
-function closeCardDetails() {
-    loadMultiple(url("/cards/Cards.action?ajaxCancel="));
-    return false;
-}
-
+/*jslint browser: true */
+/*global memwords: true, $: true, window: true */
+(function(m) {
+// private functions
 /**
  * Make a URL absolute, as defined by the method com.googlecode.memwords.domain.UrlUtils.absolutizeUrl()
  */
@@ -106,25 +39,25 @@ function loadCardIcon() {
         $("#iconUrlHiddenField").val("");
         $("#iconUrlSpan").hide();
         $("#defaultIconUrlSpan").hide();
-        setLoading($("#iconUrlLoadingSpan"), true);
+        m.setLoading($("#iconUrlLoadingSpan"), true);
         
-        $.ajax({ url: url("/cards/CreateCard.action"),
+        $.ajax({ url: m.url("/cards/CreateCard.action"),
                  data: {url : cardUrl,
                         ajaxGetIcon : ""},
                  success: function(responseText) {
                      $("#messages").html($(responseText).filter("#messages").html());
                      var iconUrl = $.trim($(responseText).filter("#body").html());
                      if (iconUrl.length > 0) {
-                         $("#iconUrlSpan").children("img").attr('src', iconUrl);
+                         $("#iconUrlSpan img").attr('src', iconUrl);
                          $("#iconUrlSpan").show();
                          $("#iconUrlHiddenField").val(iconUrl);
                      }
                      else {
                          $("#defaultIconUrlSpan").show();
                      }
-                     setLoading($("#iconUrlLoadingSpan"), false);
+                     m.setLoading($("#iconUrlLoadingSpan"), false);
                      $("#iconUrlFetchedHiddenField").val("true");
-                     initMessages();
+                     m.initMessages();
                  }
                });
     } 
@@ -133,6 +66,41 @@ function loadCardIcon() {
         $("#iconUrlSpan").hide();
         $("#defaultIconUrlSpan").show();
     }
+}
+
+/**
+ * unmasks the password, hides the unmask link, and shows the mask link.
+ * Used in the card details and delete card pages.
+ * @return false
+ */
+function unmaskPassword() {
+    $("#passwordDiv").attr("class", "unmasked");
+    $("#passwordHelp").hide();
+    $("#maskPasswordLink").show();
+    $("#unmaskPasswordLink").hide();
+    return false;
+}
+
+/**
+ * masks a password, hides the mask link, and shows the unmask link.
+ * Used in the card details and delete card pages.
+ * @return false
+ */
+function maskPassword() {
+    $("#passwordDiv").attr("class", "masked");
+    $("#passwordHelp").show();
+    $("#unmaskPasswordLink").show();
+    $("#maskPasswordLink").hide();
+    return false;
+}
+
+/**
+ * displays the big create cards link in the card details section, using ajax
+ * @return false
+ */
+function closeCardDetails() {
+    m.loadMultiple(m.url("/cards/Cards.action?ajaxCancel="));
+    return false;
 }
 
 /**
@@ -151,21 +119,39 @@ function changeTestUrlVisibility() {
 }
 
 /**
- * Binds the click events of the links found in the cards list
- * @param cardIds the IDs of the cards in the list
+ * displays the create card form in the card details section, using ajax
+ * @return false
  */
-function bindCardsListEvents(cardIds) {
-    for (var i = 0; i < cardIds.length; i++) {
-        $("#displayCardLink_" + cardIds[i]).bind("click", {cardId: cardIds[i]}, function(event) {
-            return displayCard(event.data.cardId);
-        });
-        $("#modifyCardLink_" + cardIds[i]).bind("click", {cardId: cardIds[i]}, function(event) {
-            return modifyCard(event.data.cardId);
-        });
-        $("#deleteCardLink_" + cardIds[i]).bind("click", {cardId: cardIds[i]}, function(event) {
-            return deleteCard(event.data.cardId);
-        });
-    }
+function createCard() {
+    m.loadMultiple(m.url("/cards/CreateCard.action?ajaxView="));
+    return false;
+}
+
+/**
+ * displays the delete card form in the card details section, using ajax
+ * @return false
+ */
+function deleteCard(cardId) {
+    m.loadMultiple(m.url("/cards/DeleteCard.action?ajaxView=&cardId=" + cardId));
+    return false;
+}
+
+/**
+ * displays the card details in the card details section, using ajax
+ * @return false
+ */
+function displayCard(cardId) {
+    m.loadMultiple(m.url("/cards/DisplayCard.action?ajaxView=&cardId=" + cardId));
+    return false;
+}
+
+/**
+ * displays the modify card form in the card details section, using ajax
+ * @return false
+ */
+function modifyCard(cardId) {
+    m.loadMultiple(m.url("/cards/ModifyCard.action?ajaxView=&cardId=" + cardId));
+    return false;
 }
 
 /**
@@ -178,13 +164,13 @@ function bindCardsListEvents(cardIds) {
  * @param includeDigits whether to include digits in generated passwords
  * @param includeSpecial whether to include special characters in generated passwords
  */
-function bindEditCardEvents(modification, 
-                            password,
-                            preferredPasswordLength, 
-                            includeLowerCaseLetters, 
-                            includeUpperCaseLetters,
-                            includeDigits,
-                            includeSpecial) {
+function initEditCards(modification, 
+                       password,
+                       preferredPasswordLength, 
+                       includeLowerCaseLetters, 
+                       includeUpperCaseLetters,
+                       includeDigits,
+                       includeSpecial) {
     $("#urlTextField").change(function() {
         changeTestUrlVisibility(); 
         loadCardIcon();
@@ -197,23 +183,23 @@ function bindEditCardEvents(modification,
     $("#password").val(password);
       
     $("#password").keyup(function() {
-        displayPasswordStrength($("#password").val(), $("#strength"), "inline-block");
+        m.displayPasswordStrength($("#password").val(), $("#strength"), "inline-block");
     });
-    displayPasswordStrength($("#password").val(), $("#strength"), "inline-block");
+    m.displayPasswordStrength($("#password").val(), $("#strength"), "inline-block");
       
     $("#generatePasswordLink").click(function() {
         var generatedPassword = 
-            generatePassword(preferredPasswordLength,
-                             includeLowerCaseLetters,
-                             includeUpperCaseLetters,
-                             includeDigits,
-                             includeSpecial);
+            m.generatePassword(preferredPasswordLength,
+                               includeLowerCaseLetters,
+                               includeUpperCaseLetters,
+                               includeDigits,
+                               includeSpecial);
         $("#password").val(generatedPassword);
-        displayPasswordStrength(generatedPassword, $("#strength"), "inline-block");
+        m.displayPasswordStrength(generatedPassword, $("#strength"), "inline-block");
         return false;
     });
     $("#generatePasswordWithOptionsLink").click(function() {
-        $("#generatePasswordDiv").load(url("/cards/CreateCard.action?ajaxGetPasswordGenerationForm"),
+        $("#generatePasswordDiv").load(m.url("/cards/CreateCard.action?ajaxGetPasswordGenerationForm"),
                                        function() {
                                            $("#generatePasswordDiv").slideDown();
                                        });
@@ -232,10 +218,95 @@ function bindEditCardEvents(modification,
     }
 }
 
+var c = {};
+
+/**
+ * Binds the click events of the links found in the cards list
+ * @param cardIds the IDs of the cards in the list
+ */
+c.initCardsList = function(cardIds) {
+    for (var i = 0; i < cardIds.length; i++) {
+        $("#displayCardLink_" + cardIds[i]).bind("click", {cardId: cardIds[i]}, function(event) {
+            return displayCard(event.data.cardId);
+        });
+        $("#modifyCardLink_" + cardIds[i]).bind("click", {cardId: cardIds[i]}, function(event) {
+            return modifyCard(event.data.cardId);
+        });
+        $("#deleteCardLink_" + cardIds[i]).bind("click", {cardId: cardIds[i]}, function(event) {
+            return deleteCard(event.data.cardId);
+        });
+    }
+};
+
+/**
+ * Binds the events for the empty card details section
+ */
+c.initEmptyCardDetails = function() {
+    $("#createCardLink").click(function() {
+        return createCard();
+    });
+};
+
+/**
+ * Inits the create card section
+ * @param password the current password, which must populate the password field
+ * @param preferredPasswordLength the preferred password length to use when generating a password
+ * @param includeLowerCaseLetters whether to include lower-case letters in generated passwords
+ * @param includeUpperCaseLetters whether to include upper-case letters in generated passwords
+ * @param includeDigits whether to include digits in generated passwords
+ * @param includeSpecial whether to include special characters in generated passwords
+ */
+c.initCreateCard = function(password,
+                            preferredPasswordLength, 
+                            includeLowerCaseLetters, 
+                            includeUpperCaseLetters,
+                            includeDigits,
+                            includeSpecial) {
+    initEditCards(false, 
+                  password,
+                  preferredPasswordLength, 
+                  includeLowerCaseLetters, 
+                  includeUpperCaseLetters,
+                  includeDigits,
+                  includeSpecial);
+    var form = $("#createCardForm");
+    m.changeFormEvent(form, "createCard", "ajaxCreateCard");
+    m.ajaxifyForm(form);
+    $("#nameInput").focus();
+};
+
+/**
+ * Inits the modify card section
+ * @param password the current password, which must populate the password field
+ * @param preferredPasswordLength the preferred password length to use when generating a password
+ * @param includeLowerCaseLetters whether to include lower-case letters in generated passwords
+ * @param includeUpperCaseLetters whether to include upper-case letters in generated passwords
+ * @param includeDigits whether to include digits in generated passwords
+ * @param includeSpecial whether to include special characters in generated passwords
+ */
+c.initModifyCard = function(password, 
+                            preferredPasswordLength, 
+                            includeLowerCaseLetters, 
+                            includeUpperCaseLetters,
+                            includeDigits,
+                            includeSpecial) {
+    initEditCards(true, 
+                  password,
+                  preferredPasswordLength, 
+                  includeLowerCaseLetters, 
+                  includeUpperCaseLetters,
+                  includeDigits,
+                  includeSpecial);
+    var form = $("#modifyCardForm");
+    m.changeFormEvent(form, "modifyCard", "ajaxModifyCard");
+    m.ajaxifyForm(form);
+    $("#nameInput").focus();
+};
+
 /**
  * Binds the events on the generate password form
  */
-function bindGeneratePasswordFormEvents() {
+c.initGeneratePasswordForm = function() {
     var generatePasswordEnabledHandler = function() {
         var enabled = ($("#lowerCaseLettersIncluded").attr("checked") || 
                        $("#upperCaseLettersIncluded").attr("checked") || 
@@ -251,13 +322,13 @@ function bindGeneratePasswordFormEvents() {
     $("#generatePasswordButton").click(
         function() {
             var generatedPassword = 
-                generatePassword($("#passwordLength").val(), 
+                m.generatePassword($("#passwordLength").val(), 
                                  $("#lowerCaseLettersIncluded").attr("checked"),
                                  $("#upperCaseLettersIncluded").attr("checked"), 
                                  $("#digitsIncluded").attr("checked"), 
                                  $("#specialCharactersIncluded").attr("checked"));
             $("#password").val(generatedPassword);
-            displayPasswordStrength(generatedPassword, $("#strength"), "inline-block");
+            m.displayPasswordStrength(generatedPassword, $("#strength"), "inline-block");
             $("#generatePasswordDiv").slideUp(function() {
                 $("#generatePasswordDiv").html("");
             });
@@ -269,4 +340,49 @@ function bindGeneratePasswordFormEvents() {
         });
         return false; 
     });
-}
+};
+
+/**
+ * Binds the events for the card details section
+ * @param passwordsUnmasked the passwords unmasked preference, which determines
+ * which of the mask or unmask links must be initially shown
+ * @param cardId the ID of the card
+ */
+c.initCardDetails = function(passwordsUnmasked, cardId) {
+    if (passwordsUnmasked) {
+      $("#maskPasswordLink").show();
+    }
+    else {
+      $("#unmaskPasswordLink").show();
+    }
+    $("#unmaskPasswordLink").click(function() {
+      return unmaskPassword();
+    }); 
+    $("#maskPasswordLink").click(function() {
+      return maskPassword();
+    });
+    $("#cancelButton").click(function() {
+      return closeCardDetails();
+    });
+    $("#createCardLink").click(function() {
+      return createCard();
+    });
+    $("#modifyCardLink").click(function() {
+      return modifyCard(cardId);
+    });
+    $("#deleteCardLink").click(function() {
+      return deleteCard(cardId);
+    });
+};
+
+c.initDeleteCard = function() {
+    var form = $("#deleteCardForm");
+    m.changeFormEvent(form, "deleteCard", "ajaxDeleteCard");
+    m.ajaxifyForm(form);
+    $("#cancelButton").click(function() {
+        return closeCardDetails();
+    });
+};
+
+m.cards = c;
+})(memwords);

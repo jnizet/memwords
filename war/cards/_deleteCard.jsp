@@ -1,12 +1,7 @@
 <div id="cardDetails">
   <script type="text/javascript">
     $("document").ready(function() {
-      var form = $("#deleteCardForm")
-      changeFormEvent(form, "deleteCard", "ajaxDeleteCard");
-      ajaxifyForm(form);
-      $("#cancelButton").click(function() {
-        return closeCardDetails();
-      });
+      m.cards.initDeleteCard();
     });
   </script>
 

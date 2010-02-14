@@ -11,17 +11,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title><fmt:message key="account.createAccount.title"/></title>
-<script type="text/javascript" src="<c:url value="/js/account.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/account.min.js"/>"></script>
 <script type="text/javascript">
   $(document).ready(function () {
-    $("#userId").bind("blur", function () {
-        loadUserIdAvailability();
-    });
-    $("#userId").focus();
-    $("#masterPassword").keyup(function() {
-      displayPasswordStrength($("#masterPassword").val(), $("#strength"), "inline-block");
-    });
-    displayPasswordStrength($("#masterPassword").val(), $("#strength"), "inline-block");
+    m.account.initCreateAccount();
   });
 </script>
 </head>

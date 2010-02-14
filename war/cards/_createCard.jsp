@@ -2,17 +2,12 @@
 <div id="cardDetails">
   <script type="text/javascript">
     $("document").ready(function() {
-        bindEditCardEvents(false, 
-                           "${actionBean.javaScriptEscapedPassword}",
-                           ${actionBean.passwordGenerationPreferences.length},
-                           ${actionBean.passwordGenerationPreferences.lowerCaseLettersIncluded},
-                           ${actionBean.passwordGenerationPreferences.upperCaseLettersIncluded},
-                           ${actionBean.passwordGenerationPreferences.digitsIncluded},
-                           ${actionBean.passwordGenerationPreferences.specialCharactersIncluded});
-        var form = $("#createCardForm")
-        changeFormEvent(form, "createCard", "ajaxCreateCard");
-        ajaxifyForm(form);
-        $("#nameInput").focus();
+        m.cards.initCreateCard("${actionBean.javaScriptEscapedPassword}",
+                               ${actionBean.passwordGenerationPreferences.length},
+                               ${actionBean.passwordGenerationPreferences.lowerCaseLettersIncluded},
+                               ${actionBean.passwordGenerationPreferences.upperCaseLettersIncluded},
+                               ${actionBean.passwordGenerationPreferences.digitsIncluded},
+                               ${actionBean.passwordGenerationPreferences.specialCharactersIncluded});
     });
   </script>
   <h2><fmt:message key="cards._createCard.h2"/></h2>

@@ -1,7 +1,7 @@
 <div id="preferences">
   <script type="text/javascript">
     $("document").ready(function() {
-      initPreferencesLinks();
+      m.preferences.initPreferencesLinks();
     });
   </script>
   <div>

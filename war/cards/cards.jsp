@@ -10,7 +10,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title><fmt:message key="cards.cards.title"/></title>
-<script type="text/javascript" src="<c:url value="/js/cards.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/cards.min.js"/>"></script>
 </head>
 <body>
   <%@ include file="_cards.jsp" %>
