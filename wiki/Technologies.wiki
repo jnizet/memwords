@@ -10,6 +10,8 @@ The project is built using [http://ant.apache.org Ant].
 
 Unit tests are developed with [http://junit.org/ JUnit] and [http://easymock.org/ EasyMock], and integration tests with [http://htmlunit.sourceforge.net/ HtmlUnit].
 
-The quality of the code is controlled by [http://pmd.sourceForge.net/ PMD], [http://checkstyle.sourceforge.net/ Checkstyle] and [http://findbugs.sourceforge.net/ FindBugs].
+The quality of the Java code is controlled by [http://pmd.sourceForge.net/ PMD], [http://checkstyle.sourceforge.net/ Checkstyle] and [http://findbugs.sourceforge.net/ FindBugs].
+
+The quality of the JavaScript code is controlled by [http://www.jslint.com/ JSLint], integrated into the build process thanks to [http://code.google.com/p/jslint4java/ jslint4java].
 
 Source code coverage is measured using [http://cobertura.sourceforge.net/ Cobertura].
