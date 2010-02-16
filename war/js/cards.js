@@ -225,16 +225,20 @@ var c = {};
  * @param cardIds the IDs of the cards in the list
  */
 c.initCardsList = function(cardIds) {
+    function displayHandler(event) {
+        return displayCard(event.data.cardId);
+    }
+    function modifyHandler(event) {
+        return modifyCard(event.data.cardId);
+    }
+    function deleteHandler(event) {
+        return deleteCard(event.data.cardId);
+    }
     for (var i = 0; i < cardIds.length; i++) {
-        $("#displayCardLink_" + cardIds[i]).bind("click", {cardId: cardIds[i]}, function(event) {
-            return displayCard(event.data.cardId);
-        });
-        $("#modifyCardLink_" + cardIds[i]).bind("click", {cardId: cardIds[i]}, function(event) {
-            return modifyCard(event.data.cardId);
-        });
-        $("#deleteCardLink_" + cardIds[i]).bind("click", {cardId: cardIds[i]}, function(event) {
-            return deleteCard(event.data.cardId);
-        });
+        var data = {cardId: cardIds[i]};
+        $("#displayCardLink_" + cardIds[i]).bind("click", data, displayHandler);
+        $("#modifyCardLink_" + cardIds[i]).bind("click", data, modifyHandler);
+        $("#deleteCardLink_" + cardIds[i]).bind("click", data, deleteHandler);
     }
 };
 
