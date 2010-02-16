@@ -400,6 +400,18 @@ m.install = function() {
         $("#showMessagesLink").click(function() {
             return showMessagePanel();
         });
+        
+        function adjustSideBarHeight() {
+            var bodyHeight = $("body").outerHeight();
+            var viewportHeight = $(window).height();
+            if (bodyHeight < viewportHeight) {
+                var sideBar = $("#sidebar");
+                var newMinHeight = (sideBar.height() + (viewportHeight - bodyHeight)) + "px";
+                sideBar.css("min-height", newMinHeight);
+            }
+        };
+        adjustSideBarHeight();
+        $(window).resize(adjustSideBarHeight);
     });
 };
 
