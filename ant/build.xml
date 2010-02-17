@@ -15,6 +15,14 @@
     <!-- macros of Google App Engine -->
     <import file="${gae-sdk.dir}/config/user/ant-macros.xml" />
 
+    <!-- ant-contrib tasks -->
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+      <classpath>
+        <pathelement location="ant/ant-contrib-1.0b3.jar"/>
+      </classpath>
+    </taskdef>
+
+    
     <!-- the classpath used to build source files (non test files) -->
     <path id="build.classpath">
         <pathelement path="war/WEB-INF/classes" />
@@ -51,7 +59,8 @@
     
     <!-- cleans up everything -->
     <target name="clean"
-            description="cleans up everything">
+            description="cleans up everything"
+            depends="cleanJs">
         <delete dir="war/WEB-INF/classes"/>
         <delete dir="test/classes"/>
         <delete dir="test/report"/>
@@ -85,29 +94,46 @@
     </target>
     
     <!-- compiles (minifies) the javascript source files -->
-        <target name="compileJs" 
-                description="compiles the javascript source files (non test files)">
-            <macrodef name="compileJsFile">
-                <attribute name="file" />
-                <attribute name="dest" />
-                <sequential>
-                    <echo>compiling @{file} to @{dest}</echo>
-                    <java jar="closure/compiler.jar" fork="true" failonerror="true">
-                        <arg value="--js"/>
-                        <arg file="@{file}"/>
-                        <arg value="--js_output_file"/>
-                        <arg file="@{dest}"/>
-                    </java>
-                </sequential>
-            </macrodef>
-            
-            <compileJsFile file="war/js/main.js" dest="war/js/main.min.js"/>
-            <compileJsFile file="war/js/account.js" dest="war/js/account.min.js"/>
-            <compileJsFile file="war/js/cards.js" dest="war/js/cards.min.js"/>
-            <compileJsFile file="war/js/preferences.js" dest="war/js/preferences.min.js"/>
-            <compileJsFile file="war/js/tools.js" dest="war/js/tools.min.js"/>
-        </target>
+    <target name="compileJs" 
+            description="compiles the javascript source files (non test files)">
+        <macrodef name="compileJsFile">
+            <attribute name="file" />
+            <attribute name="dest" />
+            <sequential>
+                <if>
+                    <not>
+                        <uptodate srcfile="@{file}" targetfile="@{dest}"/>
+                    </not>
+                    <then>
+                        <echo>compiling @{file} to @{dest}</echo>
+                        <java jar="closure/compiler.jar" fork="true" failonerror="true">
+                            <arg value="--js"/>
+                            <arg file="@{file}"/>
+                            <arg value="--js_output_file"/>
+                            <arg file="@{dest}"/>
+                        </java>
+                    </then>
+                </if>
+            </sequential>
+        </macrodef>
+        
+        <compileJsFile file="war/js/main.js" dest="war/js/main.min.js"/>
+        <compileJsFile file="war/js/account.js" dest="war/js/account.min.js"/>
+        <compileJsFile file="war/js/cards.js" dest="war/js/cards.min.js"/>
+        <compileJsFile file="war/js/preferences.js" dest="war/js/preferences.min.js"/>
+        <compileJsFile file="war/js/tools.js" dest="war/js/tools.min.js"/>
+    </target>
 
+    <!-- cleans the minified JavaScript files -->
+    <target name="cleanJs"
+            description="cleans the minified JavaScript files">
+        <delete file="war/js/main.min.js"/>
+        <delete file="war/js/account.min.js"/>
+        <delete file="war/js/cards.min.js"/>
+        <delete file="war/js/preferences.min.js"/>
+        <delete file="war/js/tools.min.js"/>
+    </target>
+    
     <!-- build non test files : compiles then enhance theclass files for GAE persistence -->
     <target name="build" 
             depends="compile, compileJs" 
@@ -312,7 +338,8 @@
         <mkdir dir="jslint/report"/>
         <mkdir dir="jslint/report/xml"/>
         <mkdir dir="jslint/report/html"/>
-        <jslint haltonfailure="false">
+        <jslint haltonfailure="false"
+                options="bitwise, undef, newcap">
             <formatter type="xml" destfile="jslint/report/xml/jslint-report.xml"/>
             <fileset dir="war">
                 <include name="js/main.js"/>

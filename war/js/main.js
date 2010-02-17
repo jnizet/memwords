@@ -402,14 +402,30 @@ m.install = function() {
         });
         
         function adjustSideBarHeight() {
+            var sideBar = $("#sidebar");
+            // if the original height of the side bar hasn't been stored yet, store it
+            if (!sideBar.data("originalHeight")) {
+                sideBar.data("originalHeight", sideBar.height());
+            }
             var bodyHeight = $("body").outerHeight();
             var viewportHeight = $(window).height();
-            if (bodyHeight < viewportHeight) {
-                var sideBar = $("#sidebar");
-                var newMinHeight = (sideBar.height() + (viewportHeight - bodyHeight)) + "px";
-                sideBar.css("min-height", newMinHeight);
+            // if body height isn't the same as the viewport height, we adjust the size of the sidebar
+            if (bodyHeight != viewportHeight) {
+                // the container is perhaps bigger than the side bar. In this case, it's the container's height
+                // that constitutes the perceived height of the side bar.
+                var sideBarHeight = sideBar.height();
+                var containerHeight = $("#container").height();
+                var currentHeight = sideBarHeight > containerHeight ? sideBarHeight : containerHeight;
+                // we set the height of the side bar so that it's at least equal to its original height,
+                // ant so that the body fills the viewport 
+                var newHeight = (currentHeight + (viewportHeight - bodyHeight));
+                if (newHeight < sideBar.data("originalHeight")) {
+                    newHeight = sideBar.data("originalHeight");
+                }
+                sideBar.css("height", newHeight);
             }
-        };
+        }
+        
         adjustSideBarHeight();
         $(window).resize(adjustSideBarHeight);
     });
