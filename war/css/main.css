@@ -77,6 +77,10 @@ body {
   margin-right: 20px;
   -moz-border-radius-bottomleft: 3px;
   -moz-border-radius-bottomright: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -khtml-border-radius-bottomleft: 3px;
+  -khtml-border-radius-bottomright: 3px;
 }
 #messagesControl {
   display: none;
