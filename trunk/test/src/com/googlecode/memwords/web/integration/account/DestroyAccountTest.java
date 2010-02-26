@@ -48,7 +48,7 @@ public class DestroyAccountTest {
         HtmlForm form = page.getHtmlElementById("destroyAccountForm");
         page = form.getInputByValue("Yes, destroy").click();
         testTitle(page, "Remembers your passwords");
-        assertNotNull(getSideBarLink(page, "Log in"));
+        assertNotNull(getMenuLink(page, "Log in"));
         testMessageExists(page, "The account has been destroyed.");
     }
 

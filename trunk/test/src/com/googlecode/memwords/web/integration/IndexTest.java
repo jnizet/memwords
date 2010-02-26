@@ -29,18 +29,18 @@ public class IndexTest {
     }
 
     @Test
-    public void testSideBarLinks() throws Exception {
+    public void testMenuBarLinks() throws Exception {
         WebClient wc = startWebClient();
         HtmlPage page = wc.getPage(url("/"));
-        HtmlAnchor loginLink = getSideBarLink(page, "Log in");
+        HtmlAnchor loginLink = getMenuLink(page, "Log in");
         HtmlPage loginPage = loginLink.click();
         testTitle(loginPage, "Log in");
 
-        HtmlAnchor createAccountLink = getSideBarLink(page, "Create account");
+        HtmlAnchor createAccountLink = getMenuLink(page, "Create account");
         HtmlPage createAccountPage = createAccountLink.click();
         testTitle(createAccountPage, "Create an account");
 
-        HtmlAnchor toolsLink = getSideBarLink(page, "Tools");
+        HtmlAnchor toolsLink = getMenuLink(page, "Tools");
         HtmlPage toolsPage = toolsLink.click();
         testTitle(toolsPage, "Tools");
     }

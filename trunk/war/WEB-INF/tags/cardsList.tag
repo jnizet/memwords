@@ -44,5 +44,6 @@
         </a>
       </div>
     </div>
+    <c:if test="${(varStatus.index + 1) % 2 == 0}"><div class="clear"></div></c:if>
   </c:forEach>
 </div>

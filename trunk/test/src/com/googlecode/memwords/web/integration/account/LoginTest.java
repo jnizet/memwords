@@ -52,23 +52,23 @@ public class LoginTest {
     }
 
     @Test
-    public void testSidebarLinks() throws Exception {
+    public void testMenuBarLinks() throws Exception {
         WebClient wc = startWebClient();
         login(wc);
         HtmlPage page = wc.getPage(url("/"));
-        HtmlAnchor cardsLink = getSideBarLink(page, "Cards");
+        HtmlAnchor cardsLink = getMenuLink(page, "Cards");
         HtmlPage cardsPage = cardsLink.click();
         testTitle(cardsPage, "Cards");
 
-        HtmlAnchor toolsLink = getSideBarLink(page, "Tools");
+        HtmlAnchor toolsLink = getMenuLink(page, "Tools");
         HtmlPage toolsPage = toolsLink.click();
         testTitle(toolsPage, "Tools");
 
-        HtmlAnchor accountLink = getSideBarLink(page, "Account");
+        HtmlAnchor accountLink = getMenuLink(page, "Account");
         HtmlPage accountPage = accountLink.click();
         testTitle(accountPage, "Account");
 
-        HtmlAnchor logoutLink = getSideBarLink(page, "Log out");
+        HtmlAnchor logoutLink = getMenuLink(page, "Log out");
         HtmlPage indexPage = logoutLink.click();
         testTitle(indexPage, "Remembers your passwords");
         // try to re-click on the cards link : the login page should be displayed

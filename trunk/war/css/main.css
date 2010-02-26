@@ -11,29 +11,28 @@ body {
   background-color: white;
   overflow: hidden;
   margin: 0;
-  padding-left: 125px; /* The width of the rail */
 }
 * html #container {
   height: 1%; /* So IE plays nice */
 }
 #content {
   width: 100%;
-  border-left: 125px solid #336699; /* The width and color of the rail */
-  margin-left: -125px; /* Hat tip to Ryan Brill */
-  float: right;
-}
-#sidebar {
-  background-color: #336699;
-  width: 125px;
-  float: left;
-  margin-left: -125px;
-  display: inline; /* So IE plays nice */
 }
 div#loading {
   float: right;
   display: none;
 }
-
+#menuBar {
+  background-color: #336699;
+  margin: 0;
+  padding: 2px;
+  overflow: auto;
+}
+#menuBar li {
+  display: block;
+  float: left;
+  list-style-type: none;
+}
 /**
  * style
  */
@@ -54,20 +53,22 @@ body {
 #footer {
   font-size : 8pt;
 }
-#header a, #footer a, #sidebar a {
+#header a, #footer a, #menuBar a {
   color: white;
 }
-#header a {
+#header a, #menuBar a {
   text-decoration: none;
 }
-#sidebar {
-  color: white;
+#menuBar a {
+  font-weight: bold;
+  display: block;
+  padding: 1px 10px 1px 10px;
 }
-#sidebar div.menu {
-  padding: 10px;	
+#menuBar li:hover {
+  background-color: #134879;
 }
 #messages, #body {
-  padding: 3px 10px 3px 10px;
+  padding: 3px 20px 3px 20px;
 }
 #messages {
   border-bottom : 1px solid #134879;
@@ -105,6 +106,7 @@ span.message {
 ul.errors {
   color : red;
   font-weight: bold;
+  padding: 0 10px 0 10px;
 }
 ul.errors li {
   list-style-type: none;
@@ -115,12 +117,16 @@ ul.errors li {
 ul.messages {
   color : green;
   font-weight: bold;
+  padding: 0 10px 0 10px;
 }
 ul.messages li {
   list-style-type: none;
   background-image: url(../img/success.png);
   background-repeat: no-repeat;
   padding-left: 25px;
+}
+#body {
+  min-width: 984px;
 }
 #body div {
   padding: 3px;
@@ -144,9 +150,9 @@ div.card, div#cardDetails, div#features, div#resume {
   -khtml-border-radius: 3px;
 }
 div.card {
-  min-width: 150px;
-  max-width: 290px;
+  width: 180px;
   position: relative;
+  float: left;
 }
 div#cardDetails {
   min-width: 400px;
@@ -320,4 +326,10 @@ div.screenshot {
   position: absolute;
   top: 0;
   left: 112px;
+}
+#body div.clear {
+  visibility: hidden;
+  padding: 0;
+  margin: 0;
+  clear: both;
 }

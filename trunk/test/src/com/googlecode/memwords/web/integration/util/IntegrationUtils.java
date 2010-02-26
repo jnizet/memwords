@@ -25,9 +25,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
 public final class IntegrationUtils {
 
     /**
-     * The sidebar HTML ID
+     * The menu bar HTML ID
      */
-    public static final String SIDE_BAR_HTML_ID = "sidebar";
+    public static final String MENU_BAR_HTML_ID = "menuBar";
 
     private IntegrationUtils() {
     }
@@ -108,15 +108,15 @@ public final class IntegrationUtils {
     }
 
     /**
-     * Gets a side bar link
+     * Gets a menu link
      * @param page the page
      * @param text the text of the link
      * @return the link
      * @throws ElementNotFoundException if the link is not found
      */
-    public static HtmlAnchor getSideBarLink(HtmlPage page, String text) {
-        HtmlDivision sideBar = page.getHtmlElementById(SIDE_BAR_HTML_ID);
-        return getFirstLinkByText(sideBar, text);
+    public static HtmlAnchor getMenuLink(HtmlPage page, String text) {
+        HtmlElement menuBar = page.getHtmlElementById(MENU_BAR_HTML_ID);
+        return getFirstLinkByText(menuBar, text);
     }
 
     /**
