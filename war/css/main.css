@@ -64,6 +64,11 @@ body {
   display: block;
   padding: 1px 10px 1px 10px;
 }
+#menuBar li {
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -khtml-border-radius: 6px;
+}
 #menuBar li:hover {
   background-color: #134879;
 }
@@ -163,11 +168,6 @@ div#cardDetails {
 div#cardDetails h2 a {
   text-decoration: none;
 }
-div.spacer {
-  clear: both;
-  height: 0;
-  padding: 0 !important;
-}
 div.card a {
   font-weight: bold;
   display: block;
@@ -187,7 +187,7 @@ div.cardLinks {
 div.cardLinks a {
   display: inline;
 }
-div.cardLinks a img{
+div.cardLinks a img {
   border: 1px solid transparent;
 }
 div.cardLinks a img:hover {
@@ -332,4 +332,40 @@ div.screenshot {
   padding: 0;
   margin: 0;
   clear: both;
+}
+
+/**
+ * Icon links
+ */
+a.icon {
+  background-position: left center;
+  background-repeat: no-repeat;
+  padding-left: 18px;
+}
+a.createCard {
+  background-image: url(../img/add.png);
+}
+a.modifyCard {
+  background-image: url(../img/modify.png);
+}
+a.deleteCard {
+  background-image: url(../img/delete.png);
+}
+a.changeMasterPassword {
+  background-image: url(../img/key.png);
+}
+a.destroyAccount {
+  background-image: url(../img/delete.png);
+}
+a.changePreferredLocale {
+  background-image: url(../img/locale.png);
+}
+a.changePreferredTimeZone {
+  background-image: url(../img/timezone.png);
+}
+a.changePasswordPreferences {
+  background-image: url(../img/key.png);
+}
+a.changePasswordGenerationPreferences {
+  background-image: url(../img/generation.png);
 }

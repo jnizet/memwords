@@ -10,7 +10,7 @@
   <h2>Points clés</h2>
   <ul>
     <li>Complètement gratuit, et libre.</li>
-    <li>Créez autant de compte que vous le désirez, contenant autant de cartes que vous le désirez.</li>
+    <li>Créez autant de comptes que vous le désirez, contenant autant de cartes que vous le désirez.</li>
     <li>Trafic sécurisé par SSL.</li>
     <li>Toutes les données sensibles sont encryptées en base de données.</li>
     <li>Les icônes de vos sites web sont automatiquement trouvées et utilisées.</li>

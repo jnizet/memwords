@@ -52,20 +52,20 @@
     </tr>
   </table>
   <div id="cardDetailsLinks">
-      <fmt:message key="cards._cardDetails.modifyCardLink" var="modifyCardLink"/>
       <stripes:link beanclass="com.googlecode.memwords.web.cards.ModifyCardActionBean"
-                    id="modifyCardLink"><img src="<c:url value="/img/modify.png"/>" class="cardIcon" alt="${modifyCardLink}" />${modifyCardLink}
+                    id="modifyCardLink"
+                    class="icon modifyCard"><fmt:message key="cards._cardDetails.modifyCardLink"/>
         <stripes:param name="cardId" value="${card.id}" />
       </stripes:link>
       <br/>
-      <fmt:message key="cards._cardDetails.deleteCardLink" var="deleteCardLink"/>
       <stripes:link beanclass="com.googlecode.memwords.web.cards.DeleteCardActionBean"
-                    id="deleteCardLink"><img src="<c:url value="/img/delete.png"/>" class="cardIcon" alt="${deleteCardLink}" />${deleteCardLink}
+                    id="deleteCardLink"
+                    class="icon deleteCard"><fmt:message key="cards._cardDetails.deleteCardLink"/>
         <stripes:param name="cardId" value="${card.id}" />
       </stripes:link>
       <br/>
-      <fmt:message key="cards._cardDetails.createCardLink" var="createCardLink"/>
       <stripes:link beanclass="com.googlecode.memwords.web.cards.CreateCardActionBean" 
-                    id="createCardLink"><img src="<c:url value="/img/add.png"/>" class="cardIcon" alt="${createCardLink}"/>${createCardLink}</stripes:link>
+                    id="createCardLink"
+                    class="icon createCard"><fmt:message key="cards._cardDetails.createCardLink"/></stripes:link>
   </div>
 </div>
