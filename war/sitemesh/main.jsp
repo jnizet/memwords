@@ -35,6 +35,7 @@
     </div>
     <div id="container">
       <div id="content">
+        <%@ include file="_menuBar.jsp" %>
         <div id="messagesContainer">
           <div id="messagesControl">
             <a id="hideMessagesLink" href="#" title="<fmt:message key="main.hideMessagePanelLinkTitle"/>"><img src="<c:url value="/img/up.png"/>" width="16" height="16" alt="<fmt:message key="main.hideMessagePanelLinkTitle"/>"/></a>
@@ -45,9 +46,6 @@
         <div id="body">
           <decorator:body />
         </div>
-      </div>
-      <div id="sidebar">
-        <%@ include file="_menu.jsp" %>
       </div>
     </div>
     <div id="footer">
