@@ -28,7 +28,7 @@
     <p>
       <fmt:message key="tools.tools.evalPasswordStrengthExplanation"/>
     </p>
-    <form id="evalPasswordStrengthForm">
+    <form id="evalPasswordStrengthForm" action="#">
       <table>
         <tr>
           <th><label for="passwordToEval"><fmt:message key="tools.tools.passwordToEvalLabel"/></label></th>

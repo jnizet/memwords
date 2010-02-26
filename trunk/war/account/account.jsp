@@ -16,14 +16,12 @@
   <h1><fmt:message key="account.account.h1"/></h1>
 
   <div>
-    <stripes:link beanclass="com.googlecode.memwords.web.account.ChangeMasterPasswordActionBean">
-      <img class="icon" alt="" src="<c:url value="/img/key.png"/>"/>
-      <fmt:message key="account.account.changeMasterPassword"/></stripes:link>
+    <stripes:link beanclass="com.googlecode.memwords.web.account.ChangeMasterPasswordActionBean"
+                  class="icon changeMasterPassword"><fmt:message key="account.account.changeMasterPassword"/></stripes:link>
   </div>
   <div>
-    <stripes:link beanclass="com.googlecode.memwords.web.account.DestroyAccountActionBean">
-      <img class="icon" alt="" src="<c:url value="/img/delete.png"/>"/>
-      <fmt:message key="account.account.destroyAccount"/></stripes:link>
+    <stripes:link beanclass="com.googlecode.memwords.web.account.DestroyAccountActionBean"
+                  class="icon destroyAccount"><fmt:message key="account.account.destroyAccount"/></stripes:link>
   </div>
 </body>
 </html>

@@ -16,7 +16,7 @@
     <!--[if IE]>
       <link rel="stylesheet" type="text/css" href="<c:url value="/css/ie.css"/>"/>
     <![endif]-->
-    <script type="text/javascript" src="<c:url value="/js/jquery-1.3.2.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/js/jquery-1.3.2.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/js/jquery-ui-1.7.2.custom.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/js/jquery.form.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/js/main.min.js" />"></script>
