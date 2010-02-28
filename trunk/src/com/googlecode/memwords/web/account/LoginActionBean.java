@@ -13,6 +13,8 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.Validate;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import com.google.inject.Inject;
 import com.googlecode.memwords.domain.HistoricLogin;
 import com.googlecode.memwords.domain.UserInformation;
@@ -21,6 +23,7 @@ import com.googlecode.memwords.facade.loginhistory.LoginHistoryService;
 import com.googlecode.memwords.web.IndexActionBean;
 import com.googlecode.memwords.web.MwActionBean;
 import com.googlecode.memwords.web.cards.CardsActionBean;
+import com.googlecode.memwords.web.loginhistory.LoginHistoryActionBean;
 import com.googlecode.memwords.web.util.ScopedLocalizableMessage;
 
 /**
@@ -109,11 +112,16 @@ public class LoginActionBean extends MwActionBean {
             dateFormat.setTimeZone(timeZone);
             DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM, getContext().getLocale());
             timeFormat.setTimeZone(timeZone);
+            RedirectResolution loginHistoryResolution = new RedirectResolution(LoginHistoryActionBean.class);
+            String loginHistoryUrl =
+                StringEscapeUtils.escapeHtml(
+                     loginHistoryResolution.getUrl(getContext().getLocale()));
             getContext().getMessages().add(new ScopedLocalizableMessage(LoginActionBean.class,
                                                                         "loginSucceededWithLastLogin",
                                                                         dateFormat.format(historicLogin.getDate()),
                                                                         timeFormat.format(historicLogin.getDate()),
-                                                                        historicLogin.getIp()));
+                                                                        historicLogin.getIp(),
+                                                                        loginHistoryUrl));
         }
 
         if (requestedUrl != null) {
