@@ -88,4 +88,20 @@ public class LoginTest {
         page = login(wc);
         testMessageExists(page, "Welcome back. Your last login was on ");
     }
+
+    @Test
+    public void testWelcomeBackMessageLink() throws Exception {
+        WebClient wc = startWebClient();
+        // first login ever : no welcome back message
+        HtmlPage page = login(wc);
+        assertTrue(page.getHtmlElementById("messages").asText().isEmpty());
+
+        wc = startWebClient();
+        // second login : welcome back message
+        page = login(wc);
+        HtmlAnchor loginHistoryLink =
+            getFirstLinkByText(page.getHtmlElementById("messages"), "login history");
+        page = loginHistoryLink.click();
+        testTitle(page, "Login history");
+    }
 }
