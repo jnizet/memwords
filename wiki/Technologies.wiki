@@ -4,7 +4,7 @@
 MemWords is developed in Java.
 It uses [http://www.stripesframework.org/ Stripes] as its UI framework, combined with [http://www.opensymphony.com/sitemesh/ Sitemesh] for the page layout, and [http://jquery.com/ JQuery] as Javascript library. 
 
-MemWords also used a dependency injection framework: [http://code.google.com/p/google-guice/ Guice]. Guice is integrated into Stripes using [http://code.google.com/p/stripes-guicer/ stripes-guicer].
+MemWords also uses a dependency injection framework: [http://code.google.com/p/google-guice/ Guice]. Guice is integrated into Stripes using [http://code.google.com/p/stripes-guicer/ stripes-guicer].
 
 The project is built using [http://ant.apache.org Ant].
 
