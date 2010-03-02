@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import javax.crypto.SecretKey;
@@ -99,7 +100,7 @@ public class IntegrationTestsActionBean extends MwActionBean {
         Class<?> touchCollectorClass = Class.forName(touchCollectorClassName);
 
         String methodName = "applyTouchesOnProjectData";
-        java.lang.reflect.Method applyTouchesOnProjectDataMethod =
+        Method applyTouchesOnProjectDataMethod =
             touchCollectorClass.getDeclaredMethod(methodName, new Class[] {projectDataClass});
         applyTouchesOnProjectDataMethod.invoke(null, projectData);
 
