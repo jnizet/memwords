@@ -80,6 +80,7 @@ public class IntegrationTestsActionBean extends MwActionBean {
      * Dumps the cobertura data to the response, as a serialized object.
      * It uses reflection so that the method compiles even if cobertura is not in the classpath
      * @return <code>null</code>, because this event handler writes everything needed to the response
+     * @throws InstantiationException
      */
     @DefaultHandler
     public Resolution flushCobertura() throws ClassNotFoundException,
@@ -88,19 +89,25 @@ public class IntegrationTestsActionBean extends MwActionBean {
                                               IllegalArgumentException,
                                               IllegalAccessException,
                                               InvocationTargetException,
-                                              IOException {
-        String className = "net.sourceforge.cobertura.coveragedata.ProjectData";
-        String methodName = "getGlobalProjectData";
-        Class<?> projectDataClass = Class.forName(className);
-        java.lang.reflect.Method getGlobalProjectDataMethod =
-            projectDataClass.getDeclaredMethod(methodName, new Class[0]);
-        Object globalProjectData = getGlobalProjectDataMethod.invoke(null, new Object[0]);
+                                              IOException,
+                                              InstantiationException {
+        String projectDataClassName = "net.sourceforge.cobertura.coveragedata.ProjectData";
+        Class<?> projectDataClass = Class.forName(projectDataClassName);
+        Object projectData = projectDataClass.newInstance();
+
+        String touchCollectorClassName = "net.sourceforge.cobertura.coveragedata.TouchCollector";
+        Class<?> touchCollectorClass = Class.forName(touchCollectorClassName);
+
+        String methodName = "applyTouchesOnProjectData";
+        java.lang.reflect.Method applyTouchesOnProjectDataMethod =
+            touchCollectorClass.getDeclaredMethod(methodName, new Class[] {projectDataClass});
+        applyTouchesOnProjectDataMethod.invoke(null, projectData);
 
         getContext().getResponse().setContentType("application/octet-stream");
         OutputStream out = getContext().getResponse().getOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(out);
         try {
-            oos.writeObject(globalProjectData);
+            oos.writeObject(projectData);
         }
         finally {
             oos.close();
