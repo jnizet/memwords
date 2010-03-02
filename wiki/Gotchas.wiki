@@ -55,34 +55,36 @@ Even if we stop the server manually, Cobertura tries to write to a file, but it 
 
 !HtmlUnit is once again the solution here. First we add an event method to the action bean that sets up the test data set. This event method will get the cobertura data, and write them into the HTTP response instead of writing them to a file. We do this by reflection so that it compiles even when Cobertura is not in the classpath :
 {{{
-   public Resolution flushCobertura() throws ClassNotFoundException,
+    public Resolution flushCobertura() throws ClassNotFoundException,
                                               SecurityException,
                                               NoSuchMethodException,
                                               IllegalArgumentException,
                                               IllegalAccessException,
                                               InvocationTargetException,
-                                              IOException {
-        System.out.println("flushing cobertura...");
-        String className = "net.sourceforge.cobertura.coveragedata.ProjectData";
-        String methodName = "getGlobalProjectData";
-        Class<?> projectDataClass = Class.forName(className);
-        java.lang.reflect.Method getGlobalProjectDataMethod =
-            projectDataClass.getDeclaredMethod(methodName, new Class[0]);
-        Object globalProjectData = getGlobalProjectDataMethod.invoke(null, new Object[0]);
+                                              IOException,
+                                              InstantiationException {
+        String projectDataClassName = "net.sourceforge.cobertura.coveragedata.ProjectData";
+        Class<?> projectDataClass = Class.forName(projectDataClassName);
+        Object projectData = projectDataClass.newInstance();
 
-        System.out.println("global project data obtained : " + globalProjectData);
+        String touchCollectorClassName = "net.sourceforge.cobertura.coveragedata.TouchCollector";
+        Class<?> touchCollectorClass = Class.forName(touchCollectorClassName);
+
+        String methodName = "applyTouchesOnProjectData";
+        java.lang.reflect.Method applyTouchesOnProjectDataMethod =
+            touchCollectorClass.getDeclaredMethod(methodName, new Class[] {projectDataClass});
+        applyTouchesOnProjectDataMethod.invoke(null, projectData);
 
         getContext().getResponse().setContentType("application/octet-stream");
         OutputStream out = getContext().getResponse().getOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(out);
         try {
-            oos.writeObject(globalProjectData);
+            oos.writeObject(projectData);
         }
         finally {
             oos.close();
         }
 
-        System.out.println("cobertura flushed");
         return null;
     }
 }}}
