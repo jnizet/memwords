@@ -59,7 +59,7 @@ public class CardDetailsTest {
 
         HtmlAnchor urlLink = getFirstLinkByText(detailsDiv, "http://www.google.com");
         HtmlPage urlPage = urlLink.click();
-        assertTrue(urlPage.asXml().contains("Google"));
+        assertTrue(urlPage.getTitleText().contains("Google"));
 
         // test that the Javascript doesn't blow up
         HtmlAnchor unmaskLink = getFirstLinkByText(detailsDiv, "Unmask");

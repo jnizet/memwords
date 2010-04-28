@@ -29,7 +29,7 @@
       <td>
         <c:choose>
           <c:when test="${!empty card.absolutizedUrl}">
-            <a class="external" target="_blank" href="<c:out value="${absolutizedUrl}"/>"><c:out value="${card.url}"/></a>
+            <a class="external" target="_blank" href="<c:out value="${card.absolutizedUrl}"/>"><c:out value="${card.url}"/></a>
           </c:when>
           <c:otherwise>
             <c:out value="${card.url}"/>
