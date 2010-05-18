@@ -109,6 +109,7 @@ public class ModifyCardActionBean extends AbstractEditCardActionBean implements 
         this.password = card.getPassword();
         this.url = card.getUrl();
         this.iconUrl = card.getIconUrl();
+        this.note = card.getNote();
     }
 
     /**
