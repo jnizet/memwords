@@ -45,6 +45,19 @@ public class ModifyCardTest extends EditCardTestBase {
     }
 
     @Test
+    public void testForm() throws Exception {
+        WebClient wc = startWebClient();
+        HtmlPage page = goToModifyPage(wc);
+
+        HtmlForm form = page.getHtmlElementById("modifyCardForm");
+        assertEquals("card1", form.getInputByName("name").asText());
+        assertEquals("login1", form.getInputByName("login").asText());
+        assertEquals("password1", form.getInputByName("password").asText());
+        assertEquals("http://www.google.com", form.getInputByName("url").asText());
+        assertEquals("This is the note\r\nfor card1", form.getTextAreaByName("note").asText());
+    }
+
+    @Test
     public void testIconUrlLoading() throws Exception {
         WebClient wc = startWebClient();
         HtmlPage page = goToModifyPage(wc);
