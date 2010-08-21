@@ -6,7 +6,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="${pageContext.request.locale.language}">
   <head>
     <title><fmt:message key="main.titlePrefix"/><decorator:title default="" /></title>
@@ -31,15 +32,20 @@
   <body>
     <div id="header">
       <a href="<c:url value="/Index.action"/>"><fmt:message key="main.header.appNameAndVersion"/></a>
-      <div id="loading"><img src="<c:url value="/img/busy_big.gif"/>" width="32" height="32" alt="<fmt:message key="main.loadingMessage"/>" title="<fmt:message key="main.loadingMessage"/>"/></div>
+      <div id="loading"><img src="<c:url value="/img/busy_big.gif"/>" width="32" height="32" alt="<fmt:message 
+        key="main.loadingMessage"/>" title="<fmt:message key="main.loadingMessage"/>"/></div>
     </div>
     <div id="container">
       <div id="content">
         <%@ include file="_menuBar.jsp" %>
         <div id="messagesContainer">
           <div id="messagesControl">
-            <a id="hideMessagesLink" href="#" title="<fmt:message key="main.hideMessagePanelLinkTitle"/>"><img src="<c:url value="/img/up.png"/>" width="16" height="16" alt="<fmt:message key="main.hideMessagePanelLinkTitle"/>"/></a>
-            <a id="showMessagesLink" href="#" title="<fmt:message key="main.showMessagePanelLinkTitle"/>"><img src="<c:url value="/img/down.png"/>" width="16" height="16" alt="<fmt:message key="main.showMessagePanelLinkTitle"/>"/></a>
+            <a id="hideMessagesLink" href="#" title="<fmt:message key="main.hideMessagePanelLinkTitle"/>"><img 
+              src="<c:url value="/img/up.png"/>" width="16" height="16" 
+              alt="<fmt:message key="main.hideMessagePanelLinkTitle"/>"/></a>
+            <a id="showMessagesLink" href="#" title="<fmt:message key="main.showMessagePanelLinkTitle"/>"><img 
+              src="<c:url value="/img/down.png"/>" width="16" height="16" 
+              alt="<fmt:message key="main.showMessagePanelLinkTitle"/>"/></a>
           </div>
           <tags:messages/>
         </div>

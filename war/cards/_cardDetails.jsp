@@ -20,8 +20,10 @@
       <tags:help key="cards._cardDetails.maskedPasswordHelp" 
                  id="passwordHelp"
                  hidden="${actionBean.passwordsUnmasked}"/>
-      <a href="#" style="display: none;" id="unmaskPasswordLink"><fmt:message key="cards._cardDetails.unmaskLink"/></a>
-      <a href="#" style="display: none;" id="maskPasswordLink"><fmt:message key="cards._cardDetails.maskLink"/></a>
+      <a href="#" style="display: none;" id="unmaskPasswordLink"><fmt:message 
+        key="cards._cardDetails.unmaskLink"/></a>
+      <a href="#" style="display: none;" id="maskPasswordLink"><fmt:message 
+        key="cards._cardDetails.maskLink"/></a>
       </td>
     </tr>
     <tr>
@@ -29,7 +31,8 @@
       <td>
         <c:choose>
           <c:when test="${!empty card.absolutizedUrl}">
-            <a class="external" target="_blank" href="<c:out value="${card.absolutizedUrl}"/>"><c:out value="${card.url}"/></a>
+            <a class="external" target="_blank" href="<c:out value="${card.absolutizedUrl}"/>"><c:out 
+              value="${card.url}"/></a>
           </c:when>
           <c:otherwise>
             <c:out value="${card.url}"/>
@@ -46,7 +49,8 @@
         <stripes:form beanclass="com.googlecode.memwords.web.cards.DisplayCardActionBean"
                       id="cardDetailsForm">
           <stripes:url var="cardsUrl" beanclass="com.googlecode.memwords.web.cards.CardsActionBean" />
-          <stripes:submit name="cancel" id="cancelButton"><fmt:message key="cards._cardDetails.closeButton"/></stripes:submit>
+          <stripes:submit name="cancel" id="cancelButton"><fmt:message 
+            key="cards._cardDetails.closeButton"/></stripes:submit>
         </stripes:form>
       </td>
     </tr>

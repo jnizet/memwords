@@ -16,8 +16,10 @@
     </tr>
     <tr>
       <td colspan="2">
-        <stripes:submit name="change"><fmt:message key="preferences._changePreferredTimeZone.submitButton"/></stripes:submit>
-        <stripes:submit name="cancel" id="cancelButton"><fmt:message key="preferences._changePreferredTimeZone.cancelButton"/></stripes:submit>
+        <stripes:submit name="change"><fmt:message 
+        key="preferences._changePreferredTimeZone.submitButton"/></stripes:submit>
+        <stripes:submit name="cancel" id="cancelButton"><fmt:message 
+        key="preferences._changePreferredTimeZone.cancelButton"/></stripes:submit>
       </td>
     </tr>
   </table>

@@ -17,22 +17,26 @@
       <th><fmt:message key="preferences._changePasswordGenerationPreferences.includeLabel"/></th>
       <td>
         <stripes:checkbox name="lowerCaseLettersIncluded" id="lowerCaseLettersIncluded" value="true"/>
-        <label for="lowerCaseLettersIncluded"><fmt:message key="preferences._changePasswordGenerationPreferences.lowerCaseLetters"/></label>
+        <label for="lowerCaseLettersIncluded"><fmt:message 
+          key="preferences._changePasswordGenerationPreferences.lowerCaseLetters"/></label>
       </td>
       <td>
         <stripes:checkbox name="upperCaseLettersIncluded" id="upperCaseLettersIncluded" value="true"/>
-        <label for="upperCaseLettersIncluded"><fmt:message key="preferences._changePasswordGenerationPreferences.upperCaseLetters"/></label>
+        <label for="upperCaseLettersIncluded"><fmt:message 
+          key="preferences._changePasswordGenerationPreferences.upperCaseLetters"/></label>
       </td>
     </tr>
     <tr>
       <td></td>
       <td>
         <stripes:checkbox name="digitsIncluded" id="digitsIncluded" value="true"/>
-        <label for="digitsIncluded"><fmt:message key="preferences._changePasswordGenerationPreferences.digits"/></label>
+        <label for="digitsIncluded"><fmt:message 
+          key="preferences._changePasswordGenerationPreferences.digits"/></label>
       </td>
       <td>
         <stripes:checkbox name="specialCharactersIncluded" id="specialCharactersIncluded" value="true"/>
-        <label for="specialCharactersIncluded"><fmt:message key="preferences._changePasswordGenerationPreferences.specialCharacters"/></label>
+        <label for="specialCharactersIncluded"><fmt:message 
+          key="preferences._changePasswordGenerationPreferences.specialCharacters"/></label>
       </td>
     </tr>
     <tr style="display: none;" id="strengthSection">
@@ -43,8 +47,10 @@
     </tr>
     <tr>
       <td colspan="3">
-        <stripes:submit name="change" id="submitButton"><fmt:message key="preferences._changePasswordGenerationPreferences.submitButton"/></stripes:submit>
-        <stripes:submit name="cancel" id="cancelButton"><fmt:message key="preferences._changePasswordGenerationPreferences.cancelButton"/></stripes:submit>
+        <stripes:submit name="change" id="submitButton"><fmt:message 
+          key="preferences._changePasswordGenerationPreferences.submitButton"/></stripes:submit>
+        <stripes:submit name="cancel" id="cancelButton"><fmt:message 
+          key="preferences._changePasswordGenerationPreferences.cancelButton"/></stripes:submit>
       </td>
     </tr>
   </table>
