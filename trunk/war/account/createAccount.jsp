@@ -6,7 +6,8 @@
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -31,18 +32,21 @@
         <td><stripes:text name="userId" id="userId" /><span id="userIdAvailability"></span></td>
       </tr>
       <tr>
-        <th class="topText"><label class="required" for="masterPassword"><fmt:message key="account.createAccount.masterPasswordLabel"/></label></th>
+        <th class="topText"><label class="required" for="masterPassword"><fmt:message 
+          key="account.createAccount.masterPasswordLabel"/></label></th>
         <td>
           <stripes:password name="masterPassword" id="masterPassword"/>
           <div class="strength" id="strength" title="<fmt:message key="main.passwordStrength"/>"></div>
         </td>
       </tr>
       <tr>
-        <th><label class="required" for="masterPassword2"><fmt:message key="account.createAccount.masterPasswordConfirmationLabel"/></label></th>
+        <th><label class="required" for="masterPassword2"><fmt:message 
+          key="account.createAccount.masterPasswordConfirmationLabel"/></label></th>
         <td><stripes:password name="masterPassword2" id="masterPassword2"/></td>
       </tr>
       <tr>
-        <td colspan="2"><stripes:submit name="createAccount"><fmt:message key="account.createAccount.createAccountButton"/></stripes:submit></td>
+        <td colspan="2"><stripes:submit name="createAccount"><fmt:message 
+          key="account.createAccount.createAccountButton"/></stripes:submit></td>
       </tr>
     </table>
   </stripes:form>

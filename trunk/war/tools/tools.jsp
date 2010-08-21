@@ -6,7 +6,8 @@
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -57,11 +58,13 @@
         <tr>
           <th><fmt:message key="tools.tools.includeLabel"/></th>
           <td>
-            <stripes:checkbox name="passwordGenerationPreferences.lowerCaseLettersIncluded" id="lowerCaseLettersIncluded"/>
+            <stripes:checkbox name="passwordGenerationPreferences.lowerCaseLettersIncluded" 
+                              id="lowerCaseLettersIncluded"/>
             <label for="lowerCaseLettersIncluded"><fmt:message key="tools.tools.lowerCaseLetters"/></label>
           </td>
           <td>
-            <stripes:checkbox name="passwordGenerationPreferences.upperCaseLettersIncluded" id="upperCaseLettersIncluded"/>
+            <stripes:checkbox name="passwordGenerationPreferences.upperCaseLettersIncluded" 
+                              id="upperCaseLettersIncluded"/>
             <label for="upperCaseLettersIncluded"><fmt:message key="tools.tools.upperCaseLetters"/></label>
           </td>
         </tr>
@@ -72,7 +75,8 @@
             <label for="digitsIncluded"><fmt:message key="tools.tools.digits"/></label>
           </td>
           <td>
-            <stripes:checkbox name="passwordGenerationPreferences.specialCharactersIncluded" id="specialCharactersIncluded"/>
+            <stripes:checkbox name="passwordGenerationPreferences.specialCharactersIncluded" 
+                              id="specialCharactersIncluded"/>
             <label for="specialCharactersIncluded"><fmt:message key="tools.tools.specialCharacters"/></label>
           </td>
         </tr>

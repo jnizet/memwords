@@ -6,15 +6,19 @@
     <tr>
       <th class="top"><fmt:message key="preferences._changePasswordPreferences.displayTypeLabel"/></th>
       <td>
-        <stripes:radio value="false" name="unmasked" id="masked"/><label for="masked"><fmt:message key="preferences._changePasswordPreferences.masked"/></label>
+        <stripes:radio value="false" name="unmasked" id="masked"/><label for="masked"><fmt:message 
+          key="preferences._changePasswordPreferences.masked"/></label>
         <br/>
-        <stripes:radio value="true" name="unmasked" id="unmasked"/><label for="unmasked"><fmt:message key="preferences._changePasswordPreferences.unmasked"/></label>
+        <stripes:radio value="true" name="unmasked" id="unmasked"/><label for="unmasked"><fmt:message 
+          key="preferences._changePasswordPreferences.unmasked"/></label>
       </td>
     </tr>
     <tr>
       <td colspan="2">
-        <stripes:submit name="change"><fmt:message key="preferences._changePasswordPreferences.submitButton"/></stripes:submit>
-        <stripes:submit name="cancel" id="cancelButton"><fmt:message key="preferences._changePasswordPreferences.cancelButton"/></stripes:submit>
+        <stripes:submit name="change"><fmt:message 
+          key="preferences._changePasswordPreferences.submitButton"/></stripes:submit>
+        <stripes:submit name="cancel" id="cancelButton"><fmt:message 
+          key="preferences._changePasswordPreferences.cancelButton"/></stripes:submit>
       </td>
     </tr>
   </table>

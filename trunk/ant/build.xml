@@ -386,6 +386,12 @@
                           format="html" 
                           destdir="cobertura/report/html" 
                           srcdir="src" />
+        
+        <mkdir dir="cobertura/report/xml"/>
+        <cobertura-report datafile="${cobertura.datafile}"
+                          format="xml" 
+                          destdir="cobertura/report/xml" 
+                          srcdir="src" />
     </target>
     
     <!-- prepare the cobertura execution by instrumenting the class files
