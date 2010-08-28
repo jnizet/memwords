@@ -18,6 +18,10 @@ import org.datanucleus.jpa.annotations.Extension;
  */
 @SuppressWarnings("serial")
 @Entity
+@edu.umd.cs.findbugs.annotations.SuppressWarnings(
+    value = {"EI_EXPOSE_REP", "EI_EXPOSE_REP2", "SE_TRANSIENT_FIELD_NOT_RESTORED"},
+    justification = "For performance reasons, byte arrays are not clones before being stored/returned."
+                    + "No transient field in the class, except the ones added by JDO instrumentation")
 public class Card implements Serializable {
 
     /**

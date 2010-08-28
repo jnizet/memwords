@@ -2,36 +2,39 @@ package com.googlecode.memwords.domain;
 
 import java.io.Serializable;
 
+import net.jcip.annotations.Immutable;
+
 /**
  * Preferences regarding password generation (immutable value object)
  * @author JB
  */
+@Immutable
 public final class PasswordGenerationPreferences implements Serializable {
 
     /**
      * The preferred password length
      */
-    private int length;
+    private final int length;
 
     /**
      * Include lower-case letters in generated passwords or not
      */
-    private boolean lowerCaseLettersIncluded;
+    private final boolean lowerCaseLettersIncluded;
 
     /**
      * Include upper-case letters in generated passwords or not
      */
-    private boolean upperCaseLettersIncluded;
+    private final boolean upperCaseLettersIncluded;
 
     /**
      * Include digits in generated passwords or not
      */
-    private boolean digitsIncluded;
+    private final boolean digitsIncluded;
 
     /**
      * Include special characters in generated passwords or not
      */
-    private boolean specialCharactersIncluded;
+    private final boolean specialCharactersIncluded;
 
     /**
      * Constructor

@@ -15,6 +15,8 @@ import com.googlecode.memwords.domain.UrlUtils;
 import com.googlecode.memwords.facade.cards.CardService;
 import com.googlecode.memwords.facade.cards.FavIconException;
 
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+
 /**
  * Base class for the action beans handling card creation and modification, providing common
  * methods ant attributes.
@@ -69,6 +71,8 @@ public abstract class AbstractEditCardActionBean extends BaseCardsActionBean {
      * @return a forward resolution which dynamically updates the source page with the icon
      */
     @DontValidate
+    @SuppressWarnings(value = {"DLS_DEAD_LOCAL_STORE"},
+                      justification = "Normal not to use FavIconException")
     public Resolution ajaxGetIcon() {
         try {
             this.iconUrl = cardService.findFavIconUrl(UrlUtils.absolutizeUrl(this.url));
@@ -232,6 +236,8 @@ public abstract class AbstractEditCardActionBean extends BaseCardsActionBean {
      * since the URL is the same as before)
      * @param cardId the ID of the card. <code>null</code> in the case of a creation.
      */
+    @SuppressWarnings(value = {"DLS_DEAD_LOCAL_STORE"},
+                      justification = "Normal not to use FavIconException")
     protected void loadFavIconUrlIfNecessary(String cardId) {
         if (!iconUrlFetched) {
             String previousUrl = null;

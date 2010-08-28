@@ -1,12 +1,16 @@
 package com.googlecode.memwords.domain;
 
+import java.io.Serializable;
 import java.util.Comparator;
+
+import net.jcip.annotations.Immutable;
 
 /**
  * Comparator which sorts {@link CardBasicInformation} instances by name.
  * @author JB
  */
-public final class CardBasicInformationComparator implements Comparator<CardBasicInformation> {
+@Immutable
+public final class CardBasicInformationComparator implements Comparator<CardBasicInformation>, Serializable {
 
     /**
      * A reusable instance of this class, which is thread-safe

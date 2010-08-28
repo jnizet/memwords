@@ -2,27 +2,30 @@ package com.googlecode.memwords.domain;
 
 import java.io.Serializable;
 
+import net.jcip.annotations.Immutable;
+
 /**
  * Basic information about a card (immutable value object), used to display a card list.
  * @author JB
  */
 @SuppressWarnings("serial")
+@Immutable
 public final class CardBasicInformation implements Serializable {
 
     /**
      * The ID of the card
      */
-    private String id;
+    private final String id;
 
     /**
      * The name of the card
      */
-    private String name;
+    private final String name;
 
     /**
      * The URL of the icon of the card (<code>null</code> if it doesn't have one)
      */
-    private String iconUrl;
+    private final String iconUrl;
 
     /**
      * Constructor

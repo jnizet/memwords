@@ -311,6 +311,7 @@
               fork="true">
             <jvmarg line="-Duser.language=en"/>
             <jvmarg line="-Dfindbugs.home=${findbugs.dir}"/>
+            <arg value="-low"/>
             <arg value="-sortByClass"/>
             <arg value="-timestampNow"/>
             <arg value="-xml:withMessages"/>

@@ -4,28 +4,31 @@ import java.io.Serializable;
 
 import javax.crypto.SecretKey;
 
+import net.jcip.annotations.Immutable;
+
 /**
  * Basic user information that is stored in the session once authentication
  * or account creation is done (immutable value object)
  * @author JB
  */
 @SuppressWarnings("serial")
+@Immutable
 public final class UserInformation implements Serializable {
 
     /**
      * The user ID
      */
-    private String userId;
+    private final String userId;
 
     /**
      * The secret key of the account, used to decrypt the information in the account and its cards
      */
-    private SecretKey encryptionKey;
+    private final SecretKey encryptionKey;
 
     /**
      * The preferences of the user
      */
-    private Preferences preferences;
+    private final Preferences preferences;
 
     /**
      * Constructor
