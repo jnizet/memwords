@@ -15,6 +15,8 @@ import javax.crypto.spec.SecretKeySpec;
 import com.google.inject.Singleton;
 import com.googlecode.memwords.domain.ShouldNeverHappenException;
 
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+
 /**
  * Implementation of {@link CryptoEngine}
  * @author JB
@@ -135,6 +137,8 @@ public class CryptoEngineImpl implements CryptoEngine {
     }
 
     @Override
+    @SuppressWarnings(value = {"PZLA_PREFER_ZERO_LENGTH_ARRAYS"},
+                      justification = "It's normal to return null when null is passed")
     public byte[] stringToBytes(String s) {
         if (s == null) {
             return null;
@@ -155,6 +159,8 @@ public class CryptoEngineImpl implements CryptoEngine {
      * @param cryptMode the crypt mode (ENCRYPT or DECRYPT)
      * @return the encrypted or decrypted data
      */
+    @SuppressWarnings(value = {"PZLA_PREFER_ZERO_LENGTH_ARRAYS"},
+                      justification = "It's normal to return null when null is passed")
     private byte[] crypt(byte[] data, SecretKey key, byte[] iv, int cryptMode) {
         try {
             if (key == null) {

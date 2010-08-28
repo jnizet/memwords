@@ -10,6 +10,8 @@ import org.cyberneko.html.HTMLConfiguration;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+
 /**
  * SAX parser used to get the URL of the favIcon declared in an HTML file.
  * @author JB
@@ -37,6 +39,8 @@ public class FavIconSaxParser extends AbstractSAXParser {
      * @throws SAXException if a SAX exception occurs during the parsing
      * @throws IOException if an IO exception occurs during the parsing
      */
+    @SuppressWarnings(value = {"DLS_DEAD_LOCAL_STORE"},
+                      justification = "Normal not to ignore FavIconFoundException")
     public String findFavIcon(InputSource source) throws SAXException, IOException {
         try {
             parse(source);

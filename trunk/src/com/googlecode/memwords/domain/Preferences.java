@@ -4,31 +4,34 @@ import java.io.Serializable;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import net.jcip.annotations.Immutable;
+
 /**
  * Preferences of an account (immutable value object)
  * @author JB
  */
+@Immutable
 public class Preferences implements Serializable {
 
     /**
      * The preferred locale (nullable)
      */
-    private Locale locale;
+    private final Locale locale;
 
     /**
      * The preferred time zone (not nullable)
      */
-    private TimeZone timeZone;
+    private final TimeZone timeZone;
 
     /**
      * Flag indicating if passwords must be unmasked by default
      */
-    private boolean passwordsUnmasked;
+    private final boolean passwordsUnmasked;
 
     /**
      * The password generation preferences (not nullable)
      */
-    private PasswordGenerationPreferences passwordGenerationPreferences;
+    private final PasswordGenerationPreferences passwordGenerationPreferences;
 
     /**
      * Constructor

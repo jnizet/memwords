@@ -10,6 +10,8 @@ import net.sourceforge.stripes.validation.ValidationError;
 import org.apache.commons.lang.LocaleUtils;
 import org.apache.commons.lang.StringUtils;
 
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+
 /**
  * Type converter which transforms strings into Locale instances. Note that the reverse
  * operation is automatic, because the <code>Locale.toString()</code> method does the right thing.
@@ -18,6 +20,8 @@ import org.apache.commons.lang.StringUtils;
 public class LocaleTypeConverter implements TypeConverter<Locale> {
 
     @Override
+    @SuppressWarnings(value = {"DLS_DEAD_LOCAL_STORE"},
+                      justification = "Normal not to use IllegalArgumentException")
     public Locale convert(String input, Class<? extends Locale> targetType, Collection<ValidationError> errors) {
         try {
             if (StringUtils.isBlank(input)) {

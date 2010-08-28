@@ -2,46 +2,49 @@ package com.googlecode.memwords.domain;
 
 import java.io.Serializable;
 
+import net.jcip.annotations.Immutable;
+
 /**
  * The details of a card (immutable value object, unencrypted)
  * @author JB
  */
 @SuppressWarnings("serial")
+@Immutable
 public final class CardDetails implements Serializable {
     /**
      * The ID of the card
      */
-    private String id;
+    private final String id;
 
     /**
      * The name of the card
      */
-    private String name;
+    private final String name;
 
     /**
      * The login of the card
      */
-    private String login;
+    private final String login;
 
     /**
      * The password of the card
      */
-    private String password;
+    private final String password;
 
     /**
      * The URL of the card (<code>null</code> if it doesn't have one)
      */
-    private String url;
+    private final String url;
 
     /**
      * The URL of the icon of the card (<code>null</code> if it doesn't have one)
      */
-    private String iconUrl;
+    private final String iconUrl;
 
     /**
      * The note associated to the card (<code>null</code> if it doesn't have one)
      */
-    private String note;
+    private final String note;
 
     /**
      * Constructor

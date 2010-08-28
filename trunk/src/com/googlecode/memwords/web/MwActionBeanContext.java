@@ -18,10 +18,14 @@ import com.googlecode.memwords.domain.UserInformation;
 import com.googlecode.memwords.facade.loginhistory.LoginHistoryService;
 import com.googlecode.memwords.facade.util.CryptoEngine;
 
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+
 /**
  * The subclass of <code>ActionBeanContext</code> used in the application
  * @author JB
  */
+@SuppressWarnings(value = {"UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR"},
+                  justification = "impossible to inject fields in ActionBeanContext using constructor injection")
 public class MwActionBeanContext extends ActionBeanContext {
 
     /**
