@@ -5,7 +5,7 @@
   <groupId>memwords</groupId>
   <artifactId>memwords</artifactId>
   <name>memwords</name>
-  <version>1.0.17</version>
+  <version>1.0.18</version>
   <build>
         <sourceDirectory>../src</sourceDirectory>
         <outputDirectory>../war/WEB-INF/classes</outputDirectory>
@@ -73,14 +73,14 @@
         <artifactId>dep2</artifactId>
         <version>0.1</version>
         <scope>system</scope>
-        <systemPath>${basedir}/../war/WEB-INF/lib/appengine-api-1.0-sdk-1.3.1.jar</systemPath>
+        <systemPath>${basedir}/../war/WEB-INF/lib/appengine-api-1.0-sdk-1.3.6.jar</systemPath>
     </dependency>
     <dependency>   
         <groupId>deps</groupId>
         <artifactId>dep3</artifactId>
         <version>0.1</version>
         <scope>system</scope>
-        <systemPath>${basedir}/../war/WEB-INF/lib/appengine-api-labs-1.3.1.jar</systemPath>
+        <systemPath>${basedir}/../war/WEB-INF/lib/appengine-api-labs-1.3.6.jar</systemPath>
     </dependency>
     <dependency>   
         <groupId>deps</groupId>
