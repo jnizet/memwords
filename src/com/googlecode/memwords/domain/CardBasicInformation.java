@@ -31,7 +31,7 @@ public final class CardBasicInformation implements Serializable {
      * Constructor
      * @param id the ID of the card (mandatory)
      * @param name the name of the card (mandatory)
-     * @param iconUrl icon URL the URL of the icon of the vard (nullable)
+     * @param iconUrl icon URL the URL of the icon of the card (nullable)
      */
     public CardBasicInformation(String id, String name, String iconUrl) {
         if (id == null) {
