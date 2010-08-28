@@ -5,7 +5,7 @@
         "http://www.puppycrawl.com/dtds/configuration_1_1.dtd">
 
 <module name="Checker">
-
+    <property name="severity" value="warning"/>
     <module name="TreeWalker">
 
         <module name="AnnotationUseStyle">
