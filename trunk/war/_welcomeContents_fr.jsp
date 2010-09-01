@@ -17,7 +17,7 @@
     <li>Toutes les données sensibles sont encryptées en base de données.</li>
     <li>Les icônes de vos sites web sont automatiquement trouvées et utilisées.</li>
     <li>Génération aléatoire de mots de passe, suivant vos préférences.</li>
-    <li>Traduit dans plusieurs langues (anglais et français pour le moment).</li>
+    <li>Traduit dans plusieurs langues (anglais, français et italien pour le moment).</li>
     <li>Utilise JavaScript et AJAX pour un meilleur confort, mais fonctionne correctement sans JavaScript.</li>
   </ul>
 </div>
