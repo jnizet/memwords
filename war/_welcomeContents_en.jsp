@@ -17,7 +17,7 @@
     <li>All sensitive information encrypted in database.</li>
     <li>Icons of your web sites automatically found and retrieved.</li>
     <li>Random generation of passwords, with custom preferences.</li>
-    <li>Translated in various languages (English and French are currently supported).</li>
+    <li>Translated in various languages (English, French and Italian are currently supported).</li>
     <li>Uses JavaScript and AJAX for a better user experience, but degrades nicely without JavaScript support.</li>
   </ul>
 </div>

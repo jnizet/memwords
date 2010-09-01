@@ -42,6 +42,8 @@ public class MwLocalePicker extends DefaultLocalePicker {
         List<Locale> locales = new ArrayList<Locale>();
         locales.add(Locale.ENGLISH);
         locales.add(Locale.FRENCH);
+        locales.add(Locale.ITALIAN);
+
         SUPPORTED_LOCALES = Collections.unmodifiableList(locales);
 
         ENCODINGS = Collections.emptyMap();
