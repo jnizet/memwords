@@ -61,6 +61,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
         <filter-name>StripesFilter</filter-name>
         <servlet-name>StripesDispatcher</servlet-name>
         <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
     
     <filter>
