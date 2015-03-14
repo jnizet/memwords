@@ -1,0 +1,120 @@
+# Gotchas, tips and tricks #
+
+
+
+## Google App Engine and .jspf files ##
+Although JSP pages with the .jspf extension work well locally, using the GAE SDK, they are not compiled and thus don't work once deployed. Avoid .jspf files.
+
+## Google App Engine and tag files ##
+Tag files work well on Google App Engine, but the SDK refuses to compile them. To be able to compile them, you have to follwo these steps:
+  * edit the GAE-SDK\bin\appcfg.cmd file and replace the java command by its explicit path on your machine (for example: D:\tools\jdk1.6.0\_06\bin\java)
+  * copy the tools.jar file from your JDK install dir to the directory GAE-SDK\lib\shared
+See the messages from Rajeev Dayal in [this thread](http://groups.google.com/group/google-appengine-java/browse_thread/thread/175e70cc0c93ded9) for more information.
+
+## Google App Engine and AES-256 ##
+The JDK doesn't support AES-256 by default. It only supports AES-128. Generating a key for AES-256 won't cause any problem, but using it for encryption won't work unless you install the unlimited strength policy files (see http://java.sun.com/javase/downloads/index.jsp).
+But anyway, these policy files are not installed on the GAE servers.
+
+## HtmlUnit tests and JQuery ##
+HtmlUnit is great to test web applications. Testing AJAX requests is a piece of cake with [NicelyResynchronizingAjaxController](http://htmlunit.sourceforge.net/apidocs/com/gargoylesoftware/htmlunit/NicelyResynchronizingAjaxController.html). It allows making AJAX calls synchronous instead of asynchronous. Too bad it doesn't work with JQuery, because JQuery uses setTimeout or setInterval internally.
+
+The workaround is to use [waitForBackgroundJavaScript](http://htmlunit.sourceforge.net/apidocs/com/gargoylesoftware/htmlunit/WebClient.html#waitForBackgroundJavaScript%28long%29), but you have to do it after every click or blur or anything that makes an AJAX request. This is cumbersome, and not obvious.
+
+There is another way: making AJAX calls synchronous with JQuery:
+```
+$.ajaxSetup({ async: false });
+```
+But we would like AJAX queries to be synchronous only for integrations tests with HtmlUnit, when we need it. Here's the trick.
+Add a header to all the requests done through a HtmlUnit WebClient:
+```
+wc.addRequestHeader("ajaxSync", "true");
+```
+In the common template JSP (Sitemesh is used to apply a common template to all the pages of the application), add the following code:
+```
+<c:if test="${header.ajaxSync == true}">$.ajaxSetup({ async: false });</c:if>
+```
+Using `waitForBackgroundJavaScript` is still sometimes needed when using animations, though.
+
+## HtmlUnit and test data ##
+Each HtmlUnit test expects the application to work with a pre-defined test data-set. But some tests will obviously make changes to this data-set: add cards, destroy an account, etc. The setUp of each HtmlUnit test should thus repopulate the database with the original data-set. With a SQL database, it would be trivial. But with GAE, everything must be created and deleted via the API using persistent entities. The solution is simple: add an action to our application which resets the database in its initial state, using our functional services. Each HtmlUnit test setUp will then call a utility method, which will start a WebClient instance, and invoke the action through its URL. Of course, this must not be possible in production mode (it would delete all the accounts from the production database). Fortunately, it's easy to detect if the application runs in production mode:
+```
+    @Before(stages = LifecycleStage.BindingAndValidation)
+    public Resolution checkRunningInDevelopmentEnvironment() {
+        if (SystemProperty.environment.value() != SystemProperty.Environment.Value.Development) {
+            return new ErrorResolution(HttpServletResponse.SC_FORBIDDEN,
+                                       "this action should not be called in production");
+        }
+        return null;
+    }
+```
+When added to a Stripes action bean, this method will be called before calling any event method. If the application runs in production, then the event method won't be executed, and the browser will receive an error response.
+
+## Google App Engine and Cobertura ##
+Cobertura adds a shutdown hook to the JVM it runs in, in order to flush its statistics to the data-file. Unfortunately, there is no ant task in the GAE SDK which allows stopping a server. It's thus hard to automate the code coverage measurement of the integration tests.
+Even if we stop the server manually, Cobertura tries to write to a file, but it can't because Google App Engine runs in a sandbox where file access is forbidden. We thus have to find another way to get the cobertura data at the end of our integration tests.
+
+HtmlUnit is once again the solution here. First we add an event method to the action bean that sets up the test data set. This event method will get the cobertura data, and write them into the HTTP response instead of writing them to a file. We do this by reflection so that it compiles even when Cobertura is not in the classpath :
+```
+    public Resolution flushCobertura() throws ClassNotFoundException,
+                                              SecurityException,
+                                              NoSuchMethodException,
+                                              IllegalArgumentException,
+                                              IllegalAccessException,
+                                              InvocationTargetException,
+                                              IOException,
+                                              InstantiationException {
+        String projectDataClassName = "net.sourceforge.cobertura.coveragedata.ProjectData";
+        Class<?> projectDataClass = Class.forName(projectDataClassName);
+        Object projectData = projectDataClass.newInstance();
+
+        String touchCollectorClassName = "net.sourceforge.cobertura.coveragedata.TouchCollector";
+        Class<?> touchCollectorClass = Class.forName(touchCollectorClassName);
+
+        String methodName = "applyTouchesOnProjectData";
+        java.lang.reflect.Method applyTouchesOnProjectDataMethod =
+            touchCollectorClass.getDeclaredMethod(methodName, new Class[] {projectDataClass});
+        applyTouchesOnProjectDataMethod.invoke(null, projectData);
+
+        getContext().getResponse().setContentType("application/octet-stream");
+        OutputStream out = getContext().getResponse().getOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(out);
+        try {
+            oos.writeObject(projectData);
+        }
+        finally {
+            oos.close();
+        }
+
+        return null;
+    }
+```
+Then we write a little class in our test source tree with a main method like this:
+```
+    public static void main(String[] args) throws FailingHttpStatusCodeException,
+                                                  MalformedURLException,
+                                                  IOException {
+        WebClient wc = IntegrationUtils.startWebClient();
+        Page page = wc.getPage(url("/util/IntegrationTests.action?flushCobertura="));
+        String outputFileName = System.getProperty("com.googlecode.memwords.test.web.integration.datafile");
+        if (outputFileName == null) {
+            outputFileName = "cobertura/report/cobertura-integration.ser";
+        }
+        BufferedOutputStream out = null;
+        try {
+            out = new BufferedOutputStream(new FileOutputStream(new File(outputFileName)));
+            out.write(page.getWebResponse().getContentAsBytes());
+        }
+        finally {
+            try {
+                out.close();
+            }
+            catch (IOException e) {
+                // ignore
+            }
+        }
+    }
+```
+We now just have to launch this class, in the ant file, once the integration tests have been run.
+
+## Stripes and Sitemesh ##
+Sitemesh is great to apply a common template to all the pages of a webapp. It uses a servlet filter which post-processes the response of a request and adds the decoration. Given the way it works, it seems normal to position the Sitemesh filter at the beginning of the chain, just before the Stripes filter. This works, until you try to use some Stripes classes in your sitemesh decorators (when adding messages in the action context and issuing a redirect, for example). In fact, in order for Stripes to work well with Sitemesh, the Sitemesh filter must be after the Stripes filter in the chain.

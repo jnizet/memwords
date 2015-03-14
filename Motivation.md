@@ -1,0 +1,3 @@
+# Motivation #
+
+MemWords is a hobby and self-training project. When I broke my ankle, I was forced to stay at home, and decided it was a good time to start a small useful project with technologies and frameworks I wanted to try for a long time: Stripes, JQuery, Google App Engine, Sitemesh, Guice.
